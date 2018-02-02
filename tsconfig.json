@@ -1,0 +1,38 @@
+{
+    "compilerOptions": {
+        "lib": [
+            "es2017", "dom"
+        ],
+        "target": "es2016",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "allowSyntheticDefaultImports": true,
+        "noLib": false,
+        "noImplicitAny": false,
+        "removeComments": true,
+        "allowJs": true,
+        "noImplicitReturns": true,
+        "diagnostics": true,
+        "noImplicitThis": true,
+        "strictNullChecks": true,
+        "strict": true,
+        "pretty": true,
+        "noFallthroughCasesInSwitch": true,
+        "checkJs": true,
+        "alwaysStrict": true,
+        "emitDecoratorMetadata": true,
+        "allowUnusedLabels": false,
+        "allowUnreachableCode": false,
+        "experimentalDecorators": true,
+        "types": ["node", "mocha", "chai", "lodash"]
+    },
+    "exclude": [
+        "node_modules",
+        "vendor",
+        "public",
+        "build",
+        "config",
+        "**/*.spec.ts"
+    ]
+}

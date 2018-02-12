@@ -2,11 +2,12 @@ import * as _ from 'lodash';
 import * as RouteDecorator from './decorator/Route';
 
 import { RouteConfig } from './RouteConfig';
-import Route, { NestedRoute } from './Route';
+import Route from './Route';
+import { TypedPair } from '../structures/Pair';
 
 const debug = require('debug')('srocket:Router');
 
-export type NewableRoute<T extends Route> = { new(...args: any[]): T };
+export type NewableRoute = { new(...args: any[]): Route };
 
 class InternalRoute extends Route {
 	public config: RouteConfig;
@@ -29,7 +30,7 @@ class InternalRoute extends Route {
 }
 
 export default class Router {
-	private routes: InternalRoute[];
+	private routes:InternalRoute[];
 
 	public constructor() {
 		this.routes = new Array<InternalRoute>();
@@ -46,50 +47,40 @@ export default class Router {
 		debug(`WARNING! - Could not find a route for ${packet.data[0]}`);
 	}
 
-	public register(route: NewableRoute<Route>, routeConfig?:RouteConfig) {
+	public register(route: NewableRoute, routeConfig?:RouteConfig) {
 		const instance = new route();
 		const internalRoute = new InternalRoute(routeConfig || this.getRouteConfig(route), instance);
 
 		debug(`Registering Route: ${internalRoute.getRoute()}`);
 
-		const nestedRoutes = instance.getNestedRoutes();
+		const nestedRoutes = new Array<TypedPair<RouteConfig, NewableRoute>>();
+		const properties = Object.getOwnPropertyNames(instance);
+		for(const property of properties) {
+			const metadata = RouteDecorator.getNestedRouteMetadata(instance, property);
+			if(metadata) {
+				const nestedRoute = instance[property];
+				nestedRoutes.push(new TypedPair(metadata, nestedRoute));
+			}
+		}
+
 		if(nestedRoutes.length > 0) {
 			for(const nestedRoute of nestedRoutes) {
-				const nestedRouteConfig = this.getRouteConfig(nestedRoute);
-				nestedRouteConfig.route = internalRoute.config.route + nestedRouteConfig.route;
-				this.register(nestedRoute, nestedRouteConfig);
+				nestedRoute.key.route = internalRoute.getRoute() + nestedRoute.key.route;
+				this.register(nestedRoute.value, nestedRoute.key);
 			}
 		}
 
 		this.routes.push(internalRoute);
 	}
 
-	private isRouteNested(route:NewableRoute<Route>) {
-		return _.has(new route(), 'config');
+	private getRouteConfig(route:NewableRoute) : RouteConfig {
+		return RouteDecorator.getRouteMetadata(route);
 	}
 
-	private getRouteConfig(route:NewableRoute<Route>) : RouteConfig {
-		let routeConfig = RouteDecorator.getMetadata(route);
-		if (!routeConfig) {
-			if (this.isRouteNested(route)) {
-				routeConfig = _.get(new route(), 'config');
-			} else {
-				throw new Error(`The Route ${route} must have a @RouteConfig decorator or be a nested Route!`);
-			}
-		}
-
-		return routeConfig;
+	private getNestedRouteConfig(route:NewableRoute, property:string) : RouteConfig {
+		return RouteDecorator.getNestedRouteMetadata(route, property);
 	}
 
-	private setRouteConfig(route:NewableRoute<Route>, routeConfig:RouteConfig) {
-		if(this.isRouteNested(route)) {
-			const x = _.set(route, 'config', routeConfig);
-			//console.log(x);
-			return x;
-		} else {
-			throw new Error('Setting the config for not nested routes is not implemented yet!');
-		}
-	}
 
 	private invokeRoute(route: InternalRoute, socket: SocketIOExt.Socket) {
 		const instance = route.getInstance();

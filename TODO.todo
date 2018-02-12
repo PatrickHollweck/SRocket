@@ -1,12 +1,10 @@
 Research:
     ☐ Socket.io Middleware
 
-Questions:
-    - Laravel like route registrations or with class config ?
-
 Libs:
     io-router: 
         - : https://github.com/tdzienniak/io-router/
+        - Uses object based routing -> first arg : config -> route-prefix...
         - Uses nested objects for routing
         - Interesting init call with the socket -> https://github.com/tdzienniak/io-router/blob/master/src/index.js
         - Supports rerouting with merged .route object
@@ -20,36 +18,37 @@ Libs:
         - : https://github.com/michael-kamel/ternion
         - Include validation -> Include validation in the srocket.
         - Supplied data, and response object, express like.
+		- Has wired syntax
 
     socketnet:
         - : https://github.com/leon3s/socknet
         - Good docs : http://socknet.io/
-        - Uses object based routing -> first arg : config -> route-prefix...
         - Object based routing allows for easy code splitting.
         - Has a lifecycle built-in ( before, on, after hooks )
-        - Objects can be registered vie socket.on(eventObject)
+        - Objects can be registered via socket.on(eventObject)
         - Built in sessions.
         - Has some sort of Validation via ArgTypes ?
-        - Overall a very good library.
+        - Overall a good quality library.
 
     Socket.io-Wildcard:
         - : https://github.com/hden/socketio-wildcard
         - Example of a simple middleware
-        - Provieds a Wildcard event that responds to all events.
-    
+        - Provides a Wildcard event that responds to all events.
 
 Unrelated:
     Loggers:
         - https://www.npmjs.com/package/socketio-winston-logger
 
 Features for srocket:
-	- Namespace handling
-    - Middlewares
-    - Validation
-    - Syncing
-    - Wilrcard Event -> Request placeholders
-    - Routing -> With controllers ? ( Express like req, res objects ? )
-	- Redis integration?
+	☐ Express like request and response objects.
+	☐ Namespace handling
+    ☐ Middlewares
+    ☐ Validation
+    ☐ Synchronisation
+    ☐ Wilrcard Event -> Request placeholders
+    ☐ Routing -> With controllers ? ( Express like req, res objects ? )
+	☐ Redis integration?
 	
-Optimisations:
-	- Implement routing like socknet
+Impementation Details:
+	☐ Implement routing like socknet
+	☐ More Tests @critical

@@ -43,9 +43,13 @@ Unrelated:
         - https://www.npmjs.com/package/socketio-winston-logger
 
 Features for srocket:
+	- Namespace handling
     - Middlewares
     - Validation
     - Syncing
     - Wilrcard Event -> Request placeholders
     - Routing -> With controllers ? ( Express like req, res objects ? )
-    - Redis integration?
+	- Redis integration?
+	
+Optimisations:
+	- Implement routing like socknet

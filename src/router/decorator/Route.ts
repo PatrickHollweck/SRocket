@@ -9,5 +9,5 @@ export function RouteConfig(config: any) {
 }
 
 export function getMetadata(target: any) {
-	return Reflect.getOwnMetadata(routeMetadataKey, target);
+	return Reflect.getMetadata(routeMetadataKey, target);
 }

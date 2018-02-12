@@ -1,11 +1,9 @@
-// @ts-nocheck
-
 const gulp = require("gulp");
 const mocha = require("gulp-mocha");
 
 const config = {
     watchPaths: {
-        ts: "./src/**/*.spec.ts",
+        ts: "./src/**/*.ts",
     }
 }
 

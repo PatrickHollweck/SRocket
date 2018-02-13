@@ -13,5 +13,4 @@ export default class Request {
 		return this;
 	}
 
-
 }

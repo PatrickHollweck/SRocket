@@ -30,8 +30,6 @@ class UserController extends Route {
 		on(req:Request, res:Response<{ user_name:string }>) {
 			console.log('GOT CALL TO: /users/delete');
 
-			console.log(req.socket.adapter);
-
 			res.status(404)
 			    .message('Room suckaz:)')
 				.toAllInRoom('helloWorld');

@@ -55,3 +55,5 @@ Impementation Details:
 
 Design:
 	☐ Should Routes have a lifecycle ( class-based ) or just be methods ?
+		- Classes allow for endless nested routes.
+		- Functions are less verbose and have a cleaner look

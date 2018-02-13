@@ -52,3 +52,6 @@ Features for srocket:
 Impementation Details:
 	☐ Implement routing like socknet
 	☐ More Tests @critical
+
+Design:
+	☐ Should Routes have a lifecycle ( class-based ) or just be methods ?

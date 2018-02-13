@@ -1,41 +1,50 @@
 process.env['DEBUG'] = 'srocket:*';
 
-import SRocket from './../../SRocket';
 import Route from '../../router/Route';
+import SRocket from './../../SRocket';
+import Request from '../../interaction/Request';
+import Response from '../../interaction/Response';
+
 import { RouteConfig, NestedRoute } from '../../router/decorator/Route';
 
 const srocket = new SRocket(1337);
 
 @RouteConfig({
-	route: 'users'
+	route: '/users'
 })
 class UserController extends Route {
 
 	@NestedRoute({
-		route: '.add'
+		route: '/add'
 	})
 	addUser = class extends Route {
 		on() {
-			console.log('Call to /users/add');
+			console.log('GOT CALL TO: /users/add');
 		}
 	};
 
 	@NestedRoute({
-		route: '.delete'
+		route: '/delete'
 	})
 	deleteUser = class extends Route {
-		on() {
-			console.log('Call to /users/delete');
+		on(req:Request, res:Response<{ user_name:string }>) {
+			console.log('GOT CALL TO: /users/delete');
+
+			console.log(req.socket.adapter);
+
+			res.status(404)
+			    .message('Room suckaz:)')
+				.toAllInRoom('helloWorld');
 		}
 	};
 
-	on(socket: SocketIOExt.Socket) {
-		console.log('/users');
+	on(req, res) {
+		console.log('GOT CALL TO: /users');
 	}
 }
 
 srocket.router.register(UserController);
 
 srocket.listen(() => {
-  console.log(`Server is listening on ${1337}`);
+	console.log(`Server is listening on ${1337}`);
 });

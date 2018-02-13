@@ -9,7 +9,7 @@ export default class SRocket {
 
 	public constructor(port: number) {
 		this.io = sio();
-		this.router = new Router();
+		this.router = new Router(this.io);
 	}
 
 	public listen(callback: VoidFunction) {
@@ -21,7 +21,7 @@ export default class SRocket {
 			});
 		});
 
-		this.io.listen(1337);
+		const server = this.io.listen(1337);
 		callback();
 	}
 }

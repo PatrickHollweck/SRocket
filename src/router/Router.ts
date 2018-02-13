@@ -3,11 +3,15 @@ import * as RouteDecorator from './decorator/Route';
 
 import { RouteConfig } from './RouteConfig';
 import { TypedPair } from '../structures/Pair';
+import { Newable } from './../structures/Newable';
+
+import Response, { EmitType } from './../interaction/Response';
+import Request from '../interaction/Request';
 import Route from './Route';
 
 const debug = require('debug')('srocket:Router');
 
-export type NewableRoute = { new(...args: any[]): Route };
+export type NewableRoute = Newable<Route>;
 
 export enum RouterCallbackType {
 	BEFORE_EVENT,
@@ -15,7 +19,7 @@ export enum RouterCallbackType {
 	AFTER_EVENT,
 }
 
-class InternalRoute extends Route {
+export class InternalRoute extends Route {
 	public config: RouteConfig;
 	public instance: Route;
 
@@ -35,30 +39,29 @@ class InternalRoute extends Route {
 	}
 }
 
-// TODO: Implement placeholder fields.
-
 export default class Router {
 	private routes: InternalRoute[];
+	private server:SocketIOExt.Server;
+
 	private beforeCallbacks: Function[];
-	private onCallbacks: Function[];
 	private afterCallbacks: Function[];
 
-	public constructor() {
+	public constructor(server:SocketIOExt.Server) {
 		this.routes = new Array<InternalRoute>();
+		this.server = server;
 
 		this.beforeCallbacks = new Array<Function>();
-		this.onCallbacks = new Array<Function>();
 		this.afterCallbacks = new Array<Function>();
 	}
 
 	public route(packet: SocketIOExt.Packet, socket: SocketIOExt.Socket) {
 		const route = this.findRoute(packet);
-		if(!route) {
+		if (!route) {
 			debug(`WARNING! - Could not find a route for ${packet.data[0]}`);
 			return;
 		}
 
-		this.invokeRoute(route, socket);
+		this.invokeRoute(route, socket, packet);
 	}
 
 	public register(route: NewableRoute, routeConfig?: RouteConfig) {
@@ -91,7 +94,7 @@ export default class Router {
 		this.findCallbackCollection(type).push(callback);
 	}
 
-	private findRoute(packet:SocketIOExt.Packet) {
+	private findRoute(packet: SocketIOExt.Packet) {
 		for (const route of this.routes) {
 			if (route.getRoute() === packet.data[0]) {
 				return route;
@@ -109,8 +112,6 @@ export default class Router {
 		switch (type) {
 			case RouterCallbackType.BEFORE_EVENT:
 				return this.beforeCallbacks;
-			case RouterCallbackType.ON_EVENT:
-				return this.onCallbacks;
 			case RouterCallbackType.AFTER_EVENT:
 				return this.afterCallbacks;
 
@@ -127,10 +128,13 @@ export default class Router {
 		return RouteDecorator.getNestedRouteMetadata(route, property);
 	}
 
-	private invokeRoute(route: InternalRoute, socket: SocketIOExt.Socket) {
+	private invokeRoute(route: InternalRoute, socket: SocketIOExt.Socket, packet:SocketIOExt.Packet) {
 		const instance = route.getInstance();
-		instance.before(socket);
-		instance.on(socket);
-		instance.after(socket);
+		const request = new Request(socket, packet);
+		const response = new Response(socket, route, this.server);
+
+		this.runCallbacks(RouterCallbackType.BEFORE_EVENT);
+		instance.on(request, response);
+		this.runCallbacks(RouterCallbackType.AFTER_EVENT);
 	}
 }

@@ -3,7 +3,8 @@ const mocha = require("gulp-mocha");
 
 const config = {
     watchPaths: {
-        ts: "./src/**/*.ts",
+		ts: './src/**/*.ts',
+		specTs: './src/**/*.spec.ts'
     }
 }
 
@@ -12,7 +13,7 @@ gulp.task("clear-console", function() {
 });
 
 gulp.task("frontend-test", () => {
-    gulp.src(config.watchPaths.ts)
+    gulp.src(config.watchPaths.specTs)
     .pipe(mocha({
         "bail": true,
         "require": "ts-node/register",

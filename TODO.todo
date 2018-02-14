@@ -1,6 +1,3 @@
-Research:
-    ☐ Socket.io Middleware
-
 Libs:
     io-router: 
         - : https://github.com/tdzienniak/io-router/
@@ -40,18 +37,21 @@ Unrelated:
         - https://www.npmjs.com/package/socketio-winston-logger
 
 Features for srocket:
-	☐ Express like request and response objects.
+	✔ Express like drequest and response objects. @done(18-02-14 16:37)
 	☐ Namespace handling
     ☐ Middlewares
-    ☐ Validation
+    ✔ Validation @done(18-02-14 16:37)
     ☐ Synchronisation
-    ☐ Wilrcard Event -> Request placeholders
+    ☐ Wildcard Event -> Request placeholders -> Expose connection-disconnection... events.
     ☐ Routing -> With controllers ? ( Express like req, res objects ? )
 	☐ Redis integration?
+	☐ Laravel like (validation-) error system
+	☐ SRocket expose internal config.
 	
 Impementation Details:
-	☐ Implement routing like socknet
-	☐ More Tests @critical
+	✔ Implement routing like socknet @done(18-02-14 16:38)
+	☐ More Tests
+	☐ Maybe use socket.io middlewares ?
 
 Design:
 	☐ Should Routes have a lifecycle ( class-based ) or just be methods ?

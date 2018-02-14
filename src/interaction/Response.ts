@@ -59,29 +59,29 @@ export default class Response<T> {
 
 	// -- Sender functions
 
-	public toClient() {
-		this.socket.emit(this.getEventName(), this.formatPayload());
+	public relay() {
+		this.socket.emit(this.getEventRoute(), this.formatPayload());
 	}
 
 	public toAllExceptSender() {
-		this.socket.broadcast.emit(this.getEventName(), this.formatPayload());
+		this.socket.broadcast.emit(this.getEventRoute(), this.formatPayload());
 	}
 
 	public toAllInRoom_ExceptSender(roomName:string) {
 		// TODO: Support emit to multiple rooms -> Builder ?
-		this.socket.to(roomName).emit(this.getEventName(), this.formatPayload());
+		this.socket.to(roomName).emit(this.getEventRoute(), this.formatPayload());
 	}
 
 	public toAllInRoom(roomName:string) {
-		this.server.in(roomName).emit(this.getEventName(), this.formatPayload());
+		this.server.in(roomName).emit(this.getEventRoute(), this.formatPayload());
 	}
 
 	public toAllInNamespace(namespaceName:string) {
-		this.server.of(namespaceName).emit(this.getEventName(), this.formatPayload());
+		this.server.of(namespaceName).emit(this.getEventRoute(), this.formatPayload());
 	}
 
 	public toIndividualSocket(socketID:string) {
-		this.socket.to(socketID).emit(this.getEventName(), this.formatPayload());
+		this.socket.to(socketID).emit(this.getEventRoute(), this.formatPayload());
 	}
 
 	// -- Misc Getters.
@@ -93,7 +93,7 @@ export default class Response<T> {
 
 	// -- Private Helpers
 
-	protected getEventName() {
+	protected getEventRoute() {
 		return this.route.config.route;
 	}
 

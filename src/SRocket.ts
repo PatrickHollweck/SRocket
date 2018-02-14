@@ -4,15 +4,17 @@ import Router from './router/Router';
 
 export default class SRocket {
 
-	public router:Router;
+	public router: Router;
 	private io: SocketIOExt.Server;
+	private port: Number;
 
 	public constructor(port: number) {
 		this.io = sio();
+		this.port = port;
 		this.router = new Router(this.io);
 	}
 
-	public listen(callback: VoidFunction) {
+	public listen(callback?: VoidFunction) {
 		this.io.use(sioWildcard());
 
 		this.io.on('connection', socket => {
@@ -21,7 +23,13 @@ export default class SRocket {
 			});
 		});
 
-		const server = this.io.listen(1337);
-		callback();
+		this.io.listen(this.port);
+		if(callback) {
+			callback();
+		}
+	}
+
+	public shutdown() {
+		this.io.close();
 	}
 }

@@ -6,8 +6,9 @@ import Request from '../../interaction/Request';
 import Response from '../../interaction/Response';
 
 import { RouteConfig, NestedRoute } from '../../router/decorator/Route';
+import ValidationError from '../../Exceptions/ValidationError';
 
-const srocket = new SRocket(1337);
+const srocket = new SRocket(4250);
 
 @RouteConfig({
 	route: '/users'
@@ -15,34 +16,37 @@ const srocket = new SRocket(1337);
 class UserController extends Route {
 
 	@NestedRoute({
-		route: '/add'
+		route: '/add',
+		data: {
+			user_name: String,
+		}
 	})
 	addUser = class extends Route {
-		on() {
-			console.log('GOT CALL TO: /users/add');
+		onValidationError(error: ValidationError) {
+			console.log('Validation error caught!', error.message);
+		}
+
+		on(data) {
+			console.log('GOT CALL TO: /users/add -> with: ', data);
 		}
 	};
 
 	@NestedRoute({
-		route: '/delete'
+		route: '/delete',
 	})
 	deleteUser = class extends Route {
-		on(req:Request, res:Response<{ user_name:string }>) {
-			console.log('GOT CALL TO: /users/delete');
-
-			res.status(404)
-			    .message('Room suckaz:)')
-				.toAllInRoom('helloWorld');
+		on(data, req: Request, res: Response<{ user_name: string }>) {
+			console.log('GOT CALL TO: /users/delete -> with: ', data);
 		}
 	};
 
-	on(req, res) {
-		console.log('GOT CALL TO: /users');
+	on(data, req, res) {
+		console.log('GOT CALL TO: /users -> with: ', data);
 	}
 }
 
 srocket.router.register(UserController);
 
 srocket.listen(() => {
-	console.log(`Server is listening on ${1337}`);
+	console.log(`Server is listening on ${4250}`);
 });

@@ -5,8 +5,10 @@
         ],
         "target": "es2016",
         "module": "commonjs",
-        "moduleResolution": "node",
-        "sourceMap": true,
+		"moduleResolution": "node",
+		"outDir": "./ts-out",
+		"sourceMap": true,
+		"noEmitOnError": true,
         "allowSyntheticDefaultImports": true,
         "noLib": false,
         "noImplicitAny": false,
@@ -25,10 +27,13 @@
         "allowUnusedLabels": false,
         "allowUnreachableCode": false,
         "experimentalDecorators": true,
-        "types": ["node", "mocha", "chai", "lodash"]
+		"types": ["node", "mocha", "chai", "lodash"],
+		"baseUrl": "lib"
     },
     "exclude": [
-        "node_modules",
+		"node_modules",
+		"testing",
+		"ts-out",
         "vendor",
         "public",
         "build",

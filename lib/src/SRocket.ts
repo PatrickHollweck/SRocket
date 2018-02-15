@@ -1,6 +1,7 @@
 import * as sio from 'socket.io';
 import * as sioWildcard from 'socketio-wildcard';
-import Router from './router/Router';
+
+import Router from 'src/router/Router';
 
 export default class SRocket {
 

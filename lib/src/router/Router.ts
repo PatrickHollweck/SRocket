@@ -1,15 +1,14 @@
-import { ValidationErrorType } from './../Exceptions/ValidationError';
 import * as _ from 'lodash';
-import * as RouteDecorator from './decorator/Route';
+import * as RouteDecorator from 'src/router/decorator/Route';
 
-import { RouteConfig } from './RouteConfig';
-import { TypedPair } from '../structures/Pair';
-import { Newable } from './../structures/Newable';
+import { RouteConfig } from 'src/router/RouteConfig';
+import { TypedPair } from 'src/structures/Pair';
+import { Newable } from 'src/structures/Newable';
 
-import Response from './../interaction/Response';
-import Request from '../interaction/Request';
-import Route from './Route';
-import ValidationError from '../Exceptions/ValidationError';
+import ValidationError, { ValidationErrorType } from 'src/errors/ValidationError';
+import Response from 'src/interaction/Response';
+import Request from 'src/interaction/Request';
+import Route from 'src/router/Route';
 
 // TODO: Allow to pass arguments to the route constructor;
 
@@ -110,7 +109,7 @@ export default class Router {
 			this.validateArgs(route, packet);
 		} catch (e) {
 			this.runCallbacks(RouterCallbackType.VALIDATION_ERROR, e);
-			instance.onValidationError(e);
+			instance.onValidationError(e, request, response);
 			return;
 		}
 

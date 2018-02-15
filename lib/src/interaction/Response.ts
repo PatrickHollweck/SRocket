@@ -1,5 +1,5 @@
 import { STATUS_CODES } from './StatusCode';
-import { InternalRoute } from '../router/Router';
+import { InternalRoute } from 'src/router/Router';
 
 export default class Response<T> {
 	protected statusCode: number;
@@ -76,7 +76,7 @@ export default class Response<T> {
 		this.server.in(roomName).emit(this.getEventRoute(), this.formatPayload());
 	}
 
-	public toAllInNamespace(namespaceName:string) {
+	public toAllInNamespace(namespaceName:string = '/') {
 		this.server.of(namespaceName).emit(this.getEventRoute(), this.formatPayload());
 	}
 

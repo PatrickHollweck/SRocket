@@ -2,9 +2,13 @@ const io = require('socket.io-client');
 import { expect } from 'chai';
 
 import SRocket from '../SRocket';
-import { TestEvent } from '../__test__/Helpers/TestEvent';
+import { TestEvent } from './../../test/Helpers/TestEvent';
+
+process.env['DEBUG'] = 'srocket:*';
 
 describe('The Router', () => {
+
+	// TODO: These tests are broken - need fix later
 
 	let sender: SocketIOClient.Socket;
 	let receiver: SocketIOClient.Socket;
@@ -44,4 +48,11 @@ describe('The Router', () => {
 		sender.on('/test/doubleNested/nest', done());
 	});
 
+	it('should throw on the route if a argument is missing', done => {
+		sender.emit('/test/data', {});
+		sender.on('/test/data', data => {
+			expect(data.validationError).to.equal(true);
+			done();
+		});
+	});
 });

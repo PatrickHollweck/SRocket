@@ -3,8 +3,8 @@ const mocha = require("gulp-mocha");
 
 const config = {
     watchPaths: {
-		ts: './src/**/*.ts',
-		specTs: './src/**/*.spec.ts'
+		ts: './lib/**/*.ts',
+		specTs: './lib/**/*.spec.ts'
     }
 }
 
@@ -15,8 +15,9 @@ gulp.task("clear-console", function() {
 gulp.task("frontend-test", () => {
     gulp.src(config.watchPaths.specTs)
     .pipe(mocha({
+		
         "bail": true,
-        "require": "ts-node/register",
+        "require": ["tsconfig-paths/register", "ts-node/register"],
         "reporter": "spec",
         "checkLeaks": true,
         "timeout": 3000,

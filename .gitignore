@@ -4,6 +4,7 @@
 
 # Misc fodlers
 /testing
+/ts-out
 
 # Logs
 logs

@@ -1,12 +1,13 @@
+import { TestEvent } from 'test/Helpers/TestEvent';
 process.env['DEBUG'] = 'srocket:*';
 
-import Route from '../../router/Route';
-import SRocket from './../../SRocket';
-import Request from '../../interaction/Request';
-import Response from '../../interaction/Response';
+import { RouteConfig, NestedRoute } from 'src/router/decorator/Route';
 
-import { RouteConfig, NestedRoute } from '../../router/decorator/Route';
-import ValidationError from '../../Exceptions/ValidationError';
+import ValidationError from 'src/errors/ValidationError';
+import Response from 'src/interaction/Response';
+import Request from 'src/interaction/Request';
+import SRocket from 'src/SRocket';
+import Route from 'src/router/Route';
 
 const srocket = new SRocket(4250);
 
@@ -46,6 +47,7 @@ class UserController extends Route {
 }
 
 srocket.router.register(UserController);
+srocket.router.register(TestEvent);
 
 srocket.listen(() => {
 	console.log(`Server is listening on ${4250}`);

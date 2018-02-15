@@ -30,11 +30,9 @@ Libs:
     Socket.io-Wildcard:
         - : https://github.com/hden/socketio-wildcard
         - Example of a simple middleware
-        - Provides a Wildcard event that responds to all events.
-
 TODOS:
 	Folder Structure:
-		☐ Setup relative imports
+		✔ Setup relative imports @done(18-02-15 14:18)
 
 Unrelated:
     Loggers:

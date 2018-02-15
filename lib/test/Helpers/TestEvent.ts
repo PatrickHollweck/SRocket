@@ -1,8 +1,7 @@
-import { RouteConfig, NestedRoute } from 'src/router/decorator/Route';
-import Response from 'src/interaction/Response';
-import Request from 'src/interaction/Request';
+import { RouteConfig, NestedRoute } from 'src/decorator/Route';
+import Response from 'src/io/Response';
+import Request from 'src/io/Request';
 import Route from 'src/router/Route';
-import ValidationError from '../../src/errors/ValidationError';
 
 export type RouteCallback = (request:Request) => {};
 
@@ -19,7 +18,7 @@ export class TestEvent {
 	})
 	dataRoute = class extends Route {
 
-		onValidationError(e:ValidationError, req:Request, res:Response<any>) {
+		onValidationError(e:Error, req:Request, res:Response<any>) {
 			res.data({
 				validationError: true,
 			}).toAllInNamespace();

@@ -1,11 +1,10 @@
 import { TestEvent } from 'test/Helpers/TestEvent';
 process.env['DEBUG'] = 'srocket:*';
 
-import { RouteConfig, NestedRoute } from 'src/router/decorator/Route';
+import { RouteConfig, NestedRoute } from 'src/decorator/Route';
 
-import ValidationError from 'src/errors/ValidationError';
-import Response from 'src/interaction/Response';
-import Request from 'src/interaction/Request';
+import Response from 'src/io/Response';
+import Request from 'src/io/Request';
 import SRocket from 'src/SRocket';
 import Route from 'src/router/Route';
 
@@ -19,11 +18,12 @@ class UserController extends Route {
 	@NestedRoute({
 		route: '/add',
 		data: {
-			user_name: String,
+			user_name: { type: String },
+			user_id: { type: Number, }
 		}
 	})
 	addUser = class extends Route {
-		onValidationError(error: ValidationError) {
+		onValidationError(error: Error) {
 			console.log('Validation error caught!', error.message);
 		}
 

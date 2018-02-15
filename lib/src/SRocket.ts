@@ -2,17 +2,19 @@ import * as sio from 'socket.io';
 import * as sioWildcard from 'socketio-wildcard';
 
 import Router from 'src/router/Router';
+import SRocketConfig from 'src/SRocketConfig';
 import { initRules } from 'src/validation/rules/RuleBootstrapper';
 
 export default class SRocket {
 
 	public router: Router;
-	private io: SocketIOExt.Server;
-	private port: Number;
 
-	public constructor(port: number) {
+	protected io: SocketIOExt.Server;
+	protected config: SRocketConfig;
+
+	public constructor(config: SRocketConfig) {
 		this.io = sio();
-		this.port = port;
+		this.config = config;
 		this.router = new Router(this.io);
 
 		initRules();
@@ -27,7 +29,7 @@ export default class SRocket {
 			});
 		});
 
-		this.io.listen(this.port);
+		this.io.listen(this.config.port);
 		if(callback) {
 			callback();
 		}
@@ -35,5 +37,9 @@ export default class SRocket {
 
 	public shutdown() {
 		this.io.close();
+	}
+
+	public getConfig() {
+		return this.config;
 	}
 }

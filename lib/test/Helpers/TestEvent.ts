@@ -13,7 +13,7 @@ export class TestEvent {
 	@NestedRoute({
 		route: '/data',
 		data: {
-			str: String,
+			str: { type: String, rules: '' }
 		}
 	})
 	dataRoute = class extends Route {

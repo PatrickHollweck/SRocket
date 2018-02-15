@@ -8,7 +8,7 @@ import Request from 'src/io/Request';
 import SRocket from 'src/SRocket';
 import Route from 'src/router/Route';
 
-const srocket = new SRocket(4250);
+const srocket = new SRocket({ port: 1250 });
 
 @RouteConfig({
 	route: '/users'

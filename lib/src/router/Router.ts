@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 import * as RouteDecorator from 'src/decorator/Route';
 
 import { RouteConfig } from 'src/router/RouteConfig';
@@ -11,6 +12,7 @@ import Metadata from 'src/decorator/Metadata';
 import Response from 'src/io/Response';
 import Request from 'src/io/Request';
 import Route from 'src/router/Route';
+import Validator from 'src/validation/Validator';
 
 // TODO: Allow to pass arguments to the route constructor;
 
@@ -123,7 +125,7 @@ export default class Router {
 		const response = new Response(socket, route, this.server);
 
 		try {
-			this.validateArgs(route, packet);
+			this.validatePacket(route, packet);
 		} catch (e) {
 			this.callbacks.executeFor(RouterCallbackType.VALIDATION_ERROR, e);
 			instance.onValidationError(e, request, response);
@@ -137,23 +139,26 @@ export default class Router {
 		this.callbacks.executeFor(RouterCallbackType.AFTER_EVENT);
 	}
 
-	protected validateArgs(route: InternalRoute, packet: SocketIOExt.Packet): MissingPropertyError | WrongTypeError | void {
-		const packetArgs = packet.data[1];
+	protected validatePacket(route: InternalRoute, packet: SocketIOExt.Packet): MissingPropertyError | WrongTypeError | void {
+		const actuallArgs = packet.data[1];
 		const expectedArgs = route.config.data;
-		if (expectedArgs) {
-			for (const expectedProp in expectedArgs) {
-				const packetProp = packetArgs[expectedProp];
-				if (packetProp === undefined) {
-					throw new MissingPropertyError(`Expected property ${expectedProp} is missing`, expectedProp);
-				}
 
-				const packetArgType = packetArgs[expectedProp].constructor;
-				const expectedArgType = expectedArgs[expectedProp];
+		// Check if both the sent args and the arg definitions exist.
+		if (_.isNil(actuallArgs) || _.isNil(expectedArgs)) {
+			// TODO: Meh.
+			throw new MissingPropertyError('Received null from the socket! All props are missing!', '*');
+		}
 
-				if (packetArgType !== expectedArgType) {
-					throw new WrongTypeError(`The prop ${packetProp} has the type ${packetArgType} but should have type: ${expectedArgType}`, packetArgType, expectedArgType);
-				}
-			}
+		// For each property in the expected properties...
+		for (const expectedProp in expectedArgs) {
+			const packetArg = actuallArgs[expectedProp];
+			const expectedArg = expectedArgs[expectedProp];
+
+			// Validate the associated Rules
+			Validator.validateRulesString(packetArg, expectedArg.rules);
+
+			// and check the Type of the arg.
+			Validator.checkType(packetArg, expectedArg.type);
 		}
 	}
 }

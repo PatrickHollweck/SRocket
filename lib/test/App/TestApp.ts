@@ -18,8 +18,7 @@ class UserController extends Route {
 	@NestedRoute({
 		route: '/add',
 		data: {
-			user_name: { type: String },
-			user_id: { type: Number, }
+			user_name: { type: String, rules: 'NotNull' },
 		}
 	})
 	addUser = class extends Route {

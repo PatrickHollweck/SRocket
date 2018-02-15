@@ -2,6 +2,7 @@ import * as sio from 'socket.io';
 import * as sioWildcard from 'socketio-wildcard';
 
 import Router from 'src/router/Router';
+import { initRules } from 'src/validation/rules/RuleBootstrapper';
 
 export default class SRocket {
 
@@ -13,6 +14,8 @@ export default class SRocket {
 		this.io = sio();
 		this.port = port;
 		this.router = new Router(this.io);
+
+		initRules();
 	}
 
 	public listen(callback?: VoidFunction) {

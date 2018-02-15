@@ -49,6 +49,7 @@ Features for srocket:
 	☐ Redis integration?
 	☐ Laravel like (validation-) error system
 	☐ SRocket expose internal config.
+	☐ Implement validation rules : https://laravel.com/docs/5.5/validation#available-validation-rules
 	
 Impementation Details:
 	✔ Implement routing like socknet @done(18-02-14 16:38)

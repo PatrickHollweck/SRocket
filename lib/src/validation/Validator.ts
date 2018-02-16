@@ -1,6 +1,9 @@
+import * as _ from 'lodash';
+
+import { TypedPair } from 'src/structures/Pair';
+
 import Rule from './Rules/Rule';
 import WrongTypeError from 'src/errors/validation/WrongTypeError';
-import { TypedPair } from 'src/structures/Pair';
 
 export type Rules = Array<Rule>;
 export type RulesWithArgs = Array<TypedPair<Rule, Array<any>>>;
@@ -33,6 +36,16 @@ export default class Validator {
     public static registerRule(rule: Rule) {
         Validator.rules.push(rule);
     }
+
+	public static registerRules(...rules: Array<Array<Rule>>) {
+		if(_.isNil(rules)) throw new Error('Tried to register invalid Validation-Rules! The rules where undefined or null!');
+
+		for(const ruleSet of rules) {
+			for(const rule of ruleSet) {
+				this.registerRule(rule);
+			}
+		}
+	}
 
     private static parse(input: string): RulesWithArgs {
         if (!input) {

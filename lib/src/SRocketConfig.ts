@@ -1,7 +1,10 @@
-export default class SRocketConfig {
-	public readonly port: Number;
+import Rule from 'src/validation/Rules/Rule';
 
-	constructor(port: Number) {
-		this.port = port;
+export default class SRocketConfig {
+	public port: Number = 8080;
+	public validationRules : Array<Rule>;
+
+	constructor() {
+		this.validationRules = new Array<Rule>();
 	}
 }

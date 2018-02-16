@@ -1,9 +1,11 @@
 import * as sio from 'socket.io';
 import * as sioWildcard from 'socketio-wildcard';
 
+import { defaultRules } from './validation/rules/RuleBootstrapper';
+
 import Router from 'src/router/Router';
+import Validator from './validation/Validator';
 import SRocketConfig from 'src/SRocketConfig';
-import { initRules } from 'src/validation/rules/RuleBootstrapper';
 
 export default class SRocket {
 
@@ -17,7 +19,7 @@ export default class SRocket {
 		this.config = config;
 		this.router = new Router(this.io);
 
-		initRules();
+		Validator.registerRules(defaultRules, config.validationRules);
 	}
 
 	public listen(callback?: Function) {

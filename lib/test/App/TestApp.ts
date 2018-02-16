@@ -7,8 +7,13 @@ import Response from 'src/io/Response';
 import Request from 'src/io/Request';
 import SRocket from 'src/SRocket';
 import Route from 'src/router/Route';
+import SRocketConfigBuilder from 'src/SRocketConfigBuilder';
 
-const srocket = new SRocket({ port: 1337 });
+const config = new SRocketConfigBuilder()
+					.setPort(1337)
+					.build();
+
+const srocket = new SRocket(config);
 
 @RouteConfig({
 	route: '/users'

@@ -13,9 +13,9 @@ Libs:
 
     ternion:
         - : https://github.com/michael-kamel/ternion
-        - Include validation -> Include validation in the srocket.
+        - Includes validation
         - Supplied data, and response object, express like.
-		- Has wired syntax
+		- Has wired syntax!
 
     socketnet:
         - : https://github.com/leon3s/socknet
@@ -43,22 +43,25 @@ Features for srocket:
 	☐ Namespace handling
     ☐ Middlewares
     ✔ Validation @done(18-02-14 16:37)
-    ☐ Synchronisation
+    ☐ Easy dSynchronisation
     ☐ Wildcard Event -> Request placeholders -> Expose connection-disconnection... events.
     ☐ Routing -> With controllers ? ( Express like req, res objects ? )
 	☐ Redis integration?
-	☐ Laravel like ( validation ) error system
+	✔ Laravel like ( validation ) error system @done(18-02-16 23:12)
 	✔ SRocket expose internal config. @done(18-02-15 16:23)
-	☐ Implement validation rules : https://laravel.com/docs/5.5/validation#available-validation-rules
-	
+	☐ Implement all of these validation rules : https://laravel.com/docs/5.5/validation#available-validation-rules
+	✔ SRocket - Config builder @done(18-02-16 23:29)
+
 Impementation Details:
 	✔ Implement routing like socknet @done(18-02-14 16:38)
-	☐ More Tests
 	☐ Maybe use socket.io middlewares ?
-	☐ Support complex types in type validation
-	☐ Make request generic to the data that is in it -> Remove the data object and move data into the request ( instead of the response )
-	☐ Improve validation failureMessage.
+	☐ Make request generic to the data that is in it -> Remove the data object and move data into the request ( instead of the response ) -> Models
+	✔ Improve validation failureMessage. @done(18-02-16 23:11)
 	☐ Typesafe validations ? -> validations: { notNull: true, notEmpty: true }
+	☐ Allow for alternative validation methods -> Support models with something like the 'class-validator' package
+
+Tests:
+	☐ Add tests :)
 
 Design:
 	☐ Should Routes have a lifecycle ( class-based ) or just be methods ?

@@ -18,7 +18,7 @@ class UserController extends Route {
 	@NestedRoute({
 		route: '/add',
 		data: {
-			user_name: { type: String, rules: 'NotNull' },
+			user_name: { type: Number, rules: 'NotNull|Between:10:20' },
 		}
 	})
 	addUser = class extends Route {
@@ -46,8 +46,7 @@ class UserController extends Route {
 }
 
 srocket.router.register(UserController);
-srocket.router.register(TestEvent);
 
 srocket.listen(() => {
-	console.log(`Server is listening on ${4250}`);
+	console.log(`Server is listening on ${srocket.getConfig().port}`);
 });

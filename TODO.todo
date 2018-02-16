@@ -47,7 +47,7 @@ Features for srocket:
     ☐ Wildcard Event -> Request placeholders -> Expose connection-disconnection... events.
     ☐ Routing -> With controllers ? ( Express like req, res objects ? )
 	☐ Redis integration?
-	☐ Laravel like (validation-) error system
+	☐ Laravel like ( validation ) error system
 	✔ SRocket expose internal config. @done(18-02-15 16:23)
 	☐ Implement validation rules : https://laravel.com/docs/5.5/validation#available-validation-rules
 	
@@ -57,6 +57,7 @@ Impementation Details:
 	☐ Maybe use socket.io middlewares ?
 	☐ Support complex types in type validation
 	☐ Make request generic to the data that is in it -> Remove the data object and move data into the request ( instead of the response )
+	☐ Improve validation failureMessage.
 
 Design:
 	☐ Should Routes have a lifecycle ( class-based ) or just be methods ?

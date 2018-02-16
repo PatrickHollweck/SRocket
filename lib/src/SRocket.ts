@@ -20,7 +20,7 @@ export default class SRocket {
 		initRules();
 	}
 
-	public listen(callback?: VoidFunction) {
+	public listen(callback?: Function) {
 		this.io.use(sioWildcard());
 
 		this.io.on('connection', socket => {

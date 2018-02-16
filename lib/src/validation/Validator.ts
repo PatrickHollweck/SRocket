@@ -11,7 +11,7 @@ export default class Validator {
     public static validateRules(target: any, rules: RulesWithArgs) {
         for (const rule of rules) {
             if (!rule.key.run(target, ...rule.value)) {
-                throw new Error(rule.key.failureMessage);
+                throw new Error(rule.key.getMessage(target, ...rule.value));
             }
         }
     }

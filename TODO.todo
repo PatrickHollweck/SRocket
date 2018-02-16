@@ -58,6 +58,7 @@ Impementation Details:
 	☐ Support complex types in type validation
 	☐ Make request generic to the data that is in it -> Remove the data object and move data into the request ( instead of the response )
 	☐ Improve validation failureMessage.
+	☐ Typesafe validations ? -> validations: { notNull: true, notEmpty: true }
 
 Design:
 	☐ Should Routes have a lifecycle ( class-based ) or just be methods ?

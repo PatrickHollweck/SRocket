@@ -11,6 +11,12 @@ export default class CallbackCollection {
 		this.collections.push(new TypedPair(name, new Array<Function>()));
 	}
 
+	public registerCollections(names: Array<string>) {
+		for(const name of names) {
+			this.registerCollection(name);
+		}
+	}
+
 	public addCallback(name:string, fn:Function) {
 		const collection = this.getCollection(name);
 		collection.value.push(fn);

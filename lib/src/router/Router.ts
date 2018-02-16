@@ -56,9 +56,11 @@ export default class Router {
 		this.server = server;
 
 		this.callbacks = new CallbackCollection();
-		this.callbacks.registerCollection(RouterCallbackType.BEFORE_EVENT);
-		this.callbacks.registerCollection(RouterCallbackType.AFTER_EVENT);
-		this.callbacks.registerCollection(RouterCallbackType.VALIDATION_ERROR);
+		this.callbacks.registerCollections([
+			RouterCallbackType.BEFORE_EVENT,
+			RouterCallbackType.AFTER_EVENT,
+			RouterCallbackType.VALIDATION_ERROR,
+		]);
 	}
 
 	public route(packet: SocketIOExt.Packet, socket: SocketIOExt.Socket) {

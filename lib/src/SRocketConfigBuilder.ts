@@ -18,7 +18,7 @@ export default class SRocketConfigBuilder {
 	}
 
 	public registerValidationRules(rules: Array<Rule>) {
-		for(const rule of rules) {
+		for (const rule of rules) {
 			this.registerValidationRule(rule);
 		}
 	}

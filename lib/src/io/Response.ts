@@ -1,15 +1,15 @@
 import { STATUS_CODES } from './StatusCode';
 import { InternalRoute } from 'src/router/Router';
 
-export default class Response<T> {
+export default class Response<T = any> {
 	protected statusCode: number;
-	protected payload?: T;
-	protected payloadMessage:string;
-	protected socket:SocketIOExt.Socket;
-	protected route:InternalRoute;
-	protected server:SocketIOExt.Server;
+	protected data?: T;
+	protected payloadMessage: string;
+	protected socket: SocketIOExt.Socket;
+	protected route: InternalRoute;
+	protected server: SocketIOExt.Server;
 
-	constructor(socket:SocketIOExt.Socket, route:InternalRoute, server:SocketIOExt.Server) {
+	constructor(socket: SocketIOExt.Socket, route: InternalRoute, server: SocketIOExt.Server) {
 		this.socket = socket;
 		this.server = server;
 
@@ -29,16 +29,16 @@ export default class Response<T> {
 		return this.statusCode;
 	}
 
-	public data(obj: T) {
-		this.payload = obj;
+	public withData(obj: T) {
+		this.data = obj;
 		return this;
 	}
 
 	public getData() {
-		return this.payload;
+		return this.data;
 	}
 
-	public message(comment:string) {
+	public message(comment: string) {
 		this.payloadMessage = comment;
 		return this;
 	}
@@ -47,8 +47,8 @@ export default class Response<T> {
 		return this.payloadMessage;
 	}
 
-	public error(message:string) {
-		if(this.getStatus() < 499) {
+	public error(message: string) {
+		if (this.getStatus() < 499) {
 			this.status(STATUS_CODES.INTERNAL_SERVER_ERROR);
 		}
 
@@ -67,20 +67,20 @@ export default class Response<T> {
 		this.socket.broadcast.emit(this.getEventRoute(), this.formatPayload());
 	}
 
-	public toAllInRoom_ExceptSender(roomName:string) {
+	public toAllInRoom_ExceptSender(roomName: string) {
 		// TODO: Support emit to multiple rooms -> Builder ?
 		this.socket.to(roomName).emit(this.getEventRoute(), this.formatPayload());
 	}
 
-	public toAllInRoom(roomName:string) {
+	public toAllInRoom(roomName: string) {
 		this.server.in(roomName).emit(this.getEventRoute(), this.formatPayload());
 	}
 
-	public toAllInNamespace(namespaceName:string = '/') {
+	public toAllInNamespace(namespaceName: string = '/') {
 		this.server.of(namespaceName).emit(this.getEventRoute(), this.formatPayload());
 	}
 
-	public toIndividualSocket(socketID:string) {
+	public toIndividualSocket(socketID: string) {
 		this.socket.to(socketID).emit(this.getEventRoute(), this.formatPayload());
 	}
 

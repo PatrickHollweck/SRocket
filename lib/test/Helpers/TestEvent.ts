@@ -3,7 +3,7 @@ import Response from 'src/io/Response';
 import Request from 'src/io/Request';
 import Route from 'src/router/Route';
 
-export type RouteCallback = (request:Request) => {};
+export type RouteCallback = (request: Request) => {};
 
 @RouteConfig({
 	route: '/test'
@@ -18,13 +18,13 @@ export class TestEvent {
 	})
 	dataRoute = class extends Route {
 
-		onValidationError(e:Error, req:Request, res:Response<any>) {
+		onValidationError(e: Error, req: Request<any>, res: Response<any>) {
 			res.data({
 				validationError: true,
 			}).toAllInNamespace();
 		}
 
-		on(data, req:Request, res:Response<any>) {
+		on(data, req: Request<any>, res: Response<any>) {
 			res.data({
 				validationError: false,
 			}).toAllInNamespace();
@@ -35,7 +35,7 @@ export class TestEvent {
 		route: '/nested'
 	})
 	nestedRoute = class extends Route {
-		on(data, req:Request, res:Response<any>) {
+		on(data, req: Request, res: Response<any>) {
 			res.toAllInNamespace();
 		}
 	};
@@ -49,17 +49,17 @@ export class TestEvent {
 			route: '/nest'
 		})
 		nestedNestedRoute = class extends Route {
-			on(data, req:Request, res:Response<any>) {
+			on(data, req: Request, res: Response<any>) {
 				res.relay();
 			}
 		};
 
-		on(data, req:Request, res:Response<any>) {
+		on(data, req: Request, res: Response<any>) {
 			res.relay();
 		}
 	};
 
-	on(data, req:Request, res:Response<any>) {
+	on(data, req: Request, res: Response<any>) {
 		res.toAllInNamespace('/');
 	}
 }

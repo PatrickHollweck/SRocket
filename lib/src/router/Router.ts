@@ -1,18 +1,21 @@
 import * as _ from 'lodash';
 import * as RouteDecorator from 'src/decorator/Route';
+import * as ClassValidator from 'class-validator';
 
 import { RouteConfig } from 'src/router/RouteConfig';
 import { TypedPair } from 'src/structures/Pair';
 import { Newable } from 'src/structures/Newable';
 
+import * as ModelDecorator from '../io/decorator/Model';
+
 import MissingPropertyError from 'src/errors/validation/MissingPropertyError';
 import CallbackCollection from '../helpers/CallbackCollection';
 import WrongTypeError from 'src/errors/validation/WrongTypeError';
+import Validator from 'src/validation/Validator';
 import Metadata from 'src/decorator/Metadata';
 import Response from 'src/io/Response';
 import Request from 'src/io/Request';
 import Route from 'src/router/Route';
-import Validator from 'src/validation/Validator';
 
 // TODO: Allow to pass arguments to the route constructor;
 
@@ -123,8 +126,9 @@ export default class Router {
 
 	protected invokeRoute(route: InternalRoute, socket: SocketIOExt.Socket, packet: SocketIOExt.Packet) {
 		const instance = route.getInstance();
-		const request = new Request(socket, packet);
+		const request = new Request(packet.data[1], socket, packet);
 		const response = new Response(socket, route, this.server);
+
 
 		try {
 			this.validatePacket(route, packet);
@@ -136,20 +140,20 @@ export default class Router {
 
 		this.callbacks.executeFor(RouterCallbackType.BEFORE_EVENT);
 		instance.before();
-		instance.on(packet.data[1], request, response);
+		instance.on(request, response);
 		instance.after();
 		this.callbacks.executeFor(RouterCallbackType.AFTER_EVENT);
 	}
 
-	protected validatePacket(route: InternalRoute, packet: SocketIOExt.Packet): MissingPropertyError | WrongTypeError | void {
+	protected validatePacket(route: InternalRoute, packet: SocketIOExt.Packet): void {
 		const actuallArgs = packet.data[1];
 		const expectedArgs = route.config.data;
 
-		// Check if both the sent args and the arg definitions exist.
-		if (_.isNil(actuallArgs) || _.isNil(expectedArgs)) {
-			// TODO: Meh.
+		if (_.isNil(actuallArgs)) {
 			throw new MissingPropertyError('Received null from the socket! All props are missing!', '*');
 		}
+
+		if (_.isNil(expectedArgs)) return;
 
 		// For each property in the expected properties...
 		for (const expectedProp in expectedArgs) {

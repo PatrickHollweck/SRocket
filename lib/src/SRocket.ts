@@ -32,7 +32,7 @@ export default class SRocket {
 		});
 
 		this.io.listen(this.config.port);
-		if(callback) {
+		if (callback) {
 			callback();
 		}
 	}

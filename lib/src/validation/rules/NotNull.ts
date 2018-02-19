@@ -3,7 +3,7 @@ import Rule from './Rule';
 export default class NotNull extends Rule {
 	public name = 'NotNull';
 
-	public run(target:any) {
+	public run(target: any) {
 		return target !== null && target !== undefined;
 	}
 

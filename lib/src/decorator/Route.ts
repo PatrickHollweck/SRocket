@@ -5,8 +5,8 @@ import 'reflect-metadata';
 
 export const routeMetadataKey = Symbol('routeDecoratorKey');
 
-export function RouteConfig(config:RouteConfig) {
-	return (target:Function) => {
+export function RouteConfig(config: RouteConfig) {
+	return (target: Function) => {
 		Reflect.defineMetadata(routeMetadataKey, config, target);
 	};
 }
@@ -15,6 +15,6 @@ export function RouteConfig(config:RouteConfig) {
 
 export const nestedRouteMetadataKey = Symbol('nestedRouteDecoratorKey');
 
-export function NestedRoute(config:RouteConfig) : Function {
+export function NestedRoute(config: RouteConfig): Function {
 	return Reflect.metadata(nestedRouteMetadataKey, config);
 }

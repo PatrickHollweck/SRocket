@@ -1,8 +1,8 @@
 const io = require('socket.io-client');
 import { expect } from 'chai';
 
-import SRocket from '../SRocket';
-import { TestEvent } from './../../test/Helpers/TestEvent';
+import SRocket from '../../src/SRocket';
+import { TestEvent } from '../../test/Helpers/TestEvent';
 
 process.env['DEBUG'] = 'srocket:*';
 

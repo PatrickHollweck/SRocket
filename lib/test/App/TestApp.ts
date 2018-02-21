@@ -1,14 +1,14 @@
 process.env['DEBUG'] = 'srocket:*';
 
 import { RouteConfig, NestedRoute } from 'src/decorator/Route';
+import { ModelProp } from 'src/io/model/ModelProp';
 
 import SRocketConfigBuilder from 'src/SRocketConfigBuilder';
-import ModelBase from 'src/io/Model';
 import Response from 'src/io/Response';
 import Request from 'src/io/Request';
 import SRocket from 'src/SRocket';
 import Route from 'src/router/Route';
-import Model from 'src/io/decorator/Model';
+import Model from 'src/io/model/Model';
 
 import * as v from 'class-validator';
 
@@ -17,6 +17,14 @@ const config = new SRocketConfigBuilder()
 	.build();
 
 const srocket = new SRocket(config);
+
+class DeleteUserRequestModel extends Model {
+	@ModelProp()
+	@v.IsDefined({ message: 'The userName must be defined!' })
+	@v.IsNotEmpty({ message: 'The userName must not be empty!' })
+	@v.IsString({ message: 'The userName must be a string' })
+	public userName: string;
+}
 
 @RouteConfig({
 	route: '/users'
@@ -41,14 +49,14 @@ class UserController extends Route {
 
 	@NestedRoute({
 		route: '/delete',
+		model: DeleteUserRequestModel,
 	})
 	deleteUser = class extends Route {
-
 		onValidationError(e, req, res) {
 			console.log(e.message);
 		}
 
-		on(req: Request<{ id: number }>, res: Response<{ message: true }>) {
+		on(req: Request<DeleteUserRequestModel>, res: Response<{ userID: number }>) {
 			console.log('GOT CALL TO: /users/delete -> with: ', req.data);
 		}
 	};

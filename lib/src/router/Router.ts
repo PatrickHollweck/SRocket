@@ -2,11 +2,10 @@ import * as _ from 'lodash';
 import * as RouteDecorator from 'src/decorator/Route';
 import * as ClassValidator from 'class-validator';
 
+import { getModelProps } from 'src/io/model/ModelProp';
 import { RouteConfig } from 'src/router/RouteConfig';
 import { TypedPair } from 'src/structures/Pair';
 import { Newable } from 'src/structures/Newable';
-
-import * as ModelDecorator from '../io/decorator/Model';
 
 import MissingPropertyError from 'src/errors/validation/MissingPropertyError';
 import CallbackCollection from '../helpers/CallbackCollection';
@@ -16,6 +15,7 @@ import Metadata from 'src/decorator/Metadata';
 import Response from 'src/io/Response';
 import Request from 'src/io/Request';
 import Route from 'src/router/Route';
+import Model from 'src/io/model/Model';
 
 // TODO: Allow to pass arguments to the route constructor;
 
@@ -126,26 +126,27 @@ export default class Router {
 
 	protected invokeRoute(route: InternalRoute, socket: SocketIOExt.Socket, packet: SocketIOExt.Packet) {
 		const instance = route.getInstance();
-		const request = new Request(packet.data[1], socket, packet);
 		const response = new Response(socket, route, this.server);
 
-
+		let validatedModel: Model | null;
 		try {
-			this.validatePacket(route, packet);
+			validatedModel = this.validatePacket(route, packet);
 		} catch (e) {
 			this.callbacks.executeFor(RouterCallbackType.VALIDATION_ERROR, e);
-			instance.onValidationError(e, request, response);
+			instance.onValidationError(e, new Request(packet.data[1], socket, packet), response);
 			return;
 		}
 
 		this.callbacks.executeFor(RouterCallbackType.BEFORE_EVENT);
 		instance.before();
-		instance.on(request, response);
+		instance.on(new Request(validatedModel, socket, packet), response);
 		instance.after();
 		this.callbacks.executeFor(RouterCallbackType.AFTER_EVENT);
 	}
 
-	protected validatePacket(route: InternalRoute, packet: SocketIOExt.Packet): void {
+	protected validatePacket(route: InternalRoute, packet: SocketIOExt.Packet): Model | null {
+		// TODO: Refactor!
+
 		const actuallArgs = packet.data[1];
 		const expectedArgs = route.config.data;
 
@@ -153,18 +154,67 @@ export default class Router {
 			throw new MissingPropertyError('Received null from the socket! All props are missing!', '*');
 		}
 
-		if (_.isNil(expectedArgs)) return;
+		const validatedModel = this.validateModel(route, actuallArgs);
+		if (validatedModel) {
+			return validatedModel;
+		}
 
-		// For each property in the expected properties...
+		if (_.isNil(expectedArgs)) return null;
+
 		for (const expectedProp in expectedArgs) {
 			const packetArg = actuallArgs[expectedProp];
 			const expectedArg = expectedArgs[expectedProp];
 
-			// Validate the associated Rules
-			Validator.validateRulesString(packetArg, expectedArg.rules);
+			if (expectedArg.rules) {
+				Validator.validateRulesString(packetArg, expectedArg.rules);
+			} else if (expectedArg.rulesObj) {
+				Validator.validateRulesObj(packetArg, expectedArg.rulesObj);
+			}
 
-			// and check the Type of the arg.
 			Validator.checkType(packetArg, expectedArg.type);
 		}
+
+		return actuallArgs;
+	}
+
+	protected validateModel(route: InternalRoute, actuallArgs: any): Model | null {
+		if (!route.config.model) return null;
+
+		const instance = new route.config.model();
+		this.setModelData(route, instance, actuallArgs);
+
+		const errors = ClassValidator.validateSync(instance);
+		if (errors.length > 0) {
+			throw new Error(`ClassValidation error! - ${this.getFirstClassValidationErrorMessage(errors)}`);
+		} else {
+			return instance;
+		}
+	}
+
+	protected setModelData(route: InternalRoute, instance: Model, actuallArgs: any) {
+		if (!route.config.model) return;
+
+		const properties = getModelProps(route.config.model);
+		const actuallProperties = Object.getOwnPropertyNames(actuallArgs);
+
+		for (const property of properties) {
+			if (!actuallProperties.includes(property)) {
+				throw new Error('Missing prop!');
+			}
+
+			for (const actuallProperty of actuallProperties) {
+				if (property === actuallProperty) {
+					instance[property] = actuallArgs[actuallProperty];
+				}
+			}
+		}
+	}
+
+	protected getFirstClassValidationErrorMessage(errors: ClassValidator.ValidationError[]): string {
+		const firstError = errors[0].constraints;
+		const firstErrorKey = Object.keys(firstError)[0];
+		const firstErrorMessage = errors[0].constraints[firstErrorKey];
+
+		return firstErrorMessage;
 	}
 }

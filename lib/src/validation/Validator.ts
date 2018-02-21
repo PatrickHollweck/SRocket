@@ -7,6 +7,7 @@ import WrongTypeError from 'src/errors/validation/WrongTypeError';
 
 export type Rules = Array<Rule>;
 export type RulesWithArgs = Array<TypedPair<Rule, Array<any>>>;
+export type RulesObj = Array<{ name: string; args?: Array<any>; message?: string }>;
 
 export default class Validator {
 	private static rules: Rules = new Array<Rule>();
@@ -22,6 +23,21 @@ export default class Validator {
 	public static validateRulesString(target: any, rulesString: string) {
 		const rules = Validator.parse(rulesString);
 		this.validateRules(target, rules);
+	}
+
+	public static validateRulesObj(target: any, rulesObj: RulesObj) {
+		for(const rule of rulesObj) {
+			const ruleObj = this.findRule(rule.name);
+			if(ruleObj) {
+				if(!rule.args) {
+					rule.args = new Array<any>();
+				}
+
+				if(!ruleObj.run(target, ...rule.args)) {
+					throw new Error(rule.message);
+				}
+			}
+		}
 	}
 
 	public static checkType(target: any, type: any) {
@@ -54,6 +70,7 @@ export default class Validator {
 
 		const ruleTokens = input.split('|');
 
+		// TODO: Integrate findRule();
 		const rules = new Array<TypedPair<Rule, Array<any>>>();
 		for (const token of ruleTokens) {
 			for (const rule of Validator.rules) {
@@ -69,5 +86,15 @@ export default class Validator {
 		}
 
 		return rules;
+	}
+
+	private static findRule(ruleName: string) : Rule | null {
+		for(const rule of this.rules) {
+			if(rule.name === ruleName) {
+				return rule;
+			}
+		}
+
+		return null;
 	}
 }

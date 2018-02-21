@@ -51,6 +51,8 @@ Features for srocket:
 	✔ SRocket expose internal config. @done(18-02-15 16:23)
 	☐ Implement all of these validation rules : https://laravel.com/docs/5.5/validation#available-validation-rules
 	✔ SRocket - Config builder @done(18-02-16 23:29)
+	☐ Find a way to have model files and have models assotiated with rules
+	☐ Move from rulename to ruleType?
 
 Impementation Details:
 	✔ Implement routing like socknet @done(18-02-14 16:38)

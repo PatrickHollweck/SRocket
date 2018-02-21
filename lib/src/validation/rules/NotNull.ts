@@ -8,6 +8,6 @@ export default class NotNull extends Rule {
 	}
 
 	public getMessage(target) {
-		return `${target} must not be null!`;
+		return `The object must not be null!`;
 	}
 }

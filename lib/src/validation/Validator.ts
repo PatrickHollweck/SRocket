@@ -1,4 +1,5 @@
 import * as _ from 'lodash';
+import * as ClassValidator from 'class-validator';
 
 import { TypedPair } from 'src/structures/Pair';
 
@@ -9,7 +10,19 @@ export type Rules = Array<Rule>;
 export type RulesWithArgs = Array<TypedPair<Rule, Array<any>>>;
 export type RulesObj = Array<{ name: string; args?: Array<any>; message?: string }>;
 
+export class ClassValidatorExtensions {
+	public getFirstErrorMessage(errors: ClassValidator.ValidationError[]): string {
+		const firstError = errors[0].constraints;
+		const firstErrorKey = Object.keys(firstError)[0];
+		const firstErrorMessage = errors[0].constraints[firstErrorKey];
+
+		return firstErrorMessage;
+	}
+}
 export default class Validator {
+
+	public static classValidator = new ClassValidatorExtensions();
+
 	private static rules: Rules = new Array<Rule>();
 
 	public static validateRules(target: any, rules: RulesWithArgs) {
@@ -26,14 +39,14 @@ export default class Validator {
 	}
 
 	public static validateRulesObj(target: any, rulesObj: RulesObj) {
-		for(const rule of rulesObj) {
+		for (const rule of rulesObj) {
 			const ruleObj = this.findRule(rule.name);
-			if(ruleObj) {
-				if(!rule.args) {
+			if (ruleObj) {
+				if (!rule.args) {
 					rule.args = new Array<any>();
 				}
 
-				if(!ruleObj.run(target, ...rule.args)) {
+				if (!ruleObj.run(target, ...rule.args)) {
 					throw new Error(rule.message);
 				}
 			}
@@ -63,7 +76,7 @@ export default class Validator {
 		}
 	}
 
-	private static parse(input: string): RulesWithArgs {
+	protected static parse(input: string): RulesWithArgs {
 		if (!input) {
 			throw new Error('The rules-string must be defined!');
 		}
@@ -88,9 +101,9 @@ export default class Validator {
 		return rules;
 	}
 
-	private static findRule(ruleName: string) : Rule | null {
-		for(const rule of this.rules) {
-			if(rule.name === ruleName) {
+	protected static findRule(ruleName: string): Rule | null {
+		for (const rule of this.rules) {
+			if (rule.name === ruleName) {
 				return rule;
 			}
 		}

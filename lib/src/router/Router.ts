@@ -1,5 +1,6 @@
 import * as _ from 'lodash';
 import * as RouteDecorator from 'src/decorator/Route';
+import * as RuleDecorator from 'src/validation/decorator/Rule';
 import * as ClassValidator from 'class-validator';
 
 import { getModelProps } from 'src/io/model/ModelProp';
@@ -145,8 +146,6 @@ export default class Router {
 	}
 
 	protected validatePacket(route: InternalRoute, packet: SocketIOExt.Packet): Model | null {
-		// TODO: Refactor!
-
 		const actuallArgs = packet.data[1];
 		const expectedArgs = route.config.data;
 
@@ -154,9 +153,11 @@ export default class Router {
 			throw new MissingPropertyError('Received null from the socket! All props are missing!', '*');
 		}
 
-		const validatedModel = this.validateModel(route, actuallArgs);
-		if (validatedModel) {
-			return validatedModel;
+		if(route.config.model) {
+			const validatedModel = this.validateModel(route, actuallArgs);
+			if (validatedModel) {
+				return validatedModel;
+			}
 		}
 
 		if (_.isNil(expectedArgs)) return null;
@@ -183,9 +184,16 @@ export default class Router {
 		const instance = new route.config.model();
 		this.setModelData(route, instance, actuallArgs);
 
+		for(const property of Object.getOwnPropertyNames(instance)) {
+			const ruleMetadata = Metadata.getPropertyDecorator(RuleDecorator.ruleMetadataKey, instance, property);
+			if(ruleMetadata) {
+				Validator.validateRulesString(instance[property], ruleMetadata);
+			}
+		}
+
 		const errors = ClassValidator.validateSync(instance);
 		if (errors.length > 0) {
-			throw new Error(`ClassValidation error! - ${this.getFirstClassValidationErrorMessage(errors)}`);
+			throw new Error(`ClassValidation error! - ${Validator.classValidator.getFirstErrorMessage(errors)}`);
 		} else {
 			return instance;
 		}
@@ -208,13 +216,5 @@ export default class Router {
 				}
 			}
 		}
-	}
-
-	protected getFirstClassValidationErrorMessage(errors: ClassValidator.ValidationError[]): string {
-		const firstError = errors[0].constraints;
-		const firstErrorKey = Object.keys(firstError)[0];
-		const firstErrorMessage = errors[0].constraints[firstErrorKey];
-
-		return firstErrorMessage;
 	}
 }

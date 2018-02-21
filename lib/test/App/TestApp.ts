@@ -9,8 +9,11 @@ import Request from 'src/io/Request';
 import SRocket from 'src/SRocket';
 import Route from 'src/router/Route';
 import Model from 'src/io/model/Model';
+import Rule from 'src/validation/decorator/Rule';
 
 import * as v from 'class-validator';
+
+// NOTE: Before I get to writing proper tests use this tool: http://amritb.github.io/socketio-client-tool/
 
 const config = new SRocketConfigBuilder()
 	.setPort(1337)
@@ -20,6 +23,7 @@ const srocket = new SRocket(config);
 
 class DeleteUserRequestModel extends Model {
 	@ModelProp()
+	@Rule('NotNull')
 	@v.IsDefined({ message: 'The userName must be defined!' })
 	@v.IsNotEmpty({ message: 'The userName must not be empty!' })
 	@v.IsString({ message: 'The userName must be a string' })
@@ -27,42 +31,18 @@ class DeleteUserRequestModel extends Model {
 }
 
 @RouteConfig({
-	route: '/users'
+	route: '/users',
+	data: {
+		userID: { type: Number, rules: 'NotNull|Between:0:10' }
+	}
 })
 class UserController extends Route {
+	onValidationError(error: Error) {
+		console.log('Validation error caught!', error.message);
+	}
 
-	@NestedRoute({
-		route: '/add',
-		data: {
-			user_id: { type: Number, rules: 'NotNull|Between:10:20' },
-		}
-	})
-	addUser = class extends Route {
-		onValidationError(error: Error) {
-			console.log('Validation error caught!', error.message);
-		}
-
-		on(req: Request, res: Response) {
-			console.log('GOT CALL TO: /users/add -> with: ', req.data);
-		}
-	};
-
-	@NestedRoute({
-		route: '/delete',
-		model: DeleteUserRequestModel,
-	})
-	deleteUser = class extends Route {
-		onValidationError(e, req, res) {
-			console.log(e.message);
-		}
-
-		on(req: Request<DeleteUserRequestModel>, res: Response<{ userID: number }>) {
-			console.log('GOT CALL TO: /users/delete -> with: ', req.data);
-		}
-	};
-
-	on(req, res) {
-		console.log('GOT CALL TO: /users -> with: ', req.data);
+	on(req: Request, res: Response) {
+		console.log('GOT CALL TO: /users/add -> with: ', req.data);
 	}
 }
 

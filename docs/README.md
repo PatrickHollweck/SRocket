@@ -3,7 +3,7 @@
 
 ## Disclaimer
 
-SRocket is still under heavy construction! When the framework is released there will be a npm-package, and maybe even a cli, since SRocket is very opinionated.
+!> SRocket is still under heavy construction! When the framework is released there will be a npm-package, and maybe even a cli, since SRocket is very opinionated.
 While reading the documentation keep in mind that the structure and the api may change at every point in time. 
 Currently the easiest way to start using the framework is to copy it from source!
 
@@ -14,10 +14,9 @@ make code orgainstation a breez and the support for typescript and model based v
 
 ## Features
 
-- Typesafe by nature.
-- Full Typescript support.
-- Classbased fluent routing.
+- Builtin routing.
 - Builtin validation.
+- Typesafe by nature since its written in typescript
 - Fully extensible with access to the lower level parts and middlewares.
 
 ## Getting Started
@@ -77,11 +76,11 @@ many more options especially for validation but we will explore these later.
 
 To register routes insert this function call before the listen call of the above snippet.
 
-```
+```ts
 srocket.router.register(Route)
 ```
 
-#### Emiting to Routes.
+#### Clientside usage.
 
 To emit events from the clientside, you can use the standart Socket.io client which is availiable on npm. 
 As a Example we will emit a Event to the example route from above. 
@@ -101,15 +100,17 @@ The other and less confortable way is to compile the typescript source and then 
 	1. Compile the source with: ``` tsc main.ts ```
 	2. Run the compiled js: ``` node main.js ```
 	
-> Note: You might also want to use 'nodemon' for automatic Server restarts.
+> Note: You may also want to use the npm-package 'nodemon' for automatic Server restarts.
 
 ##### Emitting from the client-side.
 
-After the SRocket server is running you can connect via the standart Socket.io client, in this example we will emit to Käthe Route registered above. 
+After the SRocket server is running you can connect to it via the standart [socket.io](socket.io) client, in this example we will emit to example ``` Route ``` registered above.
 
 ```js
 socket.emit('/users');
 ```
 
-After the client emit you should see this message:
-> Call to /users
+After the client emit you should see this output:
+```Output
+>>> Call to /users
+```

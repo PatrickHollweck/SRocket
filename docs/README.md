@@ -38,8 +38,8 @@ import SRocket from 'src/SRocket';
 import SRocketConfigBuilder from 'src/SRocketConfigBuilder'
 
 const config = new SRocketConfigBuilder()
-					.setPort(8080)
-					.build();
+			.setPort(8080)
+			.build();
 
 const app = new SRocket(config);
 
@@ -93,22 +93,22 @@ There are multiple ways to run a SRocket Server, choose one.
 
 - Npm package: ts-node
 The ts-node npm package is used to run typescript in node.
-  1. Install it via ``` npm install ts-node ```
-  2. Run the main.ts file via ``` ts-node main.ts  ```
+	1. Install it via ``` npm install ts-node ```
+	2. Run the main.ts file via ``` ts-node main.ts  ```
 
 - Compiling and then running.
 The other and less confortable way is to compile the typescript source and then run the emitted js.
-  1. Compile the source with: ``` tsc main.ts ```
-  2. Run the compiled js: ``` node main.js ```
+	1. Compile the source with: ``` tsc main.ts ```
+	2. Run the compiled js: ``` node main.js ```
+	
+> Note: You might also want to use 'nodemon' for automatic Server restarts.
 
 ##### Emitting from the client-side.
 
 After the SRocket server is running you can connect via the standart Socket.io client, in this example we will emit to Käthe Route registered above. 
 
-Note: You might also want to use 'nodemon' for automatic Server restarts.
-
 ```js
-socket.emit('/usere');
+socket.emit('/users');
 ```
 
 After the client emit you should see this message:

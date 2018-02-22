@@ -145,7 +145,7 @@ export default class Router {
 		this.callbacks.executeFor(RouterCallbackType.AFTER_EVENT);
 	}
 
-	protected validatePacket(route: InternalRoute, packet: SocketIOExt.Packet): Model | null {
+	protected validatePacket(route: InternalRoute, packet: SocketIOExt.Packet): Model | null | Error {
 		const actuallArgs = packet.data[1];
 		const expectedArgs = route.config.data;
 

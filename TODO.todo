@@ -35,6 +35,7 @@ TODOS:
 		✔ Setup relative imports @done(18-02-15 14:18)
 
 Unrelated:
+	☐ Disqus in docs ?
     Loggers:
         - https://www.npmjs.com/package/socketio-winston-logger
 

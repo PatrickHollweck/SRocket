@@ -1,11 +1,11 @@
 # SRocket
-> SRocket ( short for: SocketRocket ) is a batteries-included opinionated socket.io framework written in typescript.
+> SRocket ( short for: SocketRocket ) is a batteries-included, opinionated socket.io framework written in typescript.
 
 ## Disclaimer
 
-SRocket is still under heavy construction! When the framework is released there will be a npm-package, and maybe even a cli since SRocket is very opinionated.
+SRocket is still under heavy construction! When the framework is released there will be a npm-package, and maybe even a cli, since SRocket is very opinionated.
 While reading the documentation keep in mind that the structure and the api may change at every point in time. 
-Currently the easiest way to get started using the framework is coping from source!
+Currently the easiest way to start using the framework is to copy it from source!
 
 ## Introduction
 Have you ever worked with pure socket.io and wanted a bit more structure to your project ? If so SRocket is the answer to that,
@@ -22,11 +22,11 @@ make code orgainstation a breez and the support for typescript and model based v
 
 ## Getting Started
 
-> This 'Getting-Started' guide requires atleast a basic understanding of socket.io and typescript!
+> This 'Getting-Started' guide requires atleast a basic understanding of nodejs, socket.io and typescript!
 
 #### Setup
 
-The easiest way to get started is to install the SRocket [npm package](/) ( Unavailable while not released! ) or via this command ``` npm install srocket --save ```.
+The easiest way to get started is to install the SRocket [npm package](/) ( Unavailable while not released! ) or via this command ``` npm install srocket typescript --save ```.
 After installing the npm package create a ``` main.ts ``` file.
 
 #### A basic Server
@@ -46,17 +46,17 @@ const app = new SRocket(config);
 app.listen(() => console.log(`SRocket server listening on port ${srocket.getConfig().port}`));
 ```
 
-The example above will start the server at port 8080. To test SRocket application without forcing you to build a frontend try [this](http://amritb.github.io/socketio-client-tool/) website
+The example above will start the server at port 8080. To test SRocket applications without a frontend try [this](http://amritb.github.io/socketio-client-tool/) website
 
 #### Using the Router
 
 The above example is not very usefull on its own since it does not respond to any socket events. To change this, let us create some routes.
-Routes are the main selling point of SRocket and allow you to make you app modular. Routes are class based javascript objects,
+Routes are the main selling point of SRocket and allow you to make you app modular. They are class based javascript objects,
 which you register in your app. Routes in SRocket are just like regular http routes, except that they are way more flexible.
 
 ##### Creating your first route.
 
-A Route might look like this:
+A basic route looks like this:
 
 ```ts
 @RouteConfig({
@@ -69,13 +69,47 @@ class GetUsersRoute extends Route {
 }
 ```
 
-You see that routes are class-based, so to add some utility functions you might want to use the route extends the ``` Route ``` base class.
-Also there is a decorator, which configures the Route!
+You see that routes are class-based, so to add some utility functions you might want to extend the ``` Route ``` base class.
+Also there is a decorator, which configures the Route, in this Example only the ``` route  ``` property is set, but there are
+many more options especially for validation but we will explore these later.
 
 ##### Registering Routes.
 
 To register routes insert this function call before the listen call of the above snippet.
 
-´´´ts
+```
 srocket.router.register(Route)
-´´´
+```
+
+#### Emiting to Routes.
+
+To emit events from the clientside, you can use the standart Socket.io client which is availiable on npm. 
+As a Example we will emit a Event to the example route from above. 
+
+##### Running the SRocket App.
+
+To connect to the SRocket App the Server must be running of course.
+There are multiple ways to run a SRocket Server, choose one.
+
+- Npm package: ts-node
+The ts-node npm package is used to run typescript in node.
+  1. Install it via ``` npm install ts-node ```
+  2. Run the main.ts file via ``` ts-node main.ts  ```
+
+- Compiling and then running.
+The other and less confortable way is to compile the typescript source and then run the emitted js.
+  1. Compile the source with: ``` tsc main.ts ```
+  2. Run the compiled js: ``` node main.js ```
+
+##### Emitting from the client-side.
+
+After the SRocket server is running you can connect via the standart Socket.io client, in this example we will emit to Käthe Route registered above. 
+
+Note: You might also want to use 'nodemon' for automatic Server restarts.
+
+```js
+socket.emit('/usere');
+```
+
+After the client emit you should see this message:
+> Call to /users

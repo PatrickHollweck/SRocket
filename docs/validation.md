@@ -16,8 +16,7 @@ the data, it will automatically validate the data, and then eighter call the 'on
 
 > Author note: In my opinion you should use model based validation, the trade-off is typesafety for verbosity
 
-1. [Model based validation](/model-validation) - [example](/validation?id=model-based-validation)
-	- [DOCS](/model-validation)
+1. Model based validation - [example](/validation?id=model-based-validation) - [DOCS](/model-validation)
 	- Advantages
 		- Easy reuse with frontend
 		- Properties are class members and are easier to deal with.
@@ -25,8 +24,7 @@ the data, it will automatically validate the data, and then eighter call the 'on
 	- Disadvantages
 		- More verbose, requires extra classes.
 
-2. [Parameter based validation](/parameter-validation) - [example](/validation?id=parameter-based-validation)
-	- [DOCS](/parameter-validation)
+2. Parameter based validation - [example](/validation?id=parameter-based-validation) - [DOCS](/parameter-validation)
 	- Advantages
 		- Easy to configure without the need for extra classes.
 		- Compact usage within the ``` @RouteConfig ``` decorator.
@@ -37,7 +35,7 @@ the data, it will automatically validate the data, and then eighter call the 'on
 
 ### Examples
 
-#### Model based validation.
+#### Model based validation. - [DOCS](/model-validation)
 
 ```ts
 import * as v from 'class-validatior';
@@ -64,7 +62,7 @@ class AddUserRoute extends Route {
 
 ```
 
-#### Parameter based validation.
+#### Parameter based validation. - [DOCS](/parameter-validation)
 
 ```ts
 @RouteConfig({

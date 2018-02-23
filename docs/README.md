@@ -11,7 +11,7 @@ Currently the easiest way to start using the framework is to copy it from source
 ## Introduction
 Have you ever worked with pure socket.io and wanted a bit more structure to your project ? If so SRocket is the answer to that,
 It has all the features you need to build your next real-time application in a http inspired way. Features like the built-in router
-make code orgainstation a breez and the support for typescript and model based validation make your application safe and easy to maintain. 
+make code orgainstation a breez and the support for typescript and model based validation makes your application safe and easy to maintain. 
 
 ## Features
 

@@ -40,7 +40,7 @@ Unrelated:
         - https://www.npmjs.com/package/socketio-winston-logger
 
 Features for srocket:
-	✔ Express like drequest and response objects. @done(18-02-14 16:37)
+	✔ Express like request and response objects. @done(18-02-14 16:37)
 	☐ Namespace handling
     ☐ Middlewares
     ✔ Validation @done(18-02-14 16:37)
@@ -56,6 +56,9 @@ Features for srocket:
 	☐ Move from rulename to ruleType?
 
 Impementation Details:
+	☐ Rethink what should be a default export
+	☐ For validation use a mode class-validator inspired aproach.
+	☐ Rewrite validation docs.
 	✔ Implement routing like socknet @done(18-02-14 16:38)
 	☐ Maybe use socket.io middlewares ?
 	☐ Make request generic to the data that is in it -> Remove the data object and move data into the request ( instead of the response ) -> Models

@@ -1,17 +1,19 @@
 import * as _ from 'lodash';
 import * as RouteDecorator from 'src/decorator/Route';
-import * as RuleDecorator from 'src/validation/decorator/Rule';
 import * as ClassValidator from 'class-validator';
 
+import { AbsentPropertyError } from './../errors/AbsentPropertyError';
+import { ValidationResult } from '../validation/Validator';
+import { ValidationError } from '../errors/ValidationError';
+import { populateObject } from 'src/Util/PopulateObject';
 import { getModelProps } from 'src/io/model/ModelProp';
 import { RouteConfig } from 'src/router/RouteConfig';
 import { TypedPair } from 'src/structures/Pair';
+import { RuleType } from './RouteConfig';
 import { Newable } from 'src/structures/Newable';
 
-import MissingPropertyError from 'src/errors/validation/MissingPropertyError';
-import CallbackCollection from '../helpers/CallbackCollection';
-import WrongTypeError from 'src/errors/validation/WrongTypeError';
-import Validator from 'src/validation/Validator';
+import CallbackCollection from 'src/helpers/CallbackCollection';
+import Validator, { ValidationStatus } from 'src/validation/Validator';
 import Metadata from 'src/decorator/Metadata';
 import Response from 'src/io/Response';
 import Request from 'src/io/Request';
@@ -45,7 +47,7 @@ export class InternalRoute extends Route {
 		return this.instance;
 	}
 
-	public getRoute() {
+	public getRoutePath() {
 		return this.config.route;
 	}
 }
@@ -74,14 +76,14 @@ export default class Router {
 			return;
 		}
 
-		this.invokeRoute(route, socket, packet);
+		this.invokeRoute(route, socket, packet).then();
 	}
 
 	public register(route: NewableRoute, routeConfig?: RouteConfig) {
 		const instance = new route();
 		const internalRoute = new InternalRoute(routeConfig || this.getRouteConfig(route), instance);
 
-		debug(`Registering Route: ${internalRoute.getRoute()}`);
+		debug(`Registering Route: ${internalRoute.getRoutePath()}`);
 
 		const nestedRoutes = new Array<TypedPair<RouteConfig, NewableRoute>>();
 		const properties = Object.getOwnPropertyNames(instance);
@@ -95,7 +97,7 @@ export default class Router {
 
 		if (nestedRoutes.length > 0) {
 			for (const nestedRoute of nestedRoutes) {
-				nestedRoute.key.route = internalRoute.getRoute() + nestedRoute.key.route;
+				nestedRoute.key.route = internalRoute.getRoutePath() + nestedRoute.key.route;
 				this.register(nestedRoute.value, nestedRoute.key);
 			}
 		}
@@ -117,7 +119,7 @@ export default class Router {
 
 	protected findRoute(packet: SocketIOExt.Packet) {
 		for (const route of this.routes) {
-			if (route.getRoute() === packet.data[0]) {
+			if (route.getRoutePath() === packet.data[0]) {
 				return route;
 			}
 		}
@@ -125,96 +127,101 @@ export default class Router {
 		return null;
 	}
 
-	protected invokeRoute(route: InternalRoute, socket: SocketIOExt.Socket, packet: SocketIOExt.Packet) {
-		const instance = route.getInstance();
-		const response = new Response(socket, route, this.server);
-
-		let validatedModel: Model | null;
-		try {
-			validatedModel = this.validatePacket(route, packet);
-		} catch (e) {
-			this.callbacks.executeFor(RouterCallbackType.VALIDATION_ERROR, e);
-			instance.onValidationError(e, new Request(packet.data[1], socket, packet), response);
-			return;
-		}
-
-		this.callbacks.executeFor(RouterCallbackType.BEFORE_EVENT);
-		instance.before();
-		instance.on(new Request(validatedModel, socket, packet), response);
-		instance.after();
-		this.callbacks.executeFor(RouterCallbackType.AFTER_EVENT);
+	protected triggerValidationError(route: InternalRoute, error: Error, socket: SocketIOExt.Socket, packet: SocketIOExt.Packet) {
+		route.getInstance().onValidationError(error, new Request(null, socket, packet), new Response(socket, route, this.server));
 	}
 
-	protected validatePacket(route: InternalRoute, packet: SocketIOExt.Packet): Model | null | Error {
-		const actuallArgs = packet.data[1];
-		const expectedArgs = route.config.data;
+	protected invokeRoute(route: InternalRoute, socket: SocketIOExt.Socket, packet: SocketIOExt.Packet): Promise<void> {
+		return new Promise((resolve, reject) => {
+			const instance = route.getInstance();
+			const response = new Response(socket, route, this.server);
 
-		if (_.isNil(actuallArgs)) {
-			throw new MissingPropertyError('Received null from the socket! All props are missing!', '*');
-		}
+			const execute = (validationResult) => {
+				if (validationResult.didFail()) {
+					this.triggerValidationError(route, validationResult.errors[0], socket, packet);
+				} else {
+					this.callbacks.executeFor(RouterCallbackType.BEFORE_EVENT);
+					instance.before();
+					instance.on(new Request(validationResult.target, socket, packet), response);
+					instance.after();
+					this.callbacks.executeFor(RouterCallbackType.AFTER_EVENT);
+				}
+			};
 
-		if(route.config.model) {
-			const validatedModel = this.validateModel(route, actuallArgs);
-			if (validatedModel) {
-				return validatedModel;
-			}
-		}
+			// TODO: Use Promise.all here.
 
-		if (_.isNil(expectedArgs)) return null;
-
-		for (const expectedProp in expectedArgs) {
-			const packetArg = actuallArgs[expectedProp];
-			const expectedArg = expectedArgs[expectedProp];
-
-			if (expectedArg.rules) {
-				Validator.validateRulesString(packetArg, expectedArg.rules);
-			} else if (expectedArg.rulesObj) {
-				Validator.validateRulesObj(packetArg, expectedArg.rulesObj);
+			if (route.config.model) {
+				this.validateWithModel(route.config.model, packet)
+					.then(execute);
 			}
 
-			Validator.checkType(packetArg, expectedArg.type);
-		}
-
-		return actuallArgs;
+			if (route.config.data) {
+				this.validateWithRules(route.config.data, packet)
+					.then(execute);
+			}
+		});
 	}
 
-	protected validateModel(route: InternalRoute, actuallArgs: any): Model | null {
-		if (!route.config.model) return null;
-
-		const instance = new route.config.model();
-		this.setModelData(route, instance, actuallArgs);
-
-		for(const property of Object.getOwnPropertyNames(instance)) {
-			const ruleMetadata = Metadata.getPropertyDecorator(RuleDecorator.ruleMetadataKey, instance, property);
-			if(ruleMetadata) {
-				Validator.validateRulesString(instance[property], ruleMetadata);
+	protected validateWithModel(model: Newable<Model>, packet: SocketIOExt.Packet): Promise<ValidationResult> {
+		return new Promise((resolve, reject) => {
+			const actuallArgs = packet.data[1];
+			if (!actuallArgs) {
+				return resolve(new ValidationResult(null, [new AbsentPropertyError('Got no data from the socket! All Properties are missing!', '*')]));
 			}
-		}
 
-		const errors = ClassValidator.validateSync(instance);
-		if (errors.length > 0) {
-			throw new Error(`ClassValidation error! - ${Validator.classValidator.getFirstErrorMessage(errors)}`);
-		} else {
-			return instance;
-		}
+			const setDataResult = populateObject<Model>(model, actuallArgs, getModelProps(model));
+			if (setDataResult.value.length > 0) {
+				return resolve(new ValidationResult(null, setDataResult.value));
+			}
+
+			Validator.validateClass(setDataResult.key)
+				.then(result => {
+					if (result.didFail()) {
+						return resolve(new ValidationResult(null, result.errors));
+					} else {
+						return resolve(new ValidationResult(result.target));
+					}
+				});
+		});
 	}
 
-	protected setModelData(route: InternalRoute, instance: Model, actuallArgs: any) {
-		if (!route.config.model) return;
+	protected validateWithRules(expectedArgs: RuleType, packet: SocketIOExt.Packet): Promise<ValidationResult> {
+		return new Promise((resolve, reject) => {
+			// TODO: Build wrapper on top of sio.packet...
+			// TODO: Outsource this to the Validator class.
+			const actuallArgs = packet.data[1];
 
-		const properties = getModelProps(route.config.model);
-		const actuallProperties = Object.getOwnPropertyNames(actuallArgs);
-
-		for (const property of properties) {
-			if (!actuallProperties.includes(property)) {
-				throw new Error('Missing prop!');
+			if(!actuallArgs) {
+				return resolve(new ValidationResult(null, [ new AbsentPropertyError('Got no data from the socket! All properties are missing!', '*')]));
 			}
 
-			for (const actuallProperty of actuallProperties) {
-				if (property === actuallProperty) {
-					instance[property] = actuallArgs[actuallProperty];
+			for (const expectedProperty of Object.getOwnPropertyNames(expectedArgs)) {
+				const currentExpectedArg = expectedArgs[expectedProperty];
+				const currentActuallArg = actuallArgs[expectedProperty];
+
+				if (currentActuallArg === undefined) {
+					return resolve(new ValidationResult(null, [new AbsentPropertyError(`The property ${expectedProperty} is missing!`, expectedProperty)]));
+				}
+
+				if (!Validator.checkType(currentActuallArg, currentExpectedArg.type)) {
+					return resolve(new ValidationResult(null, [new TypeError(`The type of the property should be ${currentExpectedArg.type} but is ${currentActuallArg.constructor}`)]));
+				}
+
+				if(currentExpectedArg.rules) {
+					for(const rule of currentExpectedArg.rules) {
+						if(!rule.rule(currentActuallArg, rule.args)) {
+							if(rule.message) {
+								// TODO: Validator.parseMessage(message, context);
+								return resolve(new ValidationResult(null, [new ValidationError(rule.message)]));
+							} else {
+								return resolve(new ValidationResult(null, [new ValidationError(`Validation Rule: "${rule.rule.name}" with args: "${rule.args}" failed!`)]));
+							}
+						}
+					}
 				}
 			}
-		}
+
+			return resolve(new ValidationResult(actuallArgs));
+		});
 	}
 }

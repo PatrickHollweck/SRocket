@@ -79,7 +79,7 @@ class SomeRoute extends Route {
 	on(req: Request<SomeRouteRequestModel>, res: Reponse) {
 		req.status(201).data({
 			score: req.data.score + 1
-		}).toAllInNamespace();
+		}).toAllInNamespacde();
 	}
 }
 

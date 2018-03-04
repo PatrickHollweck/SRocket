@@ -2,112 +2,64 @@ import * as _ from 'lodash';
 import * as ClassValidator from 'class-validator';
 
 import { TypedPair } from 'src/structures/Pair';
+import { ValidationError } from '../errors/ValidationError';
 
-import Rule from './Rules/Rule';
-import WrongTypeError from 'src/errors/validation/WrongTypeError';
+export enum ValidationStatus {
+	Failed,
+	Succeeded,
+}
 
-export type Rules = Array<Rule>;
-export type RulesWithArgs = Array<TypedPair<Rule, Array<any>>>;
-export type RulesObj = Array<{ name: string; args?: Array<any>; message?: string }>;
+export class ValidationResult<T = any> {
+	public target: T | null;
+	public errors: Array<Error>;
+	public status: ValidationStatus;
 
-export class ClassValidatorExtensions {
-	public getFirstErrorMessage(errors: ClassValidator.ValidationError[]): string {
+	constructor(result: T | null, errors: Array<Error> = new Array<Error>(), status: ValidationStatus = ValidationStatus.Failed) {
+		this.target = result;
+		this.errors = errors;
+		this.status = status || this.errors.length > 0 ? ValidationStatus.Failed : ValidationStatus.Succeeded;
+	}
+
+	public didFail() : boolean {
+		return this.status === ValidationStatus.Failed;
+	}
+
+	public didSucceed() : boolean {
+		return this.status === ValidationStatus.Succeeded;
+	}
+
+	// TODO: Method for easy interaction with result -> doIfSuccess()...
+}
+
+// TODO: Rethink this whole validation thing... Maybe instance based ?
+export default class Validator {
+
+	// TODO: Implement full set of validation function from class-validtor.
+	public static validateClass(obj: any): Promise<ValidationResult> {
+		return new Promise((resolve, reject) => {
+			ClassValidator.validate(obj)
+			.then(errors => {
+				if(errors.length > 0) {
+					return resolve(new ValidationResult(null, [ new ValidationError(this.getFirstErrorMessage(errors)) ]));
+				} else {
+					return resolve(new ValidationResult(obj));
+				}
+			});
+		});
+	}
+
+	public static checkType(target: any, type: any) {
+		const targetType = target.constructor;
+		const acutallType = type;
+
+		return targetType === acutallType;
+	}
+
+	public static getFirstErrorMessage(errors: ClassValidator.ValidationError[]): string {
 		const firstError = errors[0].constraints;
 		const firstErrorKey = Object.keys(firstError)[0];
 		const firstErrorMessage = errors[0].constraints[firstErrorKey];
 
 		return firstErrorMessage;
-	}
-}
-export default class Validator {
-
-	public static classValidator = new ClassValidatorExtensions();
-
-	private static rules: Rules = new Array<Rule>();
-
-	public static validateRules(target: any, rules: RulesWithArgs) {
-		for (const rule of rules) {
-			if (!rule.key.run(target, ...rule.value)) {
-				throw new Error(rule.key.getMessage(target, ...rule.value));
-			}
-		}
-	}
-
-	public static validateRulesString(target: any, rulesString: string) {
-		const rules = Validator.parse(rulesString);
-		this.validateRules(target, rules);
-	}
-
-	public static validateRulesObj(target: any, rulesObj: RulesObj) {
-		for (const rule of rulesObj) {
-			const ruleObj = this.findRule(rule.name);
-			if (ruleObj) {
-				if (!rule.args) {
-					rule.args = new Array<any>();
-				}
-
-				if (!ruleObj.run(target, ...rule.args)) {
-					throw new Error(rule.message);
-				}
-			}
-		}
-	}
-
-	public static checkType(target: any, type: any) {
-		const packetArgType = target.constructor;
-		const expectedArgType = type;
-
-		if (packetArgType !== expectedArgType) {
-			throw new WrongTypeError(`The prop ${target} has the type ${packetArgType} but should have type: ${expectedArgType}`, packetArgType, expectedArgType);
-		}
-	}
-
-	public static registerRule(rule: Rule) {
-		Validator.rules.push(rule);
-	}
-
-	public static registerRules(...rules: Array<Array<Rule>>) {
-		if (_.isNil(rules)) throw new Error('Tried to register invalid Validation-Rules! The rules where undefined or null!');
-
-		for (const ruleSet of rules) {
-			for (const rule of ruleSet) {
-				this.registerRule(rule);
-			}
-		}
-	}
-
-	protected static parse(input: string): RulesWithArgs {
-		if (!input) {
-			throw new Error('The rules-string must be defined!');
-		}
-
-		const ruleTokens = input.split('|');
-
-		// TODO: Integrate findRule();
-		const rules = new Array<TypedPair<Rule, Array<any>>>();
-		for (const token of ruleTokens) {
-			for (const rule of Validator.rules) {
-				const tokenArgs = token.split(':');
-				if (tokenArgs[0] === rule.name) {
-					const args = tokenArgs.filter(arg => {
-						return arg !== rule.name;
-					});
-
-					rules.push(new TypedPair(rule, args));
-				}
-			}
-		}
-
-		return rules;
-	}
-
-	protected static findRule(ruleName: string): Rule | null {
-		for (const rule of this.rules) {
-			if (rule.name === ruleName) {
-				return rule;
-			}
-		}
-
-		return null;
 	}
 }

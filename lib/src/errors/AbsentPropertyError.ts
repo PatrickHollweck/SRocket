@@ -1,4 +1,4 @@
-export default class MissingPropertyError extends Error {
+export class AbsentPropertyError extends Error {
 	public missingProperty: string;
 
 	constructor(message: string, missingProperty: string) {

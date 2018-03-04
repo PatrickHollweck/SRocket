@@ -47,14 +47,12 @@ export default class Response<T = any> {
 		return this.payloadMessage;
 	}
 
-	public error(message: string) {
+	public error(error: Error) {
 		if (this.getStatus() < 499) {
 			this.status(STATUS_CODES.INTERNAL_SERVER_ERROR);
 		}
 
-		this.message(message);
-
-		return this;
+		this.message(error.message).relay();
 	}
 
 	// -- Sender functions

@@ -1,8 +1,9 @@
 import * as sio from 'socket.io';
 import * as sioWildcard from 'socketio-wildcard';
 
-import Router from 'src/router/Router';
+import Router, { RouterCallbackType } from 'src/router/Router';
 import SRocketConfig from 'src/SRocketConfig';
+import MiddlewareBase from 'src/Middleware/BaseMiddleware';
 
 import { Validator } from 'class-validator';
 
@@ -17,10 +18,6 @@ export default class SRocket {
 		this.io = sio();
 		this.config = config;
 		this.router = new Router(this.io);
-
-		// TODO: Do this thing...
-		const validator = new Validator();
-		console.log();
 	}
 
 	public listen(callback?: Function) {
@@ -36,6 +33,12 @@ export default class SRocket {
 		if (callback) {
 			callback();
 		}
+	}
+
+	public use(middleware: MiddlewareBase) {
+		this.router.registerCallback(RouterCallbackType.VALIDATION_ERROR, middleware.onEventValidationError);
+		this.router.registerCallback(RouterCallbackType.BEFORE_EVENT, middleware.beforeEventCall);
+		this.router.registerCallback(RouterCallbackType.AFTER_EVENT, middleware.afterEventCall);
 	}
 
 	public shutdown() {

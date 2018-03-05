@@ -35,31 +35,31 @@ TODOS:
 	Folder Structure:
 		✔ Move all decorators to src/decorators @done (3/5/2018, 8:20:38 PM)
 
-Unrelated:
-	☐ Disqus in docs ?
-    Loggers:
-        - https://www.npmjs.com/package/socketio-winston-logger
+	Unrelated:
+		☐ Disqus in docs ?
+		Loggers:
+			- https://www.npmjs.com/package/socketio-winston-logger
 
-Features for srocket:
-	☐ Namespace handling
-    ☐ Middlewares
-    ☐ Easy Synchronisation
-    ☐ Wildcard Event -> Request placeholders -> Expose connection-disconnection... events.
-    ☐ Routing -> With controllers ? ( Express like req, res objects ? )
-	☐ Redis integration?
-	☐ Implement all of these validation rules : https://laravel.com/docs/5.5/validation#available-validation-rules
-	☐ Find a way to have model files and have models assotiated with rules
-Docs:	
-	☐ Write validation docs.
+	Features for srocket:
+		☐ Namespace handling
+		☐ Middlewares
+		☐ Easy Synchronisation
+		☐ Wildcard Event -> Request placeholders -> Expose connection-disconnection... events.
+		☐ Routing -> With controllers ? ( Express like req, res objects ? )
+		☐ Redis integration?
+		☐ Add validation pipeline
+		☐ Cleanup validation code
+		☐ Find a way to have model files and have models assotiated with rules
+	
+	Docs:
+		☐ Middleware docs.
+		☐ Write validation docs.
+		☐ Cover main entry point docs. 
 
-Impementation Details:
-	☐ Rethink what should be a default export
-	☐ For validation use a mode class-validator inspired aproach.
-	☐ IOC Container
-	☐ Maybe use socket.io middlewares ?
-	☐ Make request generic to the data that is in it -> Remove the data object and move data into the request ( instead of the response ) -> Models
-	☐ Typesafe validations ? -> validations: { notNull: true, notEmpty: true }
-	☐ Allow for alternative validation methods -> Support models with something like the 'class-validator' package
+	Impementation Details:
+		☐ Rethink what should be a default export
+		☐ IOC Container
+		☐ Maybe use socket.io middlewares ?
 
-Tests:
-	☐ Add tests :)
+	Tests:
+		☐ Add tests :)

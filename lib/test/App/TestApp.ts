@@ -12,6 +12,7 @@ import Request from 'src/io/Request';
 import SRocket from 'src/SRocket';
 import Route from 'src/router/Route';
 import Model from 'src/io/model/Model';
+import BaseMiddleware from 'src/Middleware/BaseMiddleware';
 
 // NOTE: Before I get to writing proper tests use this tool: http://amritb.github.io/socketio-client-tool/
 
@@ -71,8 +72,18 @@ class DataRoute extends Route {
 	}
 }
 
-srocket.router.register(ModelRoute);
-srocket.router.register(DataRoute);
+class SampleMiddleware extends BaseMiddleware {
+	beforeEventCall() {
+		console.log('BEFORE EVENT - Called by "SampleMiddleware"');
+	}
+}
+
+srocket.router.registerBulk(
+	ModelRoute,
+	DataRoute
+);
+
+srocket.use(new SampleMiddleware());
 
 srocket.listen(() => {
 	console.log(`Server is listening on ${srocket.getConfig().port}`);

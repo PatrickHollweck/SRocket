@@ -6,7 +6,7 @@ import { AbsentPropertyError } from './../errors/AbsentPropertyError';
 import { ValidationResult, ValidationContext } from '../validation/Validator';
 import { ValidationError } from '../errors/ValidationError';
 import { populateObject } from 'src/Util/PopulateObject';
-import { getModelProps } from 'src/io/model/ModelProp';
+import { getModelProps } from 'src/decorator/ModelProp';
 import { RouteConfig } from 'src/router/RouteConfig';
 import { TypedPair } from 'src/structures/Pair';
 import { RuleType } from './RouteConfig';
@@ -77,6 +77,12 @@ export default class Router {
 		}
 
 		this.invokeRoute(route, socket, packet).then();
+	}
+
+	public registerBulk(...routes: Array<NewableRoute>) {
+		for(const route of routes) {
+			this.register(route);
+		}
 	}
 
 	public register(route: NewableRoute, routeConfig?: RouteConfig) {

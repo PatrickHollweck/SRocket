@@ -4,7 +4,7 @@ import * as v from 'class-validator';
 import * as jv from 'validator';
 
 import { RouteConfig, NestedRoute } from 'src/decorator/Route';
-import { ModelProp } from 'src/io/model/ModelProp';
+import { ModelProp } from 'src/decorator/ModelProp';
 
 import SRocketConfigBuilder from 'src/SRocketConfigBuilder';
 import Response from 'src/io/Response';

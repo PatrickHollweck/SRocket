@@ -33,7 +33,7 @@ Libs:
 
 TODOS:
 	Folder Structure:
-		☐ Move all decorators to src/decorators
+		✔ Move all decorators to src/decorators @done (3/5/2018, 8:20:38 PM)
 
 Unrelated:
 	☐ Disqus in docs ?

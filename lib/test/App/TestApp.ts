@@ -47,7 +47,11 @@ class ModelRoute extends Route {
 	route: '/param',
 	data: {
 		userName: {
-			type: String, rules: [{ rule: jv.contains, args: ['patrick'] }]
+			type: String, rules: [{
+				rule: jv.contains,
+				args: ['patrick'],
+				message: 'The $property did not contain "Patrick"'
+			}]
 		}
 	}
 })

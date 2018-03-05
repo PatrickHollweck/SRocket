@@ -31,6 +31,20 @@ export class ValidationResult<T = any> {
 	// TODO: Method for easy interaction with result -> doIfSuccess()...
 }
 
+export class ValidationContext {
+	public args: Array<any>;
+	public property: string;
+	public target: string;
+	public value: string;
+
+	constructor(args: Array<any>, property: string, target: any, value: any) {
+		this.args = args;
+		this.property = property;
+		this.target = target;
+		this.value = value;
+	}
+}
+
 // TODO: Rethink this whole validation thing... Maybe instance based ?
 export default class Validator {
 
@@ -46,6 +60,23 @@ export default class Validator {
 				}
 			});
 		});
+	}
+
+	public static parseMessage(message: string, context: ValidationContext) {
+		if (message && context.args instanceof Array) {
+            context.args.forEach((constraint, index) => {
+                message = message.replace(new RegExp(`\\$constraint${index + 1}`, 'g'), constraint);
+            });
+        }
+
+        if (message && context.value !== undefined && context.value !== null)
+            message = message.replace(/\$value/g, context.value);
+        if (message)
+            message = message.replace(/\$property/g, context.property);
+        if (message)
+            message = message.replace(/\$target/g, context.target);
+
+        return message;
 	}
 
 	public static checkType(target: any, type: any) {

@@ -59,6 +59,7 @@ Impementation Details:
 	☐ Rethink what should be a default export
 	☐ For validation use a mode class-validator inspired aproach.
 	☐ Rewrite validation docs.
+	☐ IOC Container
 	✔ Implement routing like socknet @done(18-02-14 16:38)
 	☐ Maybe use socket.io middlewares ?
 	☐ Make request generic to the data that is in it -> Remove the data object and move data into the request ( instead of the response ) -> Models

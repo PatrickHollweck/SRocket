@@ -3,7 +3,7 @@ import * as RouteDecorator from 'src/decorator/Route';
 import * as ClassValidator from 'class-validator';
 
 import { AbsentPropertyError } from './../errors/AbsentPropertyError';
-import { ValidationResult } from '../validation/Validator';
+import { ValidationResult, ValidationContext } from '../validation/Validator';
 import { ValidationError } from '../errors/ValidationError';
 import { populateObject } from 'src/Util/PopulateObject';
 import { getModelProps } from 'src/io/model/ModelProp';
@@ -191,8 +191,8 @@ export default class Router {
 			// TODO: Outsource this to the Validator class.
 			const actuallArgs = packet.data[1];
 
-			if(!actuallArgs) {
-				return resolve(new ValidationResult(null, [ new AbsentPropertyError('Got no data from the socket! All properties are missing!', '*')]));
+			if (!actuallArgs) {
+				return resolve(new ValidationResult(null, [new AbsentPropertyError('Got no data from the socket! All properties are missing!', '*')]));
 			}
 
 			for (const expectedProperty of Object.getOwnPropertyNames(expectedArgs)) {
@@ -207,12 +207,22 @@ export default class Router {
 					return resolve(new ValidationResult(null, [new TypeError(`The type of the property should be ${currentExpectedArg.type} but is ${currentActuallArg.constructor}`)]));
 				}
 
-				if(currentExpectedArg.rules) {
-					for(const rule of currentExpectedArg.rules) {
-						if(!rule.rule(currentActuallArg, rule.args)) {
-							if(rule.message) {
-								// TODO: Validator.parseMessage(message, context);
-								return resolve(new ValidationResult(null, [new ValidationError(rule.message)]));
+				if (currentExpectedArg.rules) {
+					for (const rule of currentExpectedArg.rules) {
+						if (!rule.rule(currentActuallArg, rule.args)) {
+							if (rule.message) {
+								return resolve(new ValidationResult(
+									null,
+									[new ValidationError(Validator.parseMessage(
+										rule.message,
+										new ValidationContext(
+											rule.args || [],
+											expectedProperty,
+											currentActuallArg,
+											currentExpectedArg
+										)
+									))]
+								));
 							} else {
 								return resolve(new ValidationResult(null, [new ValidationError(`Validation Rule: "${rule.rule.name}" with args: "${rule.args}" failed!`)]));
 							}

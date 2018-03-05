@@ -56,8 +56,14 @@ class ModelRoute extends Route {
 	}
 })
 class DataRoute extends Route {
+
+	onError(e: Error, req: Request, res: Response) {
+		console.log('Internal Error caught in "/param" -> ', e.message);
+	}
+
 	onValidationError(error: Error) {
 		console.log('"/param" -> Validation error caught!', error.message);
+		throw new Error('Custom error that should be caught be the internal error handler');
 	}
 
 	on(req: Request<ModelRequest>, res: Response) {

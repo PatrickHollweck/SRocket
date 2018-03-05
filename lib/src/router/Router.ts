@@ -128,7 +128,15 @@ export default class Router {
 	}
 
 	protected triggerValidationError(route: InternalRoute, error: Error, socket: SocketIOExt.Socket, packet: SocketIOExt.Packet) {
-		route.getInstance().onValidationError(error, new Request(null, socket, packet), new Response(socket, route, this.server));
+		try {
+			route.getInstance().onValidationError(error, new Request(null, socket, packet), new Response(socket, route, this.server));
+		} catch(error) {
+			this.triggerInternalError(route, error, socket, packet);
+		}
+	}
+
+	protected triggerInternalError(route: InternalRoute, error: Error, socket: SocketIOExt.Socket, packet: SocketIOExt.Packet) {
+		route.getInstance().onError(error, new Request(null, socket, packet), new Response(socket, route, this.server));
 	}
 
 	protected invokeRoute(route: InternalRoute, socket: SocketIOExt.Socket, packet: SocketIOExt.Packet): Promise<void> {
@@ -140,15 +148,18 @@ export default class Router {
 				if (validationResult.didFail()) {
 					this.triggerValidationError(route, validationResult.errors[0], socket, packet);
 				} else {
-					this.callbacks.executeFor(RouterCallbackType.BEFORE_EVENT);
-					instance.before();
-					instance.on(new Request(validationResult.target, socket, packet), response);
-					instance.after();
-					this.callbacks.executeFor(RouterCallbackType.AFTER_EVENT);
+					const request = new Request(validationResult.target, socket, packet);
+					try {
+						this.callbacks.executeFor(RouterCallbackType.BEFORE_EVENT);
+						instance.before(request, response);
+						instance.on(request, response);
+						instance.after(request, response);
+						this.callbacks.executeFor(RouterCallbackType.AFTER_EVENT);
+					} catch(error) {
+						this.triggerInternalError(route, error, socket, packet);
+					}
 				}
 			};
-
-			// TODO: Use Promise.all here.
 
 			if (route.config.model) {
 				this.validateWithModel(route.config.model, packet)

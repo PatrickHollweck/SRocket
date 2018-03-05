@@ -16,7 +16,7 @@ the data, it will automatically validate the data, and then eighter call the 'on
 
 > Author note: In my opinion you should use model based validation, the trade-off is typesafety for verbosity
 
-1. Model based validation - [example](/validation?id=model-based-validation) - [DOCS](/model-validation)
+1. Model based validation - [example](/validation?id=model-based-validation) - [Documentation page](/model-validation)
 	- Advantages
 		- Easy reuse with frontend
 		- Properties are class members and are easier to deal with.
@@ -24,7 +24,7 @@ the data, it will automatically validate the data, and then eighter call the 'on
 	- Disadvantages
 		- More verbose, requires extra classes.
 
-2. Parameter based validation - [example](/validation?id=parameter-based-validation) - [DOCS](/parameter-validation)
+2. Parameter based validation - [example](/validation?id=parameter-based-validation) - [Documentation page](/parameter-validation)
 	- Advantages
 		- Easy to configure without the need for extra classes.
 		- Compact usage within the ``` @RouteConfig ``` decorator.
@@ -35,7 +35,9 @@ the data, it will automatically validate the data, and then eighter call the 'on
 
 ### Examples
 
-#### Model based validation. - [DOCS](/model-validation)
+#### Model based validation. - [Documentation page](/model-validation)
+
+!> This validation technique uses [this library](https://github.com/typestack/class-validator)
 
 ```ts
 import * as v from 'class-validatior';
@@ -62,15 +64,30 @@ class AddUserRoute extends Route {
 
 ```
 
-#### Parameter based validation. - [DOCS](/parameter-validation)
+#### Parameter based validation. - [Documentation page](/parameter-validation)
+
+!> This validation technique uses [this library](https://github.com/chriso/validator.js)
 
 ```ts
+
+// Even thought this might seem verbose, most of the properties in the data object are optional.
+
+import * as jv from 'validator';
+
 @RouteConfig({
-	route: '/addUser',
+	route: '/param',
 	data: {
-		userID: { type: String, rules: 'NotNull|MinLenght:5' }
+		userName: {
+			type: String, 
+			rules: [{
+				rule: jv.contains,
+				args: ['patrick'],
+				message: 'The $property did not contain "Patrick"'
+			}]
+		}
 	}
-	class AddUserRoute extends Route {
+}
+class AddUserRoute extends Route {
 		onValidationError(e:Error, req:Request, res:Response) {
 			// Handle Error
 		}

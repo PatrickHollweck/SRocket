@@ -28,11 +28,12 @@ Libs:
         - Overall a good quality library.
 
     Socket.io-Wildcard:
-        - : https://github.com/hden/socketio-wildcard
-        - Example of a simple middleware
+		- : https://github.com/hden/socketio-wildcard
+		- Example of a simple middleware
+
 TODOS:
 	Folder Structure:
-		✔ Setup relative imports @done(18-02-15 14:18)
+		☐ Move all decorators to src/decorators
 
 Unrelated:
 	☐ Disqus in docs ?
@@ -40,37 +41,25 @@ Unrelated:
         - https://www.npmjs.com/package/socketio-winston-logger
 
 Features for srocket:
-	✔ Express like request and response objects. @done(18-02-14 16:37)
 	☐ Namespace handling
     ☐ Middlewares
-    ✔ Validation @done(18-02-14 16:37)
-    ☐ Easy dSynchronisation
+    ☐ Easy Synchronisation
     ☐ Wildcard Event -> Request placeholders -> Expose connection-disconnection... events.
     ☐ Routing -> With controllers ? ( Express like req, res objects ? )
 	☐ Redis integration?
-	✔ Laravel like ( validation ) error system @done(18-02-16 23:12)
-	✔ SRocket expose internal config. @done(18-02-15 16:23)
 	☐ Implement all of these validation rules : https://laravel.com/docs/5.5/validation#available-validation-rules
-	✔ SRocket - Config builder @done(18-02-16 23:29)
 	☐ Find a way to have model files and have models assotiated with rules
-	☐ Move from rulename to ruleType?
+Docs:	
+	☐ Write validation docs.
 
 Impementation Details:
 	☐ Rethink what should be a default export
 	☐ For validation use a mode class-validator inspired aproach.
-	☐ Rewrite validation docs.
 	☐ IOC Container
-	✔ Implement routing like socknet @done(18-02-14 16:38)
 	☐ Maybe use socket.io middlewares ?
 	☐ Make request generic to the data that is in it -> Remove the data object and move data into the request ( instead of the response ) -> Models
-	✔ Improve validation failureMessage. @done(18-02-16 23:11)
 	☐ Typesafe validations ? -> validations: { notNull: true, notEmpty: true }
 	☐ Allow for alternative validation methods -> Support models with something like the 'class-validator' package
 
 Tests:
 	☐ Add tests :)
-
-Design:
-	☐ Should Routes have a lifecycle ( class-based ) or just be methods ?
-		- Classes allow for endless nested routes.
-		- Functions are less verbose and have a cleaner look

@@ -13,3 +13,4 @@
 		* [Response Object](response.md)
 		* [Nested Routes](nested-routes.md)
 	* [Models](models.md)
+	* [Error Handling](error-handling.md)

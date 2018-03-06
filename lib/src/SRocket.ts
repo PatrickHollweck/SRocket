@@ -1,13 +1,21 @@
 import * as sio from 'socket.io';
 import * as sioWildcard from 'socketio-wildcard';
 
+// Internal Use.
 import Router, { RouterCallbackType } from 'src/router/Router';
-import SRocketConfig from 'src/SRocketConfig';
+import SRocketConfig from 'src/config/SRocketConfig';
 import MiddlewareBase from 'src/Middleware/BaseMiddleware';
 
-import { Validator } from 'class-validator';
+// For exporting
+import { Validator } from 'src/validation/Validator';
+import Model from 'src/model/Model';
+import Route from 'src/router/Route';
+import Request from 'src/io/Request';
+import Response from 'src/io/Response';
 
-export default class SRocket {
+export { Router, Route, Model, Validator, Response, Request };
+
+export class SRocket {
 
 	public router: Router;
 

@@ -1,26 +1,23 @@
 import * as _ from 'lodash';
-import * as RouteDecorator from 'src/decorator/Route';
 import * as ClassValidator from 'class-validator';
+import * as RouteDecorator from 'src/router/decorator/Route';
 
-import { AbsentPropertyError } from './../errors/AbsentPropertyError';
-import { ValidationResult, ValidationContext } from '../validation/Validator';
-import { ValidationError } from '../errors/ValidationError';
-import { populateObject } from 'src/Util/PopulateObject';
-import { getModelProps } from 'src/decorator/ModelProp';
-import { RouteConfig } from 'src/router/RouteConfig';
+import { Validator, ValidationContext, ValidationResult } from 'src/validation/Validator';
+import { RouteConfig, RuleType } from 'src/router/RouteConfig';
+import { AbsentPropertyError } from 'src/errors/AbsentPropertyError';
+import { ValidationError } from 'src/errors/ValidationError';
+import { populateObject } from 'src/utility/PopulateObject';
+import { InternalRoute } from 'src/router/InternalRoute';
+import { getModelProps } from 'src/model/decorator/ModelProp';
 import { TypedPair } from 'src/structures/Pair';
-import { RuleType } from './RouteConfig';
 import { Newable } from 'src/structures/Newable';
 
-import CallbackCollection from 'src/helpers/CallbackCollection';
-import Validator, { ValidationStatus } from 'src/validation/Validator';
-import Metadata from 'src/decorator/Metadata';
+import CallbackCollection from 'src/utility/CallbackCollection';
+import Metadata from 'src/utility/Metadata';
 import Response from 'src/io/Response';
 import Request from 'src/io/Request';
 import Route from 'src/router/Route';
-import Model from 'src/io/model/Model';
-
-// TODO: Allow to pass arguments to the route constructor;
+import Model from 'src/model/Model';
 
 const debug = require('debug')('srocket:Router');
 
@@ -32,26 +29,7 @@ export enum RouterCallbackType {
 	VALIDATION_ERROR = 'onValidationError',
 }
 
-export class InternalRoute extends Route {
-	public config: RouteConfig;
-	public instance: Route;
-
-	public constructor(config: RouteConfig, instance: Route) {
-		super();
-
-		this.config = config;
-		this.instance = instance;
-	}
-
-	public getInstance() {
-		return this.instance;
-	}
-
-	public getRoutePath() {
-		return this.config.route;
-	}
-}
-
+// TODO: Allow to pass arguments to the route constructor;
 export default class Router {
 	protected routes: InternalRoute[];
 	protected server: SocketIOExt.Server;
@@ -80,7 +58,7 @@ export default class Router {
 	}
 
 	public registerBulk(...routes: Array<NewableRoute>) {
-		for(const route of routes) {
+		for (const route of routes) {
 			this.register(route);
 		}
 	}
@@ -136,7 +114,7 @@ export default class Router {
 	protected triggerValidationError(route: InternalRoute, error: Error, socket: SocketIOExt.Socket, packet: SocketIOExt.Packet) {
 		try {
 			route.getInstance().onValidationError(error, new Request(null, socket, packet), new Response(socket, route, this.server));
-		} catch(error) {
+		} catch (error) {
 			this.triggerInternalError(route, error, socket, packet);
 		}
 	}
@@ -161,7 +139,7 @@ export default class Router {
 						instance.on(request, response);
 						instance.after(request, response);
 						this.callbacks.executeFor(RouterCallbackType.AFTER_EVENT);
-					} catch(error) {
+					} catch (error) {
 						this.triggerInternalError(route, error, socket, packet);
 					}
 				}

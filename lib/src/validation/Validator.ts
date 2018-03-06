@@ -1,52 +1,20 @@
 import * as _ from 'lodash';
 import * as ClassValidator from 'class-validator';
+import * as jsValidator from 'validator';
 
 import { TypedPair } from 'src/structures/Pair';
 import { ValidationError } from '../errors/ValidationError';
+import { ValidationResult } from 'src/validation/ValidationResult';
+import { ValidationContext } from 'src/validation/ValidationContext';
+import { ValidationStatus } from 'src/validation/ValidationStatus';
 
-export enum ValidationStatus {
-	Failed,
-	Succeeded,
-}
+export { ValidationResult, ValidationContext, ValidationError, ValidationStatus };
 
-export class ValidationResult<T = any> {
-	public target: T | null;
-	public errors: Array<Error>;
-	public status: ValidationStatus;
-
-	constructor(result: T | null, errors: Array<Error> = new Array<Error>(), status: ValidationStatus = ValidationStatus.Failed) {
-		this.target = result;
-		this.errors = errors;
-		this.status = status || this.errors.length > 0 ? ValidationStatus.Failed : ValidationStatus.Succeeded;
-	}
-
-	public didFail() : boolean {
-		return this.status === ValidationStatus.Failed;
-	}
-
-	public didSucceed() : boolean {
-		return this.status === ValidationStatus.Succeeded;
-	}
-
-	// TODO: Method for easy interaction with result -> doIfSuccess()...
-}
-
-export class ValidationContext {
-	public args: Array<any>;
-	public property: string;
-	public target: string;
-	public value: string;
-
-	constructor(args: Array<any>, property: string, target: any, value: any) {
-		this.args = args;
-		this.property = property;
-		this.target = target;
-		this.value = value;
-	}
-}
+export const tsV = ClassValidator;
+export const jsV = jsValidator;
 
 // TODO: Rethink this whole validation thing... Maybe instance based ?
-export default class Validator {
+export class Validator {
 
 	// TODO: Implement full set of validation function from class-validtor.
 	public static validateClass(obj: any): Promise<ValidationResult> {
@@ -63,27 +31,22 @@ export default class Validator {
 	}
 
 	public static parseMessage(message: string, context: ValidationContext) {
-		if (message && context.args instanceof Array) {
-            context.args.forEach((constraint, index) => {
-                message = message.replace(new RegExp(`\\$constraint${index + 1}`, 'g'), constraint);
-            });
-        }
+		context.args.forEach((arg, index) => {
+			message = message.replace(new RegExp(`\\$arg${index + 1}`, 'g'), arg);
+		});
 
-        if (message && context.value !== undefined && context.value !== null)
-            message = message.replace(/\$value/g, context.value);
-        if (message)
-            message = message.replace(/\$property/g, context.property);
-        if (message)
-            message = message.replace(/\$target/g, context.target);
+        return message
+			.replace(/\$value/g, context.value)
+			.replace(/\$property/g, context.property)
+			.replace(/\$target/g, context.target);
 
-        return message;
 	}
 
 	public static checkType(target: any, type: any) {
 		const targetType = target.constructor;
-		const acutallType = type;
+		const actuallType = type;
 
-		return targetType === acutallType;
+		return targetType === actuallType;
 	}
 
 	public static getFirstErrorMessage(errors: ClassValidator.ValidationError[]): string {

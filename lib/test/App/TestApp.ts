@@ -1,18 +1,10 @@
 process.env['DEBUG'] = 'srocket:*';
 
-import * as v from 'class-validator';
-import * as jv from 'validator';
-
-import { RouteConfig, NestedRoute } from 'src/decorator/Route';
-import { ModelProp } from 'src/decorator/ModelProp';
-
-import SRocketConfigBuilder from 'src/SRocketConfigBuilder';
-import Response from 'src/io/Response';
-import Request from 'src/io/Request';
-import SRocket from 'src/SRocket';
-import Route from 'src/router/Route';
-import Model from 'src/io/model/Model';
-import BaseMiddleware from 'src/Middleware/BaseMiddleware';
+import { SRocket, Model, Route, Request, Response } from 'src/SRocket';
+import { RouteConfig, NestedRoute, ModelProp } from 'src/decorator';
+import { SRocketConfigBuilder } from 'src/config';
+import { BaseMiddleware } from 'src/middleware';
+import { tsV, jsV } from 'src/validation';
 
 // NOTE: Before I get to writing proper tests use this tool: http://amritb.github.io/socketio-client-tool/
 
@@ -24,9 +16,9 @@ const srocket = new SRocket(config);
 
 class ModelRequest extends Model {
 	@ModelProp()
-	@v.IsDefined({ message: 'The userName must be defined!' })
-	@v.IsNotEmpty({ message: 'The userName must not be empty!' })
-	@v.IsString({ message: 'The userName must be a string' })
+	@tsV.IsDefined({ message: 'The userName must be defined!' })
+	@tsV.IsNotEmpty({ message: 'The userName must not be empty!' })
+	@tsV.IsString({ message: 'The userName must be a string' })
 	public userName: string;
 }
 
@@ -49,7 +41,7 @@ class ModelRoute extends Route {
 	data: {
 		userName: {
 			type: String, rules: [{
-				rule: jv.contains,
+				rule: jsV.contains,
 				args: ['patrick'],
 				message: 'The $property did not contain "Patrick"'
 			}]

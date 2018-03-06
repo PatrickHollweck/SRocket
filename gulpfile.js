@@ -4,7 +4,7 @@ const mocha = require("gulp-mocha");
 const config = {
     watchPaths: {
 		ts: './lib/**/*.ts',
-		specTs: './lib/**/*.spec.ts'
+		specTs: './lib/**/*.test.ts'
     }
 }
 

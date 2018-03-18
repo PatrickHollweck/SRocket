@@ -1,7 +1,9 @@
 export default class SRocketConfig {
-	public port: Number;
+	public port: number;
+	public serverConfig: SocketIO.ServerOptions;
 
 	constructor() {
 		this.port = 8080;
+		this.serverConfig = {};
 	}
 }

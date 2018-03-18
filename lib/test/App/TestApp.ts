@@ -1,4 +1,5 @@
 process.env['DEBUG'] = 'srocket:*';
+require('tsconfig-paths/register');
 
 import { SRocket, Model, Route, Request, Response } from 'src/SRocket';
 import { RouteConfig, NestedRoute, ModelProp } from 'src/decorator';
@@ -43,7 +44,7 @@ class ModelRoute extends Route {
 			type: String, rules: [{
 				rule: jsV.contains,
 				args: ['patrick'],
-				message: 'The $property did not contain "Patrick"'
+				message: 'The $property did not contain "$arg1"'
 			}]
 		}
 	}
@@ -56,7 +57,7 @@ class DataRoute extends Route {
 
 	onValidationError(error: Error) {
 		console.log('"/param" -> Validation error caught!', error.message);
-		throw new Error('Custom error that should be caught be the internal error handler');
+		// throw new Error('Custom error that should be caught be the internal error handler');
 	}
 
 	on(req: Request<ModelRequest>, res: Response) {

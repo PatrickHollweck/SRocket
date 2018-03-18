@@ -32,29 +32,24 @@ Libs:
 		- Example of a simple middleware
 
 TODOS:
-	Folder Structure:
-		✔ Move all decorators to src/decorators @done (3/5/2018, 8:20:38 PM)
-
-	Unrelated:
-		☐ Disqus in docs ?
-		Loggers:
-			- https://www.npmjs.com/package/socketio-winston-logger
 
 	Features for srocket:
 		☐ Namespace handling
-		☐ Middlewares
+		✔ Middlewares @done (3/6/2018, 4:35:45 PM)
 		☐ Easy Synchronisation
 		☐ Wildcard Event -> Request placeholders -> Expose connection-disconnection... events.
-		☐ Routing -> With controllers ? ( Express like req, res objects ? )
 		☐ Redis integration?
 		☐ Add validation pipeline
 		☐ Cleanup validation code
-		☐ Find a way to have model files and have models assotiated with rules
 	
 	Docs:
+		☐ Update docs after refactor,
 		☐ Middleware docs.
 		☐ Write validation docs.
 		☐ Cover main entry point docs. 
+
+	Misc:
+		☐ Fancy Readme :) -> https://github.com/thoov/mock-socket
 
 	Impementation Details:
 		☐ Rethink what should be a default export
@@ -62,4 +57,4 @@ TODOS:
 		☐ Maybe use socket.io middlewares ?
 
 	Tests:
-		☐ Add tests :)
+		☐ Add more tests :)

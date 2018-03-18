@@ -18,26 +18,26 @@ export { Router, Route, Model, Validator, Response, Request };
 export class SRocket {
 
 	public router: Router;
+	public ioServer: SocketIOExt.Server;
 
-	protected io: SocketIOExt.Server;
 	protected config: SRocketConfig;
 
 	public constructor(config: SRocketConfig) {
-		this.io = sio();
+		this.ioServer = sio(config.serverConfig);
 		this.config = config;
-		this.router = new Router(this.io);
+		this.router = new Router(this.ioServer);
 	}
 
 	public listen(callback?: Function) {
-		this.io.use(sioWildcard());
+		this.ioServer.use(sioWildcard());
 
-		this.io.on('connection', socket => {
+		this.ioServer.on('connection', socket => {
 			socket.on('*', packet => {
 				this.router.route(packet, socket);
 			});
 		});
 
-		this.io.listen(this.config.port);
+		this.ioServer.listen(this.config.port);
 		if (callback) {
 			callback();
 		}
@@ -50,7 +50,7 @@ export class SRocket {
 	}
 
 	public shutdown() {
-		this.io.close();
+		this.ioServer.close();
 	}
 
 	public getConfig() {

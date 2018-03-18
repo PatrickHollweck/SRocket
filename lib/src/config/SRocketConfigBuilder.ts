@@ -7,8 +7,13 @@ export default class SRocketConfigBuilder {
 		this.config = config || new SRocketConfig();
 	}
 
-	public setPort(port: Number) {
+	public setPort(port: number) {
 		this.config.port = port;
+		return this;
+	}
+
+	public setSocketIOServerConfig(config: SocketIOExt.ServerOptions) {
+		this.config.serverConfig = config;
 		return this;
 	}
 

@@ -40,11 +40,12 @@ the data, it will automatically validate the data, and then eighter call the 'on
 !> This validation technique uses [this library](https://github.com/typestack/class-validator)
 
 ```ts
-import * as v from 'class-validatior';
+import { tsV, Request, Response, Route } from 'srocket';
+import { RouteConfig } from 'srocket/decorator';
 
 class AddUserRequestModel extends Model {
-	@v.isString({ message: 'The userID must be a string' })
-	@v.isDefined({ message: 'The userID must be defined' })
+	@tsV.isString({ message: 'The userID must be a string' })
+	@tsV.isDefined({ message: 'The userID must be defined' })
 	public userID: string;
 }
 
@@ -72,7 +73,8 @@ class AddUserRoute extends Route {
 
 // Even thought this might seem verbose, most of the properties in the data object are optional.
 
-import * as jv from 'validator';
+import { jsV, Request, Response, Route } from 'srocket';
+import { RouteConfig } from 'srocket/decorator';
 
 @RouteConfig({
 	route: '/param',
@@ -80,7 +82,7 @@ import * as jv from 'validator';
 		userName: {
 			type: String, 
 			rules: [{
-				rule: jv.contains,
+				rule: jsV.contains,
 				args: ['patrick'],
 				message: 'The $property did not contain "Patrick"'
 			}]

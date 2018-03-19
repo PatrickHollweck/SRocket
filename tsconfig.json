@@ -2,18 +2,21 @@
     "compilerOptions": {
         "lib": [
             "es2016", "dom"
-        ],
-        "target": "es2016",
+		],
+		"typeRoots": [
+			"./node_modules/@types"
+		],
+        "target": "es2015",
         "module": "commonjs",
 		"moduleResolution": "node",
-		"outDir": "./ts-out",
+		"outDir": "./dist",
 		"sourceMap": true,
+		"declaration": true,
 		"noEmitOnError": true,
         "allowSyntheticDefaultImports": true,
         "noLib": false,
         "noImplicitAny": false,
         "removeComments": true,
-        "allowJs": true,
         "noImplicitReturns": true,
         "diagnostics": true,
         "noImplicitThis": true,
@@ -21,20 +24,18 @@
         "strict": true,
         "pretty": true,
         "noFallthroughCasesInSwitch": true,
-		"checkJs": true,
 		"strictPropertyInitialization": false,
         "alwaysStrict": true,
         "emitDecoratorMetadata": true,
         "allowUnusedLabels": false,
         "allowUnreachableCode": false,
         "experimentalDecorators": true,
-		"types": ["node", "mocha", "chai", "lodash"],
-		"baseUrl": "lib"
+		"types": ["node", "mocha", "chai", "lodash", "socket.io"],
     },
     "exclude": [
 		"node_modules",
 		"testing",
-		"ts-out",
+		"dist",
         "vendor",
         "public",
         "build",

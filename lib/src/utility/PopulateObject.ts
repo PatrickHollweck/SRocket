@@ -1,6 +1,6 @@
-import { TypedPair } from 'src/structures/Pair';
-import { AbsentPropertyError } from 'src/errors/AbsentPropertyError';
-import { Newable } from 'src/structures/Newable';
+import { TypedPair } from '../structures/Pair';
+import { AbsentPropertyError } from '../errors/AbsentPropertyError';
+import { Newable } from '../structures/Newable';
 
 /**
  * Populdates a object with data from another object.

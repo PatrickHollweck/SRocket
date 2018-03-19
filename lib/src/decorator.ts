@@ -1,4 +1,4 @@
-import { ModelProp } from 'src/model/decorator/ModelProp';
-import { RouteConfig, NestedRoute } from 'src/router/decorator/Route';
+import { ModelProp } from './model/decorator/ModelProp';
+import { RouteConfig, NestedRoute } from './router/decorator/Route';
 
 export { RouteConfig, NestedRoute, ModelProp };

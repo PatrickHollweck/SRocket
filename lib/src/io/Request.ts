@@ -14,8 +14,4 @@ export default class Request<T = any> {
 		this.socket.join(roomName);
 		return this;
 	}
-
-	public joinNamespace(namespaceName: string) {
-		
-	}
 }

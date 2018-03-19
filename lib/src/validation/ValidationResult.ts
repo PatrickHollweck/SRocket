@@ -1,4 +1,4 @@
-import { ValidationStatus } from 'src/validation/ValidationStatus';
+import { ValidationStatus } from './ValidationStatus';
 
 export class ValidationResult<T = any> {
 	public target: T | null;

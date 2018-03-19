@@ -1,11 +1,11 @@
 process.env['DEBUG'] = 'srocket:*';
 require('tsconfig-paths/register');
 
-import { SRocket, Model, Route, Request, Response } from 'src/SRocket';
-import { RouteConfig, NestedRoute, ModelProp } from 'src/decorator';
-import { SRocketConfigBuilder } from 'src/config';
-import { BaseMiddleware } from 'src/middleware';
-import { tsV, jsV } from 'src/validation';
+import { SRocket, Model, Route, Request, Response } from '../../src/SRocket';
+import { RouteConfig, NestedRoute, ModelProp } from '../../src/decorator';
+import { SRocketConfigBuilder } from '../../src/config';
+import { MiddlewareBase } from '../../src/middleware/MiddlewareBase';
+import { tsV, jsV } from '../../src/validation/Validator';
 
 // NOTE: Before I get to writing proper tests use this tool: http://amritb.github.io/socketio-client-tool/
 
@@ -65,7 +65,7 @@ class DataRoute extends Route {
 	}
 }
 
-class SampleMiddleware extends BaseMiddleware {
+class SampleMiddleware extends MiddlewareBase {
 	beforeEventCall() {
 		console.log('BEFORE EVENT - Called by "SampleMiddleware"');
 	}

@@ -1,5 +1,5 @@
-import SRocketConfig from 'src/config/SRocketConfig';
-import SRocketConfigBuilder from 'src/config/SRocketConfigBuilder';
+import SRocketConfig from './config/SRocketConfig';
+import SRocketConfigBuilder from './config/SRocketConfigBuilder';
 
 export {
 	SRocketConfig,

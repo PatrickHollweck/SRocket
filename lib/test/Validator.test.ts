@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
-import { Validator } from 'src/validation/Validator';
-import { ValidationContext } from 'src/validation/ValidationContext';
+import { Validator } from '../src/validation/Validator';
+import { ValidationContext } from '../src/validation/ValidationContext';
 
 describe('The Validator', () => {
 	describe('Message parsing', () => {

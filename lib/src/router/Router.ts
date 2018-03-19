@@ -1,23 +1,23 @@
 import * as _ from 'lodash';
 import * as ClassValidator from 'class-validator';
-import * as RouteDecorator from 'src/router/decorator/Route';
+import * as RouteDecorator from '../router/decorator/Route';
 
-import { Validator, ValidationContext, ValidationResult } from 'src/validation/Validator';
-import { RouteConfig, RuleType } from 'src/router/RouteConfig';
-import { AbsentPropertyError } from 'src/errors/AbsentPropertyError';
-import { ValidationError } from 'src/errors/ValidationError';
-import { populateObject } from 'src/utility/PopulateObject';
-import { InternalRoute } from 'src/router/InternalRoute';
-import { getModelProps } from 'src/model/decorator/ModelProp';
-import { TypedPair } from 'src/structures/Pair';
-import { Newable } from 'src/structures/Newable';
+import { Validator, ValidationContext, ValidationResult } from '../validation/Validator';
+import { RouteConfig, RuleType } from '../router/RouteConfig';
+import { AbsentPropertyError } from '../errors/AbsentPropertyError';
+import { ValidationError } from '../errors/ValidationError';
+import { populateObject } from '../utility/PopulateObject';
+import { InternalRoute } from '../router/InternalRoute';
+import { getModelProps } from '../model/decorator/ModelProp';
+import { TypedPair } from '../structures/Pair';
+import { Newable } from '../structures/Newable';
 
-import CallbackCollection from 'src/utility/CallbackCollection';
-import Metadata from 'src/utility/Metadata';
-import Response from 'src/io/Response';
-import Request from 'src/io/Request';
-import Route from 'src/router/Route';
-import Model from 'src/model/Model';
+import CallbackCollection from '../utility/CallbackCollection';
+import Metadata from '../utility/Metadata';
+import Response from '../io/Response';
+import Request from '../io/Request';
+import Route from '../router/Route';
+import Model from '../model/Model';
 
 const debug = require('debug')('srocket:Router');
 

@@ -1,4 +1,4 @@
-import SRocketConfig from 'src/config/SRocketConfig';
+import SRocketConfig from './SRocketConfig';
 
 export default class SRocketConfigBuilder {
 	private config: SRocketConfig;

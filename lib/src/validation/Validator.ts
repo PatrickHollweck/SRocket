@@ -2,11 +2,11 @@ import * as _ from 'lodash';
 import * as ClassValidator from 'class-validator';
 import * as jsValidator from 'validator';
 
-import { TypedPair } from 'src/structures/Pair';
+import { TypedPair } from '../structures/Pair';
 import { ValidationError } from '../errors/ValidationError';
-import { ValidationResult } from 'src/validation/ValidationResult';
-import { ValidationContext } from 'src/validation/ValidationContext';
-import { ValidationStatus } from 'src/validation/ValidationStatus';
+import { ValidationResult } from './ValidationResult';
+import { ValidationContext } from './ValidationContext';
+import { ValidationStatus } from './ValidationStatus';
 
 export { ValidationResult, ValidationContext, ValidationError, ValidationStatus };
 

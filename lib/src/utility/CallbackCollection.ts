@@ -1,4 +1,4 @@
-import { TypedPair } from 'src/structures/Pair';
+import { TypedPair } from '../structures/Pair';
 
 export default class CallbackCollection {
 	protected collections: Array<TypedPair<string, Array<Function>>>;

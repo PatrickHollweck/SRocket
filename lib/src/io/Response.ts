@@ -1,5 +1,5 @@
 import { StatusCode } from './StatusCode';
-import { InternalRoute } from 'src/router/InternalRoute';
+import { InternalRoute } from '../router/InternalRoute';
 
 export default class Response<T = any> {
 	protected statusCode: number;

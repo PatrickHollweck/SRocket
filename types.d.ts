@@ -2,7 +2,6 @@
 
 declare namespace SocketIOExt {
     export interface Server extends SocketIO.Server { }
-
     export interface Socket extends SocketIO.Socket { }
     export interface Adapter extends SocketIO.Adapter { }
     export interface EngineSocket extends SocketIO.EngineSocket { }

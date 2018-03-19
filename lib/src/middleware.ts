@@ -1,5 +1,5 @@
-import BaseMiddleware from 'src/Middleware/BaseMiddleware';
+import { MiddlewareBase } from './Middleware/MiddlewareBase';
 
 export {
-	BaseMiddleware
-}
+	MiddlewareBase
+};

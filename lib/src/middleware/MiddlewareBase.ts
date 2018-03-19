@@ -1,4 +1,4 @@
-export default abstract class MiddlewareBase {
+export abstract class MiddlewareBase {
 	onEventValidationError() { }
 	beforeEventCall() { }
 	afterEventCall() { }

@@ -5,18 +5,24 @@
 
 ### Setup
 
-The easiest way to get started is to install the SRocket [npm package](/) ( Unavailable while not released! ) or via this command ``` npm install srocket typescript --save ```.
+The easiest way to get started is to install the SRocket [npm package](https://www.npmjs.com/package/srocket)
+or via this command 
+
+``` npm install srocket typescript --save ```
+
+
 After installing the npm package create a ``` main.ts ``` file.
 
 ### A basic Server
 
 SRocket gets alot of its ideas from frameworks like express so starting a app is very simular to how you would do it in express.
 
-```ts
-import SRocket from 'src/SRocket';
-import SRocketConfigBuilder from 'src/SRocketConfigBuilder'
+> A note about imports: Everything you will want to use from srocket is exported directly from the 'srocket' packet!
 
-const config = new SRocketConfigBuilder()
+```ts
+import { SRocket, ConfigBuilder } from 'srocket';
+
+const config = new ConfigBuilder()
 			.setPort(8080)
 			.build();
 
@@ -38,8 +44,10 @@ which you register in your app. Routes in SRocket are just like regular http rou
 A basic route looks like this:
 
 ```ts
+import { RouteConfig, Route, Request, Response } from "srocket"
+
 @RouteConfig({
-	route: '/users'
+	path: '/users'
 })
 class GetUsersRoute extends Route {
 	on(req: Request, res: Response) {
@@ -57,7 +65,7 @@ many more options especially for validation but we will explore these later.
 To register routes insert this function call before the listen call of the above snippet.
 
 ```ts
-srocket.router.register(Route)
+srocket.router.register(GetUsersRoute)
 ```
 
 ### Clientside usage.
@@ -92,3 +100,7 @@ After the client emit you should see this output:
 ```Output
 >>> Call to /users
 ```
+
+### Where to go from here ?
+
+You now should have a basic understanding of the framework, but there is still alot to learn. Check out the more specific docs at the ```Guide``` section on the navigator on the left side.

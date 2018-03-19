@@ -14,7 +14,7 @@ allows you to define some type and validation metadata in the ``` @RouteConfig `
 SRocket makes validation easy, you just have to give it the general layout of the data, and when it recieves
 the data, it will automatically validate the data, and then eighter call the 'on' method with the validated data, when the validation succeded, or the 'onValidationError' method when the validation failed.
 
-> Author note: In my opinion you should use model based validation, the trade-off is typesafety for verbosity
+> Author note: In my opinion you should use model based validation, the trade-off is typesafety for verbosity, You can use parameter validation for quick routes and examples.
 
 1. Model based validation - [example](/validation?id=model-based-validation) - [Documentation page](/model-validation)
 	- Advantages
@@ -32,6 +32,13 @@ the data, it will automatically validate the data, and then eighter call the 'on
 		- Uses a custom validation system written from the SRocket authors which may not be as full-featured.
 		- Can not be reused with the frontend,
 		- Can not use any model class based advantages.
+
+
+### What is the ```jsV``` and ```tsV``` ?
+
+The basic principle of validation is using the ```tsV``` or the ```jsV``` object. These objects can be imported from srocket directly. And refer to an instance internally used by the framework.
+````tsV``` is the Typescript Validator and ```jsV``` the javascript validator, Typescript validation is used for Model Validation and the js validator is used for parameter validation.
+Each of those object have validation methods which you can look up at the librarys websites. ( Link to the librarys included below! )
 
 ### Examples
 

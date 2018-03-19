@@ -46,7 +46,8 @@ TODOS:
 		☐ Update docs after refactor,
 		☐ Middleware docs.
 		☐ Write validation docs.
-		☐ Cover main entry point docs. 
+		☐ Cover main entry point docs.
+		☐ Write a section for recomended configs -> tsconfig - tslint...
 
 	Misc:
 		☐ Fancy Readme :) -> https://github.com/thoov/mock-socket

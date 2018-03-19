@@ -9,27 +9,26 @@ The Router is the main selling point of SRocket. It can be used to make your app
 First lets get a basic example of a Route down.
 
 ```ts
-import Route from "src/router/route";
-import { RouteConfig, NestedRoute } from 'src/decorator/Route';
+import { Route, RouteConfig } from 'srocket';
 
 class PlayerUpdateRoute extends Route {} 
 ```
 
 This is the most basic route there is, it does no more than exist, but it will be used in this tutorial as a base.
 
-##### The Route Decorator
+#### The Route Decorator
 
 Now the first step to make a route come alive is to add a RouteConfig decorator.
 
 ```ts
 @RouteConfig({
-	route: 'player-update'
+	path: 'player-update'
 })
 class PlayerUpdateRoute extends Route {}
 ```
 
 As you can see the decorator, is applied above the class, it will be used internally to route any incomming packets.
-The decorator accepts a object with various properties, the property set in the above example is the ``` route ``` parameter, it must be set,
+The decorator accepts a object with various properties, the property set in the above example is the ``` path ``` parameter, it must be set,
 since the framework wouldnt know how to route a packet to this event otherwise. 
 
 Note that there are no rules for how you should name you route, you decide whats best for your project.
@@ -47,28 +46,24 @@ To follow this guide you only need to know of the two main route-methods, 'on' a
 
 > For a detailed overview visit [this](route-methods.md) documentation page.
 
-##### Completing the Route.
+#### Completing the Route.
 
 Now you should have a basic overview of how routes work, there is still more, find it under the 'Router' section in the sidebar.
 
 To finish up this guide, lets see how a complete route with validation looks like.
 
 ```ts
-import Route from "src/router/route";
-import { RouteConfig, NestedRoute } from 'src/decorator/Route';
-import { ModelProp } from 'src/decorator/model';
-
-import * as v from 'class-validator';
+import { tsV, Route, RouteConfig, Request, Response, ModelProp } from "srocket";
 
 class SomeRouteRequestModel {
 	@ModelProp()
-	@v.isDefined({ message: 'The userName must be defined!' })
-	@v.isString({ message: 'The userName must be typeof string!' })
+	@tsV.isDefined({ message: 'The userName must be defined!' })
+	@tsV.isString({ message: 'The userName must be typeof string!' })
 	public userName: string;
 }
 
 @RouteConfig({
-	route: 'some-event',
+	path: 'some-event',
 	model: SomeRouteRequestModel
 })
 class SomeRoute extends Route {

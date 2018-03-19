@@ -80,7 +80,7 @@ export class Router {
 
 		if (nestedRoutes.length > 0) {
 			for (const nestedRoute of nestedRoutes) {
-				nestedRoute.key.route = internalRoute.getRoutePath() + nestedRoute.key.route;
+				nestedRoute.key.path = internalRoute.getRoutePath() + nestedRoute.key.path;
 				this.register(nestedRoute.value, nestedRoute.key);
 			}
 		}

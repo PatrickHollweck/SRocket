@@ -13,7 +13,7 @@ import {
 	Model,
 	MiddlewareBase,
 	NestedRoute,
-} from '../../src/index';
+} from './../../src/';
 
 // NOTE: Before I get to writing proper tests use this tool: http://amritb.github.io/socketio-client-tool/
 
@@ -32,7 +32,7 @@ class ModelRequest extends Model {
 }
 
 @RouteConfig({
-	route: '/model',
+	path: '/model',
 	model: ModelRequest
 })
 class ModelRoute extends Route {
@@ -46,7 +46,7 @@ class ModelRoute extends Route {
 }
 
 @RouteConfig({
-	route: '/param',
+	path: '/param',
 	data: {
 		userName: {
 			type: String, rules: [{

@@ -1,10 +1,11 @@
 # SRocket
 > SRocket ( short for: SocketRocket ) is a batteries-included, opinionated socket.io framework written in typescript.
 
+You may want to continue to this [Quick start guide](quickstart.md)
 
 ## Disclaimer
 
-!> SRocket is still under heavy construction! When the framework is released there will be a npm-package, and maybe even a cli, since SRocket is very opinionated.
+!> SRocket is still under heavy construction!
 While reading the documentation keep in mind that the structure and the api may change at every point in time. 
 Currently the easiest way to start using the framework is to copy it from source!
 
@@ -19,5 +20,3 @@ make code orgainstation a breez and the support for typescript and model based v
 - Builtin validation.
 - Typesafe by nature since its written in typescript
 - Fully extensible with access to the lower level parts and middlewares.
-
-> Continue to a [Get Started guide](quickstart.md)

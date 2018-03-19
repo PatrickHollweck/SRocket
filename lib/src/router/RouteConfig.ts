@@ -16,7 +16,7 @@ export type RuleType = {
 };
 
 export type RouteConfig = {
-	route: string;
+	path: string;
 	model?: Newable<Model>;
 	data?: RuleType;
 };

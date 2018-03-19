@@ -1,15 +1,23 @@
 process.env['DEBUG'] = 'srocket:*';
-require('tsconfig-paths/register');
 
-import { SRocket, Model, Route, Request, Response } from '../../src/SRocket';
-import { RouteConfig, NestedRoute, ModelProp } from '../../src/decorator';
-import { SRocketConfigBuilder } from '../../src/config';
-import { MiddlewareBase } from '../../src/middleware/MiddlewareBase';
-import { tsV, jsV } from '../../src/validation/Validator';
+import {
+	SRocket,
+	ConfigBuilder,
+	Config,
+	ModelProp,
+	tsV, jsV,
+	RouteConfig,
+	Request,
+	Response,
+	Route,
+	Model,
+	MiddlewareBase,
+	NestedRoute,
+} from '../../src/index';
 
 // NOTE: Before I get to writing proper tests use this tool: http://amritb.github.io/socketio-client-tool/
 
-const config = new SRocketConfigBuilder()
+const config = new ConfigBuilder()
 	.setPort(1340)
 	.build();
 

@@ -1,10 +1,10 @@
-import SRocketConfig from './SRocketConfig';
+import { Config } from './Config';
 
-export default class SRocketConfigBuilder {
-	private config: SRocketConfig;
+export class ConfigBuilder {
+	private config: Config;
 
-	constructor(config?: SRocketConfig) {
-		this.config = config || new SRocketConfig();
+	constructor(config?: Config) {
+		this.config = config || new Config();
 	}
 
 	public setPort(port: number) {

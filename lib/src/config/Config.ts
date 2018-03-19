@@ -1,4 +1,4 @@
-export default class SRocketConfig {
+export class Config {
 	public port: number;
 	public serverConfig: SocketIO.ServerOptions;
 

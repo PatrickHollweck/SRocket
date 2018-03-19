@@ -1,7 +1,7 @@
-import { StatusCode } from './StatusCode';
+import { StatusCodes } from './StatusCode';
 import { InternalRoute } from '../router/InternalRoute';
 
-export default class Response<T = any> {
+export class Response<T = any> {
 	protected statusCode: number;
 	protected data?: T;
 	protected payloadMessage: string;
@@ -49,7 +49,7 @@ export default class Response<T = any> {
 
 	public error(error: Error) {
 		if (this.getStatus() < 499) {
-			this.status(StatusCode.INTERNAL_SERVER_ERROR);
+			this.status(StatusCodes.INTERNAL_SERVER_ERROR);
 		}
 
 		this.message(error.message).relay();

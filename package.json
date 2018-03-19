@@ -1,58 +1,66 @@
 {
     "name": "srocket",
     "version": "1.0.6",
-    "description": "A opinionated typesafe socket.io framework",
     "scripts": {
         "test": "gulp",
-        "start": "nodemon --exec ts-node -r tsconfig-paths/register ./lib/test/App/TestApp.ts",
-		"build:production": "tsc",
-		"build:clean": "IF EXIST dist rmdir dist /s /q",
-		"docs:serve": "docsify serve ./docs",
-		"release:pre": "echo Make sure you are in the ROOT Directory of the project! && npm run build:clean && npm run build:production && npm run release:copy-package",
-		"release:publish": "cd ./dist/src/ && npm publish && cd ../../ echo PUBLISHED!",
-		"release:copy-package": "copy \"./package.json\" \"./dist/src/package.json\"",
-		"release:justdoit": "npm run release:pre && npm run release:publish"
+        "start": "nodemon --exec ts-node ./tlib/test/App/TestApp.ts",
+        "build:production": "tsc",
+        "build:clean": "IF EXIST dist rmdir dist /s /q",
+        "docs:serve": "docsify serve ./docs",
+        "release:pre": "echo Make sure you are in the ROOT Directory of the project! && npm run build:clean && npm run build:production && npm run release:copy-package",
+        "release:publish": "cd ./dist/src/ && npm publish && cd ../../ echo PUBLISHED!",
+        "release:copy-package": "copy \"./package.json\" \"./dist/src/package.json\"",
+        "release:justdoit": "npm run release:pre && npm run release:publish"
     },
-    "author": "Patrick Hollweck <patrick-hollweck@gmx.de>",
-    "keywords": [
-        "socket.io",
-        "srocket"
-	],
-	"main": "./index.js",
-	"types": "./index.d.ts",
-    "license": "https://github.com/FetzenRndy/SRocket/blob/master/LICENSE",
-    "repository": {
-        "type": "GitHub",
-        "url": "https://github.com/FetzenRndy/SRocket"
-    },
+    "main": "./index.js",
+    "types": "./index.d.ts",
     "dependencies": {
-		"@types/node": "^9.4.6",
-		"@types/socket.io": "^1.4.31",
-		"@types/socket.io-client": "^1.4.32",
-		"@types/validator": "^9.4.0",
+        "@types/node": "^9.4.6",
+        "@types/socket.io": "^1.4.31",
+        "@types/socket.io-client": "^1.4.32",
+        "@types/validator": "^9.4.0",
         "socket.io": "^2.0.4",
         "socket.io-client": "^2.0.4",
         "socketio-wildcard": "^2.0.0",
         "validator": "^9.4.1",
-        "class-validator": "^0.8.1",
+        "class-validator": "^0.8.4",
         "typescript": "^2.7.2",
-		"reflect-metadata": "^0.1.12"
+        "reflect-metadata": "^0.1.12"
     },
     "devDependencies": {
-		"@types/lodash": "4.14.102",
-		"@types/mocha": "2.2.48",
-		"@types/chai": "^4.1.2",
+        "@types/lodash": "4.14.105",
+        "@types/mocha": "2.2.48",
+        "@types/chai": "^4.1.2",
         "chai": "^4.1.2",
-        "docsify": "^4.6.8",
-        "docsify-cli": "^4.2.0",
+        "docsify": "^4.6.9",
+        "docsify-cli": "^4.2.1",
         "gulp": "^3.9.1",
         "gulp-mocha": "^5.0.0",
         "lodash": "^4.17.5",
-        "mocha": "^5.0.2",
+        "mocha": "^5.0.4",
         "mock-socket": "^7.1.0",
         "ts-node": "^5.0.1"
     },
     "engines": {
         "node": ">=4.2.4"
-    }
+    },
+    "description": "A opinionated typesafe socket.io framework",
+    "author": "Patrick Hollweck <patrick-hollweck@gmx.de>",
+    "homepage": "https://fetzenrndy.github.io/SRocket/#/",
+    "license": "https://github.com/FetzenRndy/SRocket/blob/master/LICENSE",
+    "bugs": {
+        "url": "https://github.com/FetzenRndy/SRocket/issues",
+        "email": "patrick-hollweck@gmx.de"
+    },
+    "repository": {
+        "type": "GitHub",
+        "url": "https://github.com/FetzenRndy/SRocket"
+    },
+    "keywords": [
+        "socket.io",
+        "srocket",
+        "realtime",
+        "typescript",
+        "framework"
+    ]
 }

@@ -1,5 +1,4 @@
-
-export default class Request<T = any> {
+export class Request<T = any> {
 	public socket: SocketIOExt.Socket;
 	public packet: SocketIOExt.Packet;
 	public data: T;

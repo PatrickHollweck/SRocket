@@ -5,19 +5,18 @@ import * as RouteDecorator from '../router/decorator/Route';
 import { Validator, ValidationContext, ValidationResult } from '../validation/Validator';
 import { RouteConfig, RuleType } from '../router/RouteConfig';
 import { AbsentPropertyError } from '../errors/AbsentPropertyError';
+import { CallbackCollection } from '../utility/CallbackCollection';
 import { ValidationError } from '../errors/ValidationError';
 import { populateObject } from '../utility/PopulateObject';
 import { InternalRoute } from '../router/InternalRoute';
 import { getModelProps } from '../model/decorator/ModelProp';
 import { TypedPair } from '../structures/Pair';
+import { Response } from '../io/Response';
+import { Metadata } from '../utility/Metadata';
+import { Request } from '../io/Request';
 import { Newable } from '../structures/Newable';
-
-import CallbackCollection from '../utility/CallbackCollection';
-import Metadata from '../utility/Metadata';
-import Response from '../io/Response';
-import Request from '../io/Request';
-import Route from '../router/Route';
-import Model from '../model/Model';
+import { Route } from '../router/Route';
+import { Model } from '../model/Model';
 
 const debug = require('debug')('srocket:Router');
 
@@ -30,7 +29,7 @@ export enum RouterCallbackType {
 }
 
 // TODO: Allow to pass arguments to the route constructor;
-export default class Router {
+export class Router {
 	protected routes: InternalRoute[];
 	protected server: SocketIOExt.Server;
 	protected callbacks: CallbackCollection;

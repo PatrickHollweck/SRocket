@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 
-export default class Metadata {
+export class Metadata {
 	public static getPropertyDecorator(decoratorKey: Symbol, target: any, property: string) {
 		return Reflect.getMetadata(decoratorKey, target, property);
 	}

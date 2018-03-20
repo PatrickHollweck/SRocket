@@ -17,6 +17,6 @@ export class InternalRoute extends Route {
 	}
 
 	public getRoutePath() {
-		return this.config.route;
+		return this.config.path;
 	}
 }

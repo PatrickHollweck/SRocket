@@ -15,6 +15,8 @@ import {
 	NestedRoute,
 } from './../../src/';
 
+import { createHandyClient } from 'handy-redis';
+
 // NOTE: Before I get to writing proper tests use this tool: http://amritb.github.io/socketio-client-tool/
 
 const config = new ConfigBuilder()
@@ -68,7 +70,7 @@ class DataRoute extends Route {
 		// throw new Error('Custom error that should be caught be the internal error handler');
 	}
 
-	on(req: Request<ModelRequest>, res: Response) {
+	async on(req: Request<ModelRequest>, res: Response) {
 		console.log('GOT CALL TO: /param -> with: ', req.data);
 	}
 }

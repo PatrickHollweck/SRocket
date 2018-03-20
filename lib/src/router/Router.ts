@@ -7,6 +7,7 @@ import { RouteConfig, RuleType } from '../router/RouteConfig';
 import { AbsentPropertyError } from '../errors/AbsentPropertyError';
 import { CallbackCollection } from '../utility/CallbackCollection';
 import { ValidationError } from '../errors/ValidationError';
+import { isAsyncFunction } from 'is-async-function';
 import { populateObject } from '../utility/PopulateObject';
 import { InternalRoute } from '../router/InternalRoute';
 import { getModelProps } from '../model/decorator/ModelProp';
@@ -135,7 +136,7 @@ export class Router {
 					try {
 						this.callbacks.executeFor(RouterCallbackType.BEFORE_EVENT);
 						instance.before(request, response);
-						instance.on(request, response);
+						new Promise((innerResolve, innerReject) => instance.on(request, response)).then();
 						instance.after(request, response);
 						this.callbacks.executeFor(RouterCallbackType.AFTER_EVENT);
 					} catch (error) {

@@ -9,6 +9,6 @@ export abstract class Route {
 	onError(error: Error, request: Request, response: Response) { }
 
 	before(request: Request, response: Response) { }
-	on(request: Request, response: Response) { }
+	on(request: Request, response: Response) : void | Promise<void> { }
 	after(request: Request, response: Response) { }
 }

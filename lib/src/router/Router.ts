@@ -7,7 +7,6 @@ import { RouteConfig, RuleType } from '../router/RouteConfig';
 import { AbsentPropertyError } from '../errors/AbsentPropertyError';
 import { CallbackCollection } from '../utility/CallbackCollection';
 import { ValidationError } from '../errors/ValidationError';
-import { isAsyncFunction } from 'is-async-function';
 import { populateObject } from '../utility/PopulateObject';
 import { InternalRoute } from '../router/InternalRoute';
 import { getModelProps } from '../model/decorator/ModelProp';

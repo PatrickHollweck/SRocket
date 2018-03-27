@@ -1,5 +1,5 @@
-import { StatusCodes } from './StatusCode';
-import { InternalRoute } from '../router/InternalRoute';
+import { StatusCodes } from "./StatusCode";
+import { InternalRoute } from "../router/InternalRoute";
 
 export class Response<T = any> {
 	protected statusCode: number;
@@ -9,11 +9,15 @@ export class Response<T = any> {
 	protected route: InternalRoute;
 	protected server: SocketIOExt.Server;
 
-	constructor(socket: SocketIOExt.Socket, route: InternalRoute, server: SocketIOExt.Server) {
+	constructor(
+		socket: SocketIOExt.Socket,
+		route: InternalRoute,
+		server: SocketIOExt.Server
+	) {
 		this.socket = socket;
 		this.server = server;
 
-		this.payloadMessage = '';
+		this.payloadMessage = "";
 		this.statusCode = 200;
 		this.route = route;
 	}
@@ -67,19 +71,27 @@ export class Response<T = any> {
 
 	public toAllInRoom_ExceptSender(roomName: string) {
 		// TODO: Support emit to multiple rooms -> Builder ?
-		this.socket.to(roomName).emit(this.getEventRoute(), this.formatPayload());
+		this.socket
+			.to(roomName)
+			.emit(this.getEventRoute(), this.formatPayload());
 	}
 
 	public toAllInRoom(roomName: string) {
-		this.server.in(roomName).emit(this.getEventRoute(), this.formatPayload());
+		this.server
+			.in(roomName)
+			.emit(this.getEventRoute(), this.formatPayload());
 	}
 
-	public toAllInNamespace(namespaceName: string = '/') {
-		this.server.of(namespaceName).emit(this.getEventRoute(), this.formatPayload());
+	public toAllInNamespace(namespaceName: string = "/") {
+		this.server
+			.of(namespaceName)
+			.emit(this.getEventRoute(), this.formatPayload());
 	}
 
 	public toIndividualSocket(socketID: string) {
-		this.socket.to(socketID).emit(this.getEventRoute(), this.formatPayload());
+		this.socket
+			.to(socketID)
+			.emit(this.getEventRoute(), this.formatPayload());
 	}
 
 	// -- Misc Getters.
@@ -92,14 +104,14 @@ export class Response<T = any> {
 	// -- Private Helpers
 
 	protected getEventRoute() {
-		return this.route.config.route;
+		return this.route.config.path;
 	}
 
 	protected formatPayload() {
 		return {
 			message: this.getMessage(),
 			status: this.getStatus(),
-			payload: this.getData(),
+			payload: this.getData()
 		};
 	}
 }

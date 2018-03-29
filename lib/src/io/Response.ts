@@ -2,6 +2,7 @@ import { StatusCodes } from "./StatusCode";
 import { InternalRoute } from "../router/InternalRoute";
 
 export class Response<T = any> {
+	protected emitEventName: string;
 	protected statusCode: number;
 	protected data?: T;
 	protected payloadMessage: string;
@@ -23,6 +24,11 @@ export class Response<T = any> {
 	}
 
 	// -- Fluent properties.
+
+	public eventName(eventName: string) {
+		this.emitEventName = eventName;
+		return this;
+	}
 
 	public status(code: number) {
 		this.statusCode = code;
@@ -104,7 +110,11 @@ export class Response<T = any> {
 	// -- Private Helpers
 
 	protected getEventRoute() {
-		return this.route.config.path;
+		if (!this.emitEventName) {
+			return this.route.config.path;
+		} else {
+			return this.emitEventName;
+		}
 	}
 
 	protected formatPayload() {

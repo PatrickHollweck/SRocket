@@ -1,45 +1,41 @@
 {
-    "compilerOptions": {
-        "lib": [
-            "es2016", "dom"
-		],
-		"typeRoots": [
-			"./node_modules/@types"
-		],
-        "target": "es2015",
-        "module": "commonjs",
+	"compilerOptions": {
+		"lib": ["es2016", "dom"],
+		"typeRoots": ["node_modules/@types", "./typings"],
+		"target": "es2015",
+		"module": "commonjs",
 		"moduleResolution": "node",
 		"outDir": "./dist",
 		"sourceMap": true,
 		"declaration": true,
 		"noEmitOnError": true,
-        "allowSyntheticDefaultImports": true,
-        "noLib": false,
-        "noImplicitAny": false,
-        "removeComments": true,
-        "noImplicitReturns": true,
-        "diagnostics": true,
-        "noImplicitThis": true,
-        "strictNullChecks": true,
-        "strict": true,
-        "pretty": true,
-        "noFallthroughCasesInSwitch": true,
+		"allowSyntheticDefaultImports": true,
+		"noLib": false,
+		"noImplicitAny": false,
+		"removeComments": true,
+		"noImplicitReturns": true,
+		"diagnostics": true,
+		"noImplicitThis": true,
+		"strictNullChecks": true,
+		"strict": true,
+		"pretty": true,
+		"noFallthroughCasesInSwitch": true,
 		"strictPropertyInitialization": false,
-        "alwaysStrict": true,
-        "emitDecoratorMetadata": true,
-        "allowUnusedLabels": false,
-        "allowUnreachableCode": false,
-        "experimentalDecorators": true,
-		"types": ["node", "mocha", "chai", "lodash", "socket.io"],
-    },
-    "exclude": [
+		"alwaysStrict": true,
+		"emitDecoratorMetadata": true,
+		"allowUnusedLabels": false,
+		"allowUnreachableCode": false,
+		"experimentalDecorators": true,
+		"types": ["node", "mocha", "chai", "lodash", "socket.io"]
+	},
+	"exclude": [
 		"node_modules",
 		"testing",
 		"dist",
-        "vendor",
-        "public",
-        "build",
-        "config",
-        "**/*.spec.ts"
-    ]
+		"vendor",
+		"public",
+		"build",
+		"config",
+		"**/*.spec.ts"
+	]
 }

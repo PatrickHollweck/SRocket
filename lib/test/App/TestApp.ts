@@ -62,25 +62,20 @@ class ModelRoute extends Route {
 	}
 })
 class DataRoute extends Route {
-	@NestedRoute({
-		path: ".no"
-	})
-	nested = class extends Route {
-		on() {
-			console.log("GOT IT!!!");
-		}
-	};
-
 	onError(e: Error, req: Request, res: Response) {
 		console.log('Internal Error caught in "/param" -> ', e.message);
 	}
 
 	onValidationError(error: Error) {
 		console.log('"/param" -> Validation error caught!', error.message);
-		// throw new Error('Custom error that should be caught be the internal error handler');
 	}
 
-	async on(req: Request<ModelRequest>, res: Response) {
+	on(req: Request<ModelRequest>, res: Response) {
+		res
+			.eventName("some-event")
+			.withData({ hello: "world" })
+			.relay();
+
 		console.log("GOT CALL TO: /param -> with: ", req.data);
 	}
 }

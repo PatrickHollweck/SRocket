@@ -34,8 +34,11 @@ Libs:
 TODOS:
 
 	Features for srocket:
+		☐ Better defaults for error handling.
 		☐ Namespace handling
 		✔ Middlewares @done (3/6/2018, 4:35:45 PM)
+		☐ Better namespaceing support.
+		☐ Handle rooms better.
 		☐ Easy Synchronisation
 		☐ Wildcard Event -> Request placeholders -> Expose connection-disconnection... events.
 		☐ Redis integration?
@@ -57,5 +60,5 @@ TODOS:
 		☐ IOC Container
 		☐ Maybe use socket.io middlewares ?
 
-	Tests:
+	Test:
 		☐ Add more tests :)

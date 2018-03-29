@@ -171,7 +171,7 @@ export class Router {
 			const instance = route.getInstance();
 			const response = new Response(socket, route, this.server);
 
-			const execute = validationResult => {
+			const execute = async validationResult => {
 				if (validationResult.didFail()) {
 					this.triggerValidationError(
 						route,
@@ -189,11 +189,11 @@ export class Router {
 						this.callbacks.executeFor(
 							RouterCallbackType.BEFORE_EVENT
 						);
-						instance.before(request, response);
-						new Promise((innerResolve, innerReject) =>
-							instance.on(request, response)
-						).then();
-						instance.after(request, response);
+
+						await instance.before(request, response);
+						await instance.on(request, response);
+						await instance.after(request, response);
+
 						this.callbacks.executeFor(
 							RouterCallbackType.AFTER_EVENT
 						);
@@ -259,6 +259,7 @@ export class Router {
 		expectedArgs: RuleType,
 		packet: SocketIOExt.Packet
 	): Promise<ValidationResult> {
+		// TODO: This is ugly. Please look away.
 		return new Promise((resolve, reject) => {
 			// TODO: Build wrapper on top of sio.packet...
 			// TODO: Outsource this to the Validator class.

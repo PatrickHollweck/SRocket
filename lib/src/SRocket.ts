@@ -1,12 +1,14 @@
-import * as sio from 'socket.io';
-import * as sioWildcard from 'socketio-wildcard';
+// tslint:disable-next-line:no-reference
+/// <reference path="./typings/types.d.ts" />
 
-import { MiddlewareBase } from './Middleware/MiddlewareBase';
-import { Config, ConfigBuilder } from './config';
-import { Router, RouterCallbackType } from './router/Router';
+import * as sio from "socket.io";
+import * as sioWildcard from "socketio-wildcard";
+
+import { MiddlewareBase } from "./Middleware/MiddlewareBase";
+import { Config, ConfigBuilder } from "./config";
+import { Router, RouterCallbackType } from "./router/Router";
 
 export class SRocket {
-
 	public router: Router;
 	public ioServer: SocketIOExt.Server;
 
@@ -21,8 +23,8 @@ export class SRocket {
 	public listen(callback?: Function) {
 		this.ioServer.use(sioWildcard());
 
-		this.ioServer.on('connection', socket => {
-			socket.on('*', packet => {
+		this.ioServer.on("connection", socket => {
+			socket.on("*", packet => {
 				this.router.route(packet, socket);
 			});
 		});
@@ -34,9 +36,18 @@ export class SRocket {
 	}
 
 	public use(middleware: MiddlewareBase) {
-		this.router.registerCallback(RouterCallbackType.VALIDATION_ERROR, middleware.onEventValidationError);
-		this.router.registerCallback(RouterCallbackType.BEFORE_EVENT, middleware.beforeEventCall);
-		this.router.registerCallback(RouterCallbackType.AFTER_EVENT, middleware.afterEventCall);
+		this.router.registerCallback(
+			RouterCallbackType.VALIDATION_ERROR,
+			middleware.onEventValidationError
+		);
+		this.router.registerCallback(
+			RouterCallbackType.BEFORE_EVENT,
+			middleware.beforeEventCall
+		);
+		this.router.registerCallback(
+			RouterCallbackType.AFTER_EVENT,
+			middleware.afterEventCall
+		);
 	}
 
 	public shutdown() {

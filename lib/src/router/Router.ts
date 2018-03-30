@@ -7,11 +7,13 @@ import {
 	ValidationContext,
 	ValidationResult
 } from "../validation/Validator";
+
 import { RouteConfig, RuleType } from "../router/RouteConfig";
 import { AbsentPropertyError } from "../errors/AbsentPropertyError";
 import { CallbackCollection } from "../utility/CallbackCollection";
 import { ValidationError } from "../errors/ValidationError";
 import { populateObject } from "../utility/PopulateObject";
+import { ConsoleLogger } from "../logging/ConsoleLogger";
 import { InternalRoute } from "../router/InternalRoute";
 import { getModelProps } from "../model/decorator/ModelProp";
 import { TypedPair } from "../structures/Pair";
@@ -19,10 +21,9 @@ import { Response } from "../io/Response";
 import { Metadata } from "../utility/Metadata";
 import { Request } from "../io/Request";
 import { Newable } from "../structures/Newable";
+import { Logger } from "../logging/Logger";
 import { Route } from "../router/Route";
 import { Model } from "../model/Model";
-
-const debug = require("debug")("srocket:Router");
 
 export type NewableRoute = Newable<Route>;
 
@@ -34,6 +35,7 @@ export enum RouterCallbackType {
 
 // TODO: Allow to pass arguments to the route constructor;
 export class Router {
+	protected logger: Logger;
 	protected routes: InternalRoute[];
 	protected server: SocketIOExt.Server;
 	protected callbacks: CallbackCollection;
@@ -41,6 +43,7 @@ export class Router {
 	public constructor(server: SocketIOExt.Server) {
 		this.routes = new Array<InternalRoute>();
 		this.server = server;
+		this.logger = new ConsoleLogger("Router");
 
 		this.callbacks = new CallbackCollection();
 		this.callbacks.registerCollections([
@@ -53,8 +56,9 @@ export class Router {
 	public route(packet: SocketIOExt.Packet, socket: SocketIOExt.Socket) {
 		const route = this.findRoute(packet);
 		if (!route) {
-			debug(`WARNING! - Could not find a route for ${packet.data[0]}`);
-			return;
+			return this.logger.warning(
+				`Could not find a route for ${packet.data[0]}`
+			);
 		}
 
 		this.invokeRoute(route, socket, packet).then();
@@ -73,7 +77,7 @@ export class Router {
 			instance
 		);
 
-		debug(`Registering Route: ${internalRoute.getRoutePath()}`);
+		this.logger.info(`Registering Route: ${internalRoute.getRoutePath()}`);
 
 		const nestedRoutes = new Array<TypedPair<RouteConfig, NewableRoute>>();
 		const properties = Object.getOwnPropertyNames(instance);

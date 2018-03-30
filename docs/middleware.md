@@ -5,11 +5,12 @@ Middlewares are usefull for all sorts of things, for exmaple for authentication.
 
 ### A sample middleware {docsify-ignore}
 
-A middleware is like pretty much everything else in srocket, a class. In this case its a class that extends the ````MiddlewareBase``` class.
-The ````MiddlewareBase``` is exported directly from the ```srocket``` package.
+A middleware is like pretty much everything else in srocket, a class. In this case its a class that extends the ```MiddlewareBase``` class.
+The ```MiddlewareBase``` is exported directly from the ```srocket``` package.
 
 So lets get started and create a sample middleware.
 - Step 1 - Create the Middleware.
+
 ```ts
 import { MiddlewareBase } from "srocket";
 
@@ -19,11 +20,13 @@ export class AuthenticationMiddleware extends MiddlewareBase {
 	}
 }
 ```
+
 - Step 2 - Register the middleware.
 ```ts
 const app = new SRocket(config);
 app.use(new AuthenticationMiddleware());
 ```
+
 - Step 3 - Profit ???
 Now everytime a events get sent to srocket, the middleware will be called before the ```on``` handler from the Route will be called.
 

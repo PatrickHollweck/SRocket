@@ -13,7 +13,7 @@ import {
 	Route,
 	Model,
 	MiddlewareBase,
-	NestedRoute
+	NestedRoute,
 } from "./../../src/";
 
 import { createHandyClient } from "handy-redis";

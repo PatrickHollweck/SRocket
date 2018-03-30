@@ -1,4 +1,4 @@
-import { Newable } from "../../structures/Newable";
+import { Newable } from "../structures/Newable";
 
 export function ModelProp(): PropertyDecorator {
 	return (target: Object, propertyKey: any): void => {

@@ -1,6 +1,6 @@
 import * as _ from "lodash";
 import * as ClassValidator from "class-validator";
-import * as RouteDecorator from "../router/decorator/Route";
+import * as RouteDecorator from "../decorator/Route";
 
 import {
 	Validator,
@@ -15,7 +15,7 @@ import { ValidationError } from "../errors/ValidationError";
 import { populateObject } from "../utility/PopulateObject";
 import { ConsoleLogger } from "../logging/ConsoleLogger";
 import { InternalRoute } from "../router/InternalRoute";
-import { getModelProps } from "../model/decorator/ModelProp";
+import { getModelProps } from "../decorator/ModelProp";
 import { TypedPair } from "../structures/Pair";
 import { Response } from "../io/Response";
 import { Metadata } from "../utility/Metadata";
@@ -33,7 +33,6 @@ export enum RouterCallbackType {
 	VALIDATION_ERROR = "onValidationError"
 }
 
-// TODO: Allow to pass arguments to the route constructor;
 export class Router {
 	protected logger: Logger;
 	protected routes: InternalRoute[];

@@ -7,25 +7,8 @@ Libs:
         - Supports rerouting with merged .route object
         - Gets request ( modified socket ) as a route param.
 
-    iosync:
-        - : https://github.com/mahdCompany/iosync
-        - More of a sync library -> Include functionality in the srocket lib to make sync easy with
-
-    ternion:
-        - : https://github.com/michael-kamel/ternion
-        - Includes validation
-        - Supplied data, and response object, express like.
-		- Has wired syntax!
-
     socketnet:
-        - : https://github.com/leon3s/socknet
-        - Good docs : http://socknet.io/
-        - Object based routing allows for easy code splitting.
-        - Has a lifecycle built-in ( before, on, after hooks )
-        - Objects can be registered via socket.on(eventObject)
         - Built in sessions.
-        - Has some sort of Validation via ArgTypes ?
-        - Overall a good quality library.
 
     Socket.io-Wildcard:
 		- : https://github.com/hden/socketio-wildcard
@@ -36,18 +19,14 @@ TODOS:
 	Features for srocket:
 		☐ Better defaults for error handling.
 		☐ Namespace handling
-		✔ Middlewares @done (3/6/2018, 4:35:45 PM)
-		☐ Better namespaceing support.
 		☐ Handle rooms better.
-		☐ Easy Synchronisation
-		☐ Wildcard Event -> Request placeholders -> Expose connection-disconnection... events.
-		☐ Redis integration?
 		☐ Add validation pipeline
 		☐ Cleanup validation code
 	
 	Docs:
 		☐ Update docs after refactor,
 		☐ Middleware docs.
+		☐ Write a section for how to use connection events -> srocket.ioServer.on("connection");
 		☐ Write validation docs.
 		☐ Cover main entry point docs.
 		☐ Write a section for recomended configs -> tsconfig - tslint...

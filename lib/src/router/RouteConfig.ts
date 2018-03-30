@@ -1,7 +1,7 @@
 // TODO: Document this.
 
-import { Newable } from '../structures/Newable';
-import { Model } from '../model/Model';
+import { Newable } from "../structures/Newable";
+import { Model } from "../model/Model";
 
 // This does not belong here ?
 export type RuleType = {

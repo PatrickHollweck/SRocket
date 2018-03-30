@@ -5,8 +5,8 @@ import {
 	ValidationError,
 	ValidationResult,
 	ValidationStatus,
-	ValidationContext,
-} from './validation/Validator';
+	ValidationContext
+} from "./validation/Validator";
 
 export {
 	tsV,

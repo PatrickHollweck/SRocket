@@ -1,2 +1,2 @@
 // TODO: Implement
-export class Model { }
+export class Model {}

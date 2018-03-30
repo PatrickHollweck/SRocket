@@ -1,5 +1,3 @@
-import { MiddlewareBase } from './Middleware/MiddlewareBase';
+import { MiddlewareBase } from "./Middleware/MiddlewareBase";
 
-export {
-	MiddlewareBase
-};
+export { MiddlewareBase };

@@ -1,4 +1,4 @@
-import { TypedPair } from '../structures/Pair';
+import { TypedPair } from "../structures/Pair";
 
 export class CallbackCollection {
 	protected collections: Array<TypedPair<string, Array<Function>>>;
@@ -33,7 +33,10 @@ export class CallbackCollection {
 
 	private getCollection(name: string) {
 		const collection = this.collections.find(col => col.key === name);
-		if (!collection) throw new Error(`The callback collection ${name} is not registered!`);
+		if (!collection)
+			throw new Error(
+				`The callback collection ${name} is not registered!`
+			);
 		return collection;
 	}
 }

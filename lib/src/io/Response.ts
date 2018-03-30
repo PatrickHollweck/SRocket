@@ -103,7 +103,6 @@ export class Response<T = any> {
 	// -- Misc Getters.
 
 	public getSocket() {
-		// TODO: Check if this socket is updated when socket is updated somewhere else!
 		return this.socket;
 	}
 

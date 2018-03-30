@@ -1,7 +1,4 @@
-import { Config } from './config/Config';
-import { ConfigBuilder } from './config/ConfigBuilder';
+import { Config } from "./config/Config";
+import { ConfigBuilder } from "./config/ConfigBuilder";
 
-export {
-	Config,
-	ConfigBuilder
-};
+export { Config, ConfigBuilder };

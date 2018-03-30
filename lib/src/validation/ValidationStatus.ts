@@ -1,4 +1,4 @@
 export enum ValidationStatus {
 	Failed,
-	Succeeded,
+	Succeeded
 }

@@ -1,0 +1,1 @@
+This folder is meant to be here and on git, it contains the visual studio code configuration for debugging the library.

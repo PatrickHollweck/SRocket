@@ -1,20 +1,19 @@
 # SRocket
 > SRocket ( short for: SocketRocket ) is a batteries-included, opinionated socket.io framework written in typescript.
 
-You may want to continue to this [Quick start guide](quickstart.md)
+##### You propably want to read this -[Quick start guide](quickstart.md)
 
 ## Disclaimer
 
 !> SRocket is still under heavy construction!
-While reading the documentation keep in mind that the structure and the api may change at every point in time. 
-Currently the easiest way to start using the framework is to copy it from source!
+While reading the documentation keep in mind that the structure and the API may change at every point in time!
 
 ## Introduction
-Have you ever worked with pure socket.io and wanted a bit more structure to your project ? If so SRocket is the answer to that,
+Have you ever worked with pure socket.io and wanted a bit more structure to your project? If so SRocket is the answer to that,
 It has all the features you need to build your next real-time application in a http inspired way. Features like the built-in router
 make code orgainstation a breez and the support for typescript and model based validation makes your application safe and easy to maintain. 
 
-## Features
+## Main Features
 
 - Builtin routing.
 - Builtin validation.

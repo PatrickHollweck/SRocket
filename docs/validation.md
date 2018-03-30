@@ -2,25 +2,23 @@
 
 ### Preface
 
-Since WebSockets are networks, everything transmitted by them becomes type-un-safe, so to counteract this
-SRocket provides you with two methods to validate and type your data.
+Every piece of data you get from the client, has to be transmitted by a network, this means that your data is untyped.
+In a attempt to make your app more robust SRocket provides you with 2 Methods of validating your data.
+
+> Validation is completly optional.
 
 ### Validation Methods
 
-There are two main ways to validate data in SRocket. The one is model based so in prinziple you have a model
-for every event, which contains the data, and some optional but powerfull validation decorators. The other
-allows you to define some type and validation metadata in the ``` @RouteConfig ``` decorator.
-
-SRocket makes validation easy, you just have to give it the general layout of the data, and when it recieves
-the data, it will automatically validate the data, and then eighter call the 'on' method with the validated data, when the validation succeded, or the 'onValidationError' method when the validation failed.
-
-> Author note: In my opinion you should use model based validation, the trade-off is typesafety for verbosity, You can use parameter validation for quick routes and examples.
+SRocket makes validation easy, you define models ( data-classes ) for you data, and hand them to SRocket.
+Then evertime SRocket gets a message from the Client it, validates the data using the model, and if validation fails, it calls the ```onValidationError```
+Method on your route. Otherwise if validation succeeds, it calls the ```on``` Method on your Route with the validated data.
 
 1. Model based validation - [example](/validation?id=model-based-validation) - [Documentation page](/model-validation)
 	- Advantages
 		- Easy reuse with frontend
 		- Properties are class members and are easier to deal with.
 		- More declarative and typesafe validation via [validation decorators](https://www.npmjs.com/package/validator.ts)
+		- Allows you to defined extra method in the class, to encapsulate logic.
 	- Disadvantages
 		- More verbose, requires extra classes.
 
@@ -29,39 +27,39 @@ the data, it will automatically validate the data, and then eighter call the 'on
 		- Easy to configure without the need for extra classes.
 		- Compact usage within the ``` @RouteConfig ``` decorator.
 	- Disadvantages
-		- Uses a custom validation system written from the SRocket authors which may not be as full-featured.
 		- Can not be reused with the frontend,
-		- Can not use any model class based advantages.
+		- Can not use any model class based advantages like class methods.
 
 
 ### What is the ```jsV``` and ```tsV``` ?
 
-The basic principle of validation is using the ```tsV``` or the ```jsV``` object. These objects can be imported from srocket directly. And refer to an instance internally used by the framework.
-````tsV``` is the Typescript Validator and ```jsV``` the javascript validator, Typescript validation is used for Model Validation and the js validator is used for parameter validation.
-Each of those object have validation methods which you can look up at the librarys websites. ( Link to the librarys included below! )
+```tsV``` and ```jsV``` is short for typescript || javascript Validator. Both of these Validators are popular Validation libraries, so you may already
+be familuar with them. You use these special instances from the framework so you dont have to take care about the configuration and managment.
+You import both of these directly from srocket ```import { jsV, tsV } from "srocket"```.
+Every technique - explained above - uses one library. The Model-Based-Validation uses the ```tsV```, and the Parameter-Based-Validation uses the ```jsV```.
 
 ### Examples
 
 #### Model based validation. - [Documentation page](/model-validation)
 
-!> This validation technique uses [this library](https://github.com/typestack/class-validator)
+!> This validation technique uses the [class-validator](https://github.com/typestack/class-validator) library.
 
 ```ts
-import { tsV, Request, Response, Route } from 'srocket';
-import { RouteConfig } from 'srocket/decorator';
+import { tsV, Request, Response, Route, RouteConfig, Model, ModelProp } from 'srocket';
 
 class AddUserRequestModel extends Model {
+	@ModelProp()
 	@tsV.isString({ message: 'The userID must be a string' })
 	@tsV.isDefined({ message: 'The userID must be defined' })
 	public userID: string;
 }
 
 @RouteConfig({
-	route: '/addUser',
+	route: '.addUser',
 	model: AddUserRequestModel
 })
 class AddUserRoute extends Route {
-	onValidationError(e:Error, req:Request, res:Response) {
+	onValidationError(e:Error, req:Request<AddUserRequestModel>, res:Response) {
 		// Handle Error
 	}
 
@@ -74,14 +72,13 @@ class AddUserRoute extends Route {
 
 #### Parameter based validation. - [Documentation page](/parameter-validation)
 
-!> This validation technique uses [this library](https://github.com/chriso/validator.js)
+!> This validation technique uses the [javascript-validator](https://github.com/chriso/validator.js) library
 
 ```ts
 
 // Even thought this might seem verbose, most of the properties in the data object are optional.
 
-import { jsV, Request, Response, Route } from 'srocket';
-import { RouteConfig } from 'srocket/decorator';
+import { jsV, Request, Response, Route, RouteConfig } from 'srocket';
 
 @RouteConfig({
 	route: '/param',

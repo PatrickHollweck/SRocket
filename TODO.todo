@@ -17,6 +17,7 @@ Libs:
 TODOS:
 
 	Features for srocket:
+		☐ Finish up middleware support.
 		☐ Better defaults for error handling.
 		☐ Namespace handling
 		☐ Handle rooms better.
@@ -24,11 +25,10 @@ TODOS:
 		☐ Cleanup validation code
 	
 	Docs:
-		☐ Update docs after refactor,
-		☐ Middleware docs.
-		☐ Write a section for how to use connection events -> srocket.ioServer.on("connection");
+		✔ Update docs after refactor, @done (3/30/2018, 4:43:32 PM)
+		✔ Middleware docs. @done (3/30/2018, 4:43:35 PM)
+		✔ Write a section for how to use connection events -> srocket.ioServer.on("connection"); @done (3/30/2018, 4:58:26 PM)
 		☐ Write validation docs.
-		☐ Cover main entry point docs.
 		☐ Write a section for recomended configs -> tsconfig - tslint...
 
 	Misc:

@@ -18,7 +18,7 @@ The only thing that is then diffrent to "Normal" routes is that nested routes, u
 
 ```ts
 @RouteConfig({
-    route: '/users'
+    path: '/users'
 })
 class UserController extends Route {
     on(req: Request, res: Response) {
@@ -26,7 +26,7 @@ class UserController extends Route {
     }
 
     @NestedRoute({
-        route: '/add'
+        path: '/add'
     })
     addUserRoute = class extends Route {
         on(req: Request, res: Response) {

@@ -14,3 +14,4 @@
 		* [Nested Routes](nested-routes.md)
 	* [Models](models.md)
 	* [Error Handling](error-handling.md)
+	* [Middleware](middleware.md)

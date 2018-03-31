@@ -24,7 +24,7 @@ export class CallbackCollection {
 		collection.value.push(fn);
 	}
 
-	public executeFor(name: string, ...args) {
+	public executeFor(name: string, ...args: any[]) {
 		const collection = this.getCollection(name);
 		for (const fn of collection.value) {
 			fn(args);

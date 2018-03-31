@@ -1,12 +1,12 @@
 export class Request<T = any> {
-	public socket: SocketIOExt.Socket;
-	public packet: SocketIOExt.Packet;
+	public socket: SocketIO.Socket;
+	public packet: SocketIO.Packet;
 	public data: T;
 
 	constructor(
 		data: T,
-		socket: SocketIOExt.Socket,
-		packet: SocketIOExt.Packet
+		socket: SocketIO.Socket,
+		packet: SocketIO.Packet
 	) {
 		this.data = data;
 		this.socket = socket;

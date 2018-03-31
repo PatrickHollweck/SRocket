@@ -12,7 +12,7 @@ export class ConfigBuilder {
 		return this;
 	}
 
-	public setSocketIOServerConfig(config: SocketIOExt.ServerOptions) {
+	public setSocketIOServerConfig(config: SocketIO.ServerOptions) {
 		this.config.serverConfig = config;
 		return this;
 	}

@@ -36,10 +36,10 @@ export enum RouterCallbackType {
 export class Router {
 	protected logger: Logger;
 	protected routes: InternalRoute[];
-	protected server: SocketIOExt.Server;
+	protected server: SocketIO.Server;
 	protected callbacks: CallbackCollection;
 
-	public constructor(server: SocketIOExt.Server) {
+	public constructor(server: SocketIO.Server) {
 		this.routes = new Array<InternalRoute>();
 		this.server = server;
 		this.logger = new ConsoleLogger("Router");
@@ -52,7 +52,7 @@ export class Router {
 		]);
 	}
 
-	public route(packet: SocketIOExt.Packet, socket: SocketIOExt.Socket) {
+	public route(packet: SocketIO.Packet, socket: SocketIO.Socket) {
 		const route = this.findRoute(packet);
 		if (!route) {
 			return this.logger.warning(
@@ -121,7 +121,7 @@ export class Router {
 		);
 	}
 
-	protected findRoute(packet: SocketIOExt.Packet) {
+	protected findRoute(packet: SocketIO.Packet) {
 		for (const route of this.routes) {
 			if (route.getRoutePath() === packet.data[0]) {
 				return route;
@@ -134,8 +134,8 @@ export class Router {
 	protected triggerValidationError(
 		route: InternalRoute,
 		error: Error,
-		socket: SocketIOExt.Socket,
-		packet: SocketIOExt.Packet
+		socket: SocketIO.Socket,
+		packet: SocketIO.Packet
 	) {
 		try {
 			route
@@ -153,8 +153,8 @@ export class Router {
 	protected triggerInternalError(
 		route: InternalRoute,
 		error: Error,
-		socket: SocketIOExt.Socket,
-		packet: SocketIOExt.Packet
+		socket: SocketIO.Socket,
+		packet: SocketIO.Packet
 	) {
 		route
 			.getInstance()
@@ -167,8 +167,8 @@ export class Router {
 
 	protected invokeRoute(
 		route: InternalRoute,
-		socket: SocketIOExt.Socket,
-		packet: SocketIOExt.Packet
+		socket: SocketIO.Socket,
+		packet: SocketIO.Packet
 	): Promise<void> {
 		return new Promise((resolve, reject) => {
 			const instance = route.getInstance();
@@ -224,7 +224,7 @@ export class Router {
 
 	protected validateWithModel(
 		model: Newable<Model>,
-		packet: SocketIOExt.Packet
+		packet: SocketIO.Packet
 	): Promise<ValidationResult> {
 		return new Promise((resolve, reject) => {
 			const actuallArgs = packet.data[1];
@@ -260,7 +260,7 @@ export class Router {
 
 	protected validateWithRules(
 		expectedArgs: RuleType,
-		packet: SocketIOExt.Packet
+		packet: SocketIO.Packet
 	): Promise<ValidationResult> {
 		// TODO: This is ugly. Please look away.
 		return new Promise((resolve, reject) => {

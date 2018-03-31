@@ -1,4 +1,4 @@
-import { RouteConfig } from "../RouteConfig";
+import { RouteConfig } from "../router/RouteConfig";
 import "reflect-metadata";
 
 // -- RouteConfig

@@ -6,14 +6,14 @@ export class Response<T = any> {
 	protected statusCode: number;
 	protected data?: T;
 	protected payloadMessage: string;
-	protected socket: SocketIOExt.Socket;
+	protected socket: SocketIO.Socket;
 	protected route: InternalRoute;
-	protected server: SocketIOExt.Server;
+	protected server: SocketIO.Server;
 
 	constructor(
-		socket: SocketIOExt.Socket,
+		socket: SocketIO.Socket,
 		route: InternalRoute,
-		server: SocketIOExt.Server
+		server: SocketIO.Server
 	) {
 		this.socket = socket;
 		this.server = server;

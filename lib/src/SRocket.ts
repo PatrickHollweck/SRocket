@@ -10,7 +10,7 @@ import { Router, RouterCallbackType } from "./router/Router";
 
 export class SRocket {
 	public router: Router;
-	public ioServer: SocketIOExt.Server;
+	public ioServer: SocketIO.Server;
 
 	protected config: Config;
 

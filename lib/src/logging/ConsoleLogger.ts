@@ -37,16 +37,12 @@ export class ConsoleLogger implements Logger {
 		this.logger(this.format("error", message, e));
 	}
 
-	private format(
-		logLevel: string,
-		message: string,
-		e?: Error | undefined
-	): string {
-		let formatedMessage = `${logLevel.toUpperCase()} - ${message}`;
+	private format(logLevel: string, message: string, e?: Error | undefined): string {
+		let formattedMessage = `${logLevel.toUpperCase()} - ${message}`;
 		if (e) {
-			formatedMessage += ` : Error - ${e}`;
+			formattedMessage += ` : Error - ${e}`;
 		}
 
-		return formatedMessage;
+		return formattedMessage;
 	}
 }

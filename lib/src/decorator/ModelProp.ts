@@ -2,9 +2,7 @@ import { Newable } from "../structures/Newable";
 
 export function ModelProp(): PropertyDecorator {
 	return (target: Object, propertyKey: any): void => {
-		const props = target.hasOwnProperty("__props__")
-			? (target as any)["__props__"]
-			: ((target as any)["__props__"] = []);
+		const props = target.hasOwnProperty("__props__") ? (target as any)["__props__"] : ((target as any)["__props__"] = []);
 		props.push(propertyKey);
 	};
 }

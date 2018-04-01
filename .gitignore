@@ -1,6 +1,7 @@
 # Misc fodlers
 /testing
 /dist
+/.idea
 
 # Logs
 logs

@@ -1,11 +1,7 @@
 import "reflect-metadata";
 
 export class Metadata {
-	public static getPropertyDecorator(
-		decoratorKey: Symbol,
-		target: any,
-		property: string
-	) {
+	public static getPropertyDecorator(decoratorKey: Symbol, target: any, property: string) {
 		return Reflect.getMetadata(decoratorKey, target, property);
 	}
 

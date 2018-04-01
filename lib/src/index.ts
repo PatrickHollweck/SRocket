@@ -6,4 +6,3 @@ export * from "./validation";
 export * from "./io";
 export * from "./router";
 export * from "./model/";
-export * from "./logging";

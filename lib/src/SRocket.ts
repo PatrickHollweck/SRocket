@@ -36,18 +36,9 @@ export class SRocket {
 	}
 
 	public use(middleware: MiddlewareBase) {
-		this.router.registerCallback(
-			RouterCallbackType.VALIDATION_ERROR,
-			middleware.onEventValidationError
-		);
-		this.router.registerCallback(
-			RouterCallbackType.BEFORE_EVENT,
-			middleware.beforeEventCall
-		);
-		this.router.registerCallback(
-			RouterCallbackType.AFTER_EVENT,
-			middleware.afterEventCall
-		);
+		this.router.registerCallback(RouterCallbackType.VALIDATION_ERROR, middleware.onEventValidationError);
+		this.router.registerCallback(RouterCallbackType.BEFORE_EVENT, middleware.beforeEventCall);
+		this.router.registerCallback(RouterCallbackType.AFTER_EVENT, middleware.afterEventCall);
 	}
 
 	public shutdown() {

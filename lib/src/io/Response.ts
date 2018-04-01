@@ -10,11 +10,7 @@ export class Response<T = any> {
 	protected route: InternalRoute;
 	protected server: SocketIO.Server;
 
-	constructor(
-		socket: SocketIO.Socket,
-		route: InternalRoute,
-		server: SocketIO.Server
-	) {
+	constructor(socket: SocketIO.Socket, route: InternalRoute, server: SocketIO.Server) {
 		this.socket = socket;
 		this.server = server;
 
@@ -77,27 +73,19 @@ export class Response<T = any> {
 
 	public toAllInRoom_ExceptSender(roomName: string) {
 		// TODO: Support emit to multiple rooms -> Builder ?
-		this.socket
-			.to(roomName)
-			.emit(this.getEventRoute(), this.formatPayload());
+		this.socket.to(roomName).emit(this.getEventRoute(), this.formatPayload());
 	}
 
 	public toAllInRoom(roomName: string) {
-		this.server
-			.in(roomName)
-			.emit(this.getEventRoute(), this.formatPayload());
+		this.server.in(roomName).emit(this.getEventRoute(), this.formatPayload());
 	}
 
 	public toAllInNamespace(namespaceName: string = "/") {
-		this.server
-			.of(namespaceName)
-			.emit(this.getEventRoute(), this.formatPayload());
+		this.server.of(namespaceName).emit(this.getEventRoute(), this.formatPayload());
 	}
 
 	public toIndividualSocket(socketID: string) {
-		this.socket
-			.to(socketID)
-			.emit(this.getEventRoute(), this.formatPayload());
+		this.socket.to(socketID).emit(this.getEventRoute(), this.formatPayload());
 	}
 
 	// -- Misc Getters.

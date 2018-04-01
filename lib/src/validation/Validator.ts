@@ -59,7 +59,7 @@ export class Validator {
 						`Property ${expectedProperty} has type ${currentActualValue.constructor} but should have type ${currentExpectedValue.type}`
 					)
 				);
-				
+
 				continue;
 			}
 

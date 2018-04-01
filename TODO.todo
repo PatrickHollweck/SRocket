@@ -23,6 +23,7 @@ TODOS:
 		☐ Handle rooms better.
 		☐ Add validation pipeline
 		☐ Cleanup validation code
+		☐ Build wrapper on top of SocketIO.Packet
 	
 	Docs:
 		✔ Update docs after refactor, @done (3/30/2018, 4:43:32 PM)

@@ -19,6 +19,10 @@ export class ValidationResult<T = any> {
 		return this.status === ValidationStatus.Succeeded;
 	}
 
+	public getFirstErrorMessage() {
+		return this.errors[0].message || "";
+	}
+
 	public ifSucceeded(fn: Function) {
 		if (this.didSucceed()) {
 			fn();

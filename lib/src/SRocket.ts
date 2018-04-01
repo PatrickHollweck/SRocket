@@ -24,8 +24,8 @@ export class SRocket {
 		this.ioServer.use(sioWildcard());
 
 		this.ioServer.on("connection", socket => {
-			socket.on("*", packet => {
-				this.router.route(packet, socket);
+			socket.on("*", async packet => {
+				await this.router.route(packet, socket);
 			});
 		});
 

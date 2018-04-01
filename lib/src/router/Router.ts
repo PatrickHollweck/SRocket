@@ -13,6 +13,7 @@ import { TypedPair } from "../structures/Pair";
 import { Newable } from "../structures/Newable";
 import { Route } from "./Route";
 import { Model } from "../model";
+import {SocketPacket} from "../structures/SocketPacket";
 
 export type NewableRoute = Newable<Route>;
 
@@ -43,14 +44,16 @@ export class Router {
 		]);
 	}
 
-	public route(packet: SocketIO.Packet, socket: SocketIO.Socket) {
-		const route = this.findRoute(packet);
+	public async route(packet: SocketIO.Packet, socket: SocketIO.Socket) {
+		const socketPacket = SocketPacket.fromSocketIOPacket(packet);
+		
+		const route = this.findRoute(socketPacket);
 		if (!route) {
 			this.callbacks.executeFor(RouterCallbackType.ROUTE_NOT_FOUND);
-			return this.logger.warning(`Could not find a route for ${packet.data[0]}`);
+			return this.logger.warning(`Could not find a route for ${socketPacket.getRoutePath()}`);
 		}
 
-		this.invokeRoute(route, socket, packet).then();
+		await this.invokeRoute(route, socket, socketPacket);
 	}
 
 	public registerBulk(...routes: Array<NewableRoute>) {
@@ -64,7 +67,7 @@ export class Router {
 		const internalRoute = new InternalRoute(routeConfig || Router.getRouteConfig(route), instance);
 
 		this.logger.info(`Registering Route: ${internalRoute.getRoutePath()}`);
-
+		
 		const nestedRoutes = new Array<TypedPair<RouteConfig, NewableRoute>>();
 		for (const property in instance) {
 			const metadata = Router.getNestedRouteConfig(instance, property);
@@ -88,11 +91,11 @@ export class Router {
 		this.callbacks.addCallback(type, callback);
 	}
 
-	protected findRoute(packet: SocketIO.Packet) {
-		return this.routes.find(internalRoute => internalRoute.getRoutePath() === packet.data[0]);
+	protected findRoute(packet: SocketPacket) {
+		return this.routes.find(internalRoute => internalRoute.getRoutePath() === packet.getRoutePath());
 	}
 
-	protected triggerValidationError(route: InternalRoute, error: Error, socket: SocketIO.Socket, packet: SocketIO.Packet) {
+	protected triggerValidationError(route: InternalRoute, error: Error, socket: SocketIO.Socket, packet: SocketPacket) {
 		try {
 			route.getInstance().onValidationError(error, new Request(null, socket, packet), new Response(socket, route, this.server));
 		} catch (error) {
@@ -100,11 +103,11 @@ export class Router {
 		}
 	}
 
-	protected triggerInternalError(route: InternalRoute, error: Error, socket: SocketIO.Socket, packet: SocketIO.Packet) {
+	protected triggerInternalError(route: InternalRoute, error: Error, socket: SocketIO.Socket, packet: SocketPacket) {
 		route.getInstance().onError(error, new Request(null, socket, packet), new Response(socket, route, this.server));
 	}
 
-	protected async invokeRoute(route: InternalRoute, socket: SocketIO.Socket, packet: SocketIO.Packet) {
+	protected async invokeRoute(route: InternalRoute, socket: SocketIO.Socket, packet: SocketPacket) {
 		const instance = route.getInstance();
 		const response = new Response(socket, route, this.server);
 
@@ -148,8 +151,8 @@ export class Router {
 		return Metadata.getPropertyDecorator(RouteDecorator.nestedRouteMetadataKey, route, property);
 	}
 
-	protected static async validateWithModel(model: Newable<Model>, packet: SocketIO.Packet): Promise<ValidationResult> {
-		const actualArgs = packet.data[1];
+	protected static async validateWithModel(model: Newable<Model>, packet: SocketPacket): Promise<ValidationResult> {
+		const actualArgs = packet.getUserData();
 		if (!actualArgs) {
 			return new ValidationResult(null, [new AbsentPropertyError("Got no data from the socket! All Properties are missing!", "*")]);
 		}
@@ -168,8 +171,7 @@ export class Router {
 		}
 	}
 
-	protected static async validateWithRules(schema: RuleSchema, packet: SocketIO.Packet): Promise<ValidationResult> {
-		const actualArgs = packet.data[1];
-		return Validator.validateSchema(schema, actualArgs);
+	protected static async validateWithRules(schema: RuleSchema, packet: SocketPacket): Promise<ValidationResult> {
+		return Validator.validateSchema(schema, packet.getUserData());
 	}
 }

@@ -13,7 +13,7 @@ import {
 	Route,
 	Model,
 	MiddlewareBase,
-	NestedRoute,
+	NestedRoute
 } from "./../../src/";
 
 import { createHandyClient } from "handy-redis";
@@ -53,7 +53,7 @@ class ModelRoute extends Route {
 			type: String,
 			rules: [
 				{
-					rule: jsV.contains,
+					method: jsV.contains,
 					args: ["patrick"],
 					message: 'The $property did not contain "$arg1"'
 				}

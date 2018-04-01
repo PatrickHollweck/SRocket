@@ -5,17 +5,10 @@ export class ValidationResult<T = any> {
 	public errors: Array<Error>;
 	public status: ValidationStatus;
 
-	constructor(
-		result: T | null,
-		errors: Array<Error> = new Array<Error>(),
-		status: ValidationStatus = ValidationStatus.Failed
-	) {
+	constructor(result: T | null, errors: Array<Error> = new Array<Error>(), status: ValidationStatus = ValidationStatus.Failed) {
 		this.target = result;
 		this.errors = errors;
-		this.status =
-			status || this.errors.length > 0
-				? ValidationStatus.Failed
-				: ValidationStatus.Succeeded;
+		this.status = status || this.errors.length > 0 ? ValidationStatus.Failed : ValidationStatus.Succeeded;
 	}
 
 	public didFail(): boolean {
@@ -26,5 +19,15 @@ export class ValidationResult<T = any> {
 		return this.status === ValidationStatus.Succeeded;
 	}
 
-	// TODO: Method for easy interaction with result -> doIfSuccess()...
+	public ifSucceeded(fn: Function) {
+		if (this.didSucceed()) {
+			fn();
+		}
+	}
+
+	public ifFailed(fn: Function) {
+		if (this.didFail()) {
+			fn();
+		}
+	}
 }

@@ -6,18 +6,9 @@ import { ValidationContext } from "../src/validation/ValidationContext";
 describe("The Validator", () => {
 	describe("Message parsing", () => {
 		it("should replace the predefined token correctly in the parseMessage() function", () => {
-			const context = new ValidationContext(
-				["--arg1--", "--arg2--", "--arg3--"],
-				"--property--",
-				"--target--",
-				"--value--"
-			);
-			const originalMessage =
-				"The $property should equal $arg1 or $arg2 - as target $target - but has $value";
-			const parsedMessage = Validator.parseMessage(
-				originalMessage,
-				context
-			);
+			const context = new ValidationContext(["--arg1--", "--arg2--", "--arg3--"], "--property--", "--target--", "--value--");
+			const originalMessage = "The $property should equal $arg1 or $arg2 - as target $target - but has $value";
+			const parsedMessage = Validator.parseMessage(originalMessage, context);
 
 			expect(parsedMessage).to.be.a("String");
 

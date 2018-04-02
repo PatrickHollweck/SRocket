@@ -35,7 +35,7 @@ TODOS:
 	Misc:
 		☐ Fancy Readme :) -> https://github.com/thoov/mock-socket
 
-	Impementation Details:
+	Implementation Details:
 		☐ Rethink what should be a default export
 		☐ IOC Container
 		☐ Maybe use socket.io middlewares ?

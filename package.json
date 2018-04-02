@@ -28,6 +28,11 @@
         "@types/debug": "0.0.30",
         "@types/lodash": "4.14.105",
         "@types/mocha": "2.2.48",
+        "@types/semver": "^5.5.0",
+        "@types/readline-sync": "^1.4.3",
+        "semver": "^5.5.0",
+        "readline-sync": "^1.4.9",
+        "chalk": "^2.3.2",
         "prettier": "1.11.1",
         "chai": "^4.1.2",
         "docsify": "^4.6.9",
@@ -57,5 +62,11 @@
         "type": "GitHub",
         "url": "https://github.com/FetzenRndy/SRocket"
     },
-    "keywords": ["socket.io", "srocket", "realtime", "typescript", "framework"]
+    "keywords": [
+        "socket.io",
+        "srocket",
+        "realtime",
+        "typescript",
+        "framework"
+    ]
 }

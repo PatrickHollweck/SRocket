@@ -1,97 +1,119 @@
-/* -- NPM PUBLISH DEPLOY SCRIPT */
-
-const readline = require("readline");
+const reader = require("readline-sync");
+const semver = require("semver");
 const shell = require("shelljs");
+const chalk = require("chalk");
 const fs = require("fs");
 
-const nodeConsole = readline.createInterface({
-	input: process.stdin,
-	output: process.stdout
+const pkgJsonPath = "../package";
+const pkgJson = require(pkgJsonPath);
+
+console.log(chalk.bgYellowBright.black.bold("Welcome to the SRocket deploy script! \n"));
+
+if(!reader.keyInYN("Are you in the Root directory ? - Where the Readme is?")) {
+	console.log(chalk.bgRedBright.black("Please switch into the main directory and run the script again...!"));
+	process.exit(0);
+}
+
+task("Compilation", () => {
+	subTask("Removing files from previous builds", "Removed previous build files", () => {
+		shell.exec("IF EXIST dist rmdir /s/q dist");
+	});
+	
+	subTask("Compiling the Project", "Compiled", () => {
+		shell.exec("tsc");
+	});
+	
+	if(reader.keyInYN("\nDid the typescript compiler output from above show any errors?")) {
+		logError("Please fix the errors and then run the script again... EXITING!");
+		process.exit(0);
+	}
 });
 
-nodeConsole.question(
-	"\nWelcome to the SRocket Deploy script! - Are you in the project root directory ? (Y/N) : ",
-	rootFolderAnswer => {
-		if (rootFolderAnswer !== "Y") {
-			nodeConsole.write("\n Go into the root folder and try again... \n");
-			exit(0);
+task("Version Control", () => {
+	subTask("Git commit", "", () => {
+		if(reader.keyInYN("Do you want to make a commit to git ?")) {
+			const commitMessage = reader.question("Enter the commit message: ");
+			shell.exec("git stage *");
+			shell.exec("git status");
+			if(reader.keyInYN("Does this output look good ?")) {
+				shell.exec("git commit -m " + commitMessage);
+				logFinish("Committed to GIT!")
+			} else {
+				logError("Exiting because user choose to...");
+				process.exit(0);
+			}
 		} else {
-			nodeConsole.write(
-				"\n OK - Lets get started... Step 1 - Cleaning and compiling the project - STARTING \n"
-			);
-			shell.exec("IF EXIST dist rmdir dist /s /q");
-			nodeConsole.write(
-				"\n\n DONE - previous build files cleared...! Starting the typescript compiler \n\n"
-			);
-			shell.exec("tsc");
-
-			nodeConsole.question(
-				"\n\nCompiled Project - Are there any errors from the compiler ? If so stop the process by answering 'N' (Y/N) : ",
-				compileErrorAnswer => {
-					if (compileErrorAnswer !== "Y") {
-						nodeConsole.write(
-							"\n\nFix the errors and come back...."
-						);
-						exit(0);
-					} else {
-						nodeConsole.write(
-							"\n\nOK - Step 2 - Patching files...\n\n"
-						);
-
-						nodeConsole.question(
-							"\n\nPlease replace the version in the package.json - Done ? (Y/N) : ",
-							versionReplaceAnswer => {
-								if (versionReplaceAnswer !== "Y") {
-									nodeConsole.write(
-										"\n\nPlease replace the version number and try again...\n\n"
-									);
-								} else {
-									nodeConsole.write(
-										"\n\nOK - Copying the package json into the compiled source...\n\n"
-									);
-									shell.exec(
-										'copy "./package.json" "./dist/src/package.json"'
-									);
-									nodeConsole.write(
-										"\n\nDONE - Patching type definitions....\n\n"
-									);
-									shell.exec(
-										'mkdir "./dist/src/typings" && copy .\\lib\\src\\typings\\types.d.ts .\\dist\\src\\typings\\types.d.ts'
-									);
-									patchFileRefrences();
-
-									nodeConsole.question(
-										"\n\nOK - Step 4 - Publishing - Did everything work till now ? Check again! If so publish... (Y/N): ",
-										doPublishAnswer => {
-											if (doPublishAnswer !== "Y") {
-												nodeConsole.write(
-													"Aborting.... Fix errors and come back again..."
-												);
-												exit(0);
-											} else {
-												nodeConsole.write(
-													"Almost done! Now, cd into the dist/src folder and run 'npm publish'"
-												);
-
-												nodeConsole.write(
-													"DONE!!! - Published!"
-												);
-
-												exit(0);
-											}
-										}
-									);
-								}
-							}
-						);
-					}
-				}
-			);
+			logFinish("No version control commit!");
 		}
-	}
-);
+	})
+});
 
-function patchFileRefrences() {
+task("Patching files", () => {
+	subTask("Choosing new Version", "", () => {
+		const releaseTypes = ["patch", "minor", "major", "prepatch", "preminor", "premajor", "prerelease"];
+		const versionChoice = reader.keyInSelect(releaseTypes, "Enter the release type of the version");
+		pkgJson.version = semver.inc(pkgJson.version, releaseTypes[versionChoice]);
+		logMessage(`New version is: ${pkgJson.version}!`);
+	});
+	
+	subTask("Writing new package.json to disk...", "Wrote package.json with new version to disk", () => {
+		fs.writeFileSync("package.json", JSON.stringify(pkgJson, null, 4));
+	});
+	
+	subTask(`Coping new package.json with version ${pkgJson.version} to build files`, "Copied new package.json to build files", () => {
+		fs.copyFileSync("package.json", "./dist/src/package.json");
+	});
+
+	subTask("Fixing type definition paths in build files", "Patched type definitions", () => {
+		shell.exec("mkdir \"./dist/src/typings\" && copy .\\lib\\src\\typings\\types.d.ts .\\dist\\src\\typings\\types.d.ts");
+		patchFileReferences();
+	});
+});
+
+task("Releasing", () =>{
+	if(reader.keyInYN("Did everything work until now ? - Last change to check everything!")) {
+		subTask("Publishing to NPM!", "NPM PUBLISH DONE!", () => {		
+			shell.cd("./dist/src");
+			shell.exec("npm publish");
+			shell.cd("../../");
+		});
+	} else {
+		logError("Exiting because user choose to...");
+		process.exit(0);
+	}
+});
+
+function task(taskName, fn) {
+	console.log(chalk.bgBlueBright.black("\nSTARTING TASK -", taskName, "\n"));
+	fn();
+}
+
+function subTask(taskName, finishMessage, fn) {
+	logSubTask(taskName);
+	fn();
+	
+	if (finishMessage !== null && finishMessage !== "") {
+		logFinish(finishMessage);
+	}
+}
+
+function logMessage(message) {
+	console.log(chalk.yellowBright(message));
+}
+
+function logSubTask(message) {
+	console.log(chalk.cyanBright(message));
+}
+
+function logFinish(taskName) {
+	console.log(chalk.cyanBright("\tDONE - " + taskName));
+}
+
+function logError(message) {
+	console.log(chalk.bgRedBright.black(message))
+}
+
+function patchFileReferences() {
 	const path = "./dist/src/srocket.d.ts";
 	let file = fs.readFileSync(path, "utf8");
 	file = file.replace(

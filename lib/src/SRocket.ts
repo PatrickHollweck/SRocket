@@ -39,6 +39,7 @@ export class SRocket {
 		this.router.registerCallback(RouterCallbackType.VALIDATION_ERROR, middleware.onEventValidationError);
 		this.router.registerCallback(RouterCallbackType.BEFORE_EVENT, middleware.beforeEventCall);
 		this.router.registerCallback(RouterCallbackType.AFTER_EVENT, middleware.afterEventCall);
+		this.router.registerCallback(RouterCallbackType.ROUTE_NOT_FOUND, middleware.routeNotFound);
 	}
 
 	public shutdown() {

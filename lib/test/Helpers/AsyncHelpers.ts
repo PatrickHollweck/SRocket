@@ -1,11 +1,11 @@
 export function doAssert(done: any, fn: Function, finishWithDone: boolean = true) {
 	try {
 		fn();
-		
-		if(finishWithDone) {
+
+		if (finishWithDone) {
 			done();
 		}
-	} catch(e) {
+	} catch (e) {
 		done.fail(e);
 	}
 }

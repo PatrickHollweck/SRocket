@@ -82,8 +82,8 @@ class DataRoute extends Route {
 class SampleMiddleware extends MiddlewareBase {
 	private static called = false;
 	beforeEventCall() {
-		if(!SampleMiddleware.called) {
-			console.log('Middlewares are working BTW!');
+		if (!SampleMiddleware.called) {
+			console.log("Middlewares are working BTW!");
 		}
 	}
 }

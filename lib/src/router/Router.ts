@@ -95,6 +95,7 @@ export class Router {
 
 	protected triggerValidationError(route: InternalRoute, error: Error, socket: SocketIO.Socket, packet: SocketPacket) {
 		try {
+			this.callbacks.executeFor(RouterCallbackType.VALIDATION_ERROR);
 			route.getInstance().onValidationError(error, new Request(null, socket, packet), new Response(socket, route, this.server));
 		} catch (error) {
 			this.triggerInternalError(route, error, socket, packet);

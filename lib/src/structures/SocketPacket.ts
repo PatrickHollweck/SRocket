@@ -25,12 +25,12 @@ export class SocketPacket implements SocketIO.Packet {
 	public getUserData() {
 		return this.data[1];
 	}
-	
+
 	public setRoutePath(newPath: string) {
 		this.data[0] = newPath;
 		return this;
 	}
-	
+
 	public setUserData(newData: any) {
 		this.data[1] = newData;
 		return this;

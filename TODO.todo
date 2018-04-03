@@ -42,3 +42,5 @@ TODOS:
 
 	Test:
 		☐ Add more tests :)
+		☐ Remove socket.io dependencies from router.
+		

@@ -1,46 +1,29 @@
 import * as srocket from "./../src/";
 
 import {Server} from "mock-socket";
-import {SocketPacket} from "../src/structures/SocketPacket";
-import {Newable} from "../../dist/lib/src/structures/Newable";
-import {RouteConfig} from "../src/router/RouteConfig";
 import {doAssert} from "./Helpers/AsyncHelpers";
+import {RouterTestUtil} from "./Helpers/RouteTestUtil";
 
 describe("The Router", () => {
-	let router: srocket.Router;
-
-	function testRoute(route: Newable<srocket.Route>, routeConfig: RouteConfig) {
-		router.register(route, routeConfig);
-		return {
-			withEmitData(data: any, callback?: VoidFunction) {
-				const packet = new SocketPacket().setRoutePath(routeConfig.path).setUserData(data);
-				router.route(packet, {} as any).then();
-
-				if (callback) {
-					callback();
-				}
-
-				return this;
-			}
-		}
-	}
+	let helper: RouterTestUtil;
 
 	beforeEach(() => {
-		router = new srocket.Router({} as any);
+		const router = new srocket.Router({} as any);
+		helper = new RouterTestUtil(router);
 	});
 
-	it("Should route packets", done => {
+	it("Should route packets", async done => {
 		class route extends srocket.Route {
 			on() {
 				done();
 			}
 		}
 
-		testRoute(route, {path: "test"})
-			.withEmitData({});
+		const tester = await helper.testRoute(route, {path: "test"});
+		await tester.withData({});
 	});
 
-	it('should pass the received data to the handler if there is no validation', done => {
+	it("should pass the received data to the handler if there is no validation", async done => {
 		class route extends srocket.Route {
 			on(req: srocket.Request) {
 				doAssert(done, () => {
@@ -50,16 +33,23 @@ describe("The Router", () => {
 			}
 		}
 
-		testRoute(route, {path: "test"})
-			.withEmitData({hello: "world"});
+		const tester = await helper.testRoute(route, {path: "test"});
+		await tester.withData({hello: "world"});
 	});
 
-	it("should call the on method with the validated data when model validation was successful", done => {
+	it("should validate model and call the correct route methods", async done => {
+		let validationErrorCalls = 0;
+		let onCalls = 0;
+
 		class route extends srocket.Route {
+			onValidationError() {
+				console.log("Validation Error call");
+				validationErrorCalls++;
+			}
+
 			on(req) {
-				doAssert(done, () => {
-					expect(req.data.message).toEqual("some-message");
-				})
+				console.log("On Call");
+				onCalls++;
 			}
 		}
 
@@ -69,28 +59,51 @@ describe("The Router", () => {
 			public message: string;
 		}
 
-		testRoute(route, {path: "test", model: RouteModel})
-			.withEmitData({message: "some-message"});
-	})
+		const tester = await helper.testRoute(route, {path: "test", model: RouteModel});
+		await tester.withData({message: "some-message"});
+		await tester.withData({mEsSaGe: 1337});
 
-	it("should call the onValidationError method with the error when model validation fails", done => {
-		class route extends srocket.Route {
-			onValidationError(e) {
-				doAssert(done, () => {
-					expect(e).toBeInstanceOf(Error);
-				})
-			}
-		}
-
-		class RouteModel extends srocket.Model {
-			@srocket.ModelProp()
-			@srocket.tsV.IsDefined()
-			public message: string;
-		}
-
-		testRoute(route, {path: "test", model: RouteModel})
-			.withEmitData({mEsSaGe: 123});
+		doAssert(done, () => {
+			expect(validationErrorCalls).toEqual(1);
+			expect(onCalls).toEqual(1);
+		});
 	});
-	
-	it("should call ")
+
+	it("should validate with parameter models and call the correct route method", async done => {
+		let validationErrorCalls = 0;
+		let onCalls = 0;
+
+		class route extends srocket.Route {
+			onValidationError() {
+				validationErrorCalls++;
+			}
+
+			on() {
+				onCalls++;
+			}
+		}
+
+		const tester = await helper.testRoute(route, {
+			path: "test",
+			data: {
+				message: {
+					type: String,
+					rules: [
+						{
+							method: srocket.jsV.contains,
+							args: ["patrick"]
+						}
+					]
+				}
+			}
+		});
+
+		await tester.withData({message: "patrick is a dog"});
+		await tester.withData({message: 1122});
+
+		doAssert(done, () => {
+			expect(validationErrorCalls).toEqual(1);
+			expect(onCalls).toEqual(1);
+		});
+	});
 });

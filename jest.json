@@ -1,7 +1,7 @@
 {
 	"testEnvironment": "node",
 	"notify": true,
-	"notify-mode": "change",
+	"notifyMode": "change",
 	"bail": true,
 	"transform": {
 		"^.+\\.tsx?$": "ts-jest"

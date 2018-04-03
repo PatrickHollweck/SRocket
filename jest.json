@@ -1,0 +1,17 @@
+{
+	"transform": {
+		"^.+\\.tsx?$": "ts-jest"
+	},
+	"testMatch": ["**/__test__/**/*.test.ts", "**/test/**/*.test.ts"],
+	"modulePathIgnorePatterns": [
+		"dist"
+	],
+	"moduleFileExtensions": [
+		"ts",
+		"tsx",
+		"js",
+		"jsx",
+		"json",
+		"node"
+	]
+}

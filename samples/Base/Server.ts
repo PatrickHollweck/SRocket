@@ -14,7 +14,7 @@ import {
 	Model,
 	MiddlewareBase,
 	NestedRoute
-} from "./../../src/";
+} from "../../lib/src/index";
 
 import { createHandyClient } from "handy-redis";
 

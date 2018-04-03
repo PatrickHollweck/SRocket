@@ -1,6 +1,6 @@
 import { expect } from "chai";
 
-import { Validator, ValidationContext, jsV, ValidationStatus } from "../src/validation";
+import { Validator, ValidationContext, jsV } from "../src/validation";
 import { RuleSchema } from "../src/validation/Validator";
 
 describe("The Validator", () => {
@@ -53,7 +53,7 @@ describe("The Validator", () => {
 				]
 			}
 		};
-
+		
 		it("should fail when given no data", () => {
 			const result = Validator.validateSchema(userSchema, null);
 			expect(result.didFail()).to.equal(true);

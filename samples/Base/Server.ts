@@ -3,7 +3,6 @@ process.env["DEBUG"] = "srocket:*";
 import {
 	SRocket,
 	ConfigBuilder,
-	Config,
 	ModelProp,
 	tsV,
 	jsV,
@@ -81,8 +80,11 @@ class DataRoute extends Route {
 }
 
 class SampleMiddleware extends MiddlewareBase {
+	private static called = false;
 	beforeEventCall() {
-		console.log('BEFORE EVENT - Called by "SampleMiddleware"');
+		if(!SampleMiddleware.called) {
+			console.log('Middlewares are working BTW!');
+		}
 	}
 }
 

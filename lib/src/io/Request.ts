@@ -6,8 +6,8 @@ export class Request<T = any> {
 	public data: T;
 
 	constructor(data: T, socket: SocketIO.Socket, packet: SocketIO.Packet) {
-		this.data = data;
-		this.socket = socket;
 		this.packet = SocketPacket.fromSocketIOPacket(packet);
+		this.data = this.packet.getUserData();
+		this.socket = socket;
 	}
 }

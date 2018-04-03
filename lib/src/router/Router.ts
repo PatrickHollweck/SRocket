@@ -13,7 +13,7 @@ import { TypedPair } from "../structures/Pair";
 import { Newable } from "../structures/Newable";
 import { Route } from "./Route";
 import { Model } from "../model";
-import {SocketPacket} from "../structures/SocketPacket";
+import { SocketPacket } from "../structures/SocketPacket";
 
 export type NewableRoute = Newable<Route>;
 
@@ -46,7 +46,7 @@ export class Router {
 
 	public async route(packet: SocketIO.Packet, socket: SocketIO.Socket) {
 		const socketPacket = SocketPacket.fromSocketIOPacket(packet);
-		
+
 		const route = this.findRoute(socketPacket);
 		if (!route) {
 			this.callbacks.executeFor(RouterCallbackType.ROUTE_NOT_FOUND);
@@ -57,9 +57,7 @@ export class Router {
 	}
 
 	public registerBulk(...routes: Array<NewableRoute>) {
-		for (const route of routes) {
-			this.register(route);
-		}
+		routes.forEach(route => this.register(route));
 	}
 
 	public register(route: NewableRoute, routeConfig?: RouteConfig) {
@@ -67,7 +65,7 @@ export class Router {
 		const internalRoute = new InternalRoute(routeConfig || Router.getRouteConfig(route), instance);
 
 		this.logger.info(`Registering Route: ${internalRoute.getRoutePath()}`);
-		
+
 		const nestedRoutes = new Array<TypedPair<RouteConfig, NewableRoute>>();
 		for (const property in instance) {
 			const metadata = Router.getNestedRouteConfig(instance, property);

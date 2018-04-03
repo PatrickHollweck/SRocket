@@ -53,7 +53,7 @@ describe("The Validator", () => {
 				]
 			}
 		};
-		
+
 		it("should fail when given no data", () => {
 			const result = Validator.validateSchema(userSchema, null);
 			expect(result.didFail()).to.equal(true);

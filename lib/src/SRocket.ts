@@ -15,8 +15,8 @@ export class SRocket {
 	protected config: Config;
 
 	public constructor(config: Config) {
-		this.ioServer = sio(config.serverConfig);
 		this.config = config;
+		this.ioServer = sio.listen(config.serverConfig);
 		this.router = new Router(this.ioServer);
 	}
 

@@ -1,5 +1,5 @@
-import { RouteConfig } from "../router/RouteConfig";
-import { Route } from "../router/Route";
+import { RouteConfig } from "./RouteConfig";
+import { Route } from "./Route";
 
 export class InternalRoute extends Route {
 	public config: RouteConfig;

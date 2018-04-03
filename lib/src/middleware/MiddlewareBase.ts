@@ -1,4 +1,4 @@
-import {MiddlewareContext} from "./MiddlewareContext";
+import { MiddlewareContext } from "./MiddlewareContext";
 
 export abstract class MiddlewareBase {
 	onEventValidationError(context: MiddlewareContext) {}

@@ -1,9 +1,16 @@
 {
+	"testEnvironment": "node",
+	"notify": true,
+	"notify-mode": "change",
+	"bail": true,
 	"transform": {
 		"^.+\\.tsx?$": "ts-jest"
 	},
-	"testMatch": ["**/__test__/**/*.test.ts", "**/test/**/*.test.ts"],
+	"testMatch": ["**/lib/test/**/*.test.ts"],
 	"modulePathIgnorePatterns": [
+		"node_modules",
+		"samples",
+		"docs",
 		"dist"
 	],
 	"moduleFileExtensions": [

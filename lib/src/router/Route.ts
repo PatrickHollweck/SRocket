@@ -1,8 +1,5 @@
-import { RouteConfig } from "../router/RouteConfig";
-import { NewableRoute } from "../router/Router";
-
-import { Response } from "../io/Response";
-import { Request } from "../io/Request";
+import { Response } from "../io";
+import { Request } from "../io";
 
 export abstract class Route {
 	onValidationError(error: Error, request: Request, response: Response): Promise<void> | void {}

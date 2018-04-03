@@ -7,6 +7,8 @@ const fs = require("fs");
 const pkgJsonPath = "../package";
 const pkgJson = require(pkgJsonPath);
 
+// IDEA: Maybe use https://github.com/nuxt/consola || https://github.com/SBoudrias/Inquirer.js
+
 console.log(chalk.bgYellowBright.black.bold("Welcome to the SRocket deploy script! \n"));
 
 if(!reader.keyInYN("Are you in the Root directory ? - Where the Readme is?")) {

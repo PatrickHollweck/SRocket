@@ -4,9 +4,9 @@
 import * as sio from "socket.io";
 import * as sioWildcard from "socketio-wildcard";
 
-import { MiddlewareBase } from "./Middleware/MiddlewareBase";
-import { Config, ConfigBuilder } from "./config";
-import { Router, RouterCallbackType } from "./router/Router";
+import { MiddlewareBase } from "./middleware";
+import { Config } from "./config";
+import { Router, RouterCallbackType } from "./router";
 
 export class SRocket {
 	public router: Router;

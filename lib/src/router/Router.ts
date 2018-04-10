@@ -8,12 +8,12 @@ import { AbsentPropertyError } from "../errors";
 import { Response, Request } from "../io";
 import { InternalRoute } from "./InternalRoute";
 import { getModelProps } from "../decorator/ModelProp";
+import { SocketPacket } from "../structures/SocketPacket";
 import { RouteConfig } from "./RouteConfig";
 import { TypedPair } from "../structures/Pair";
 import { Newable } from "../structures/Newable";
 import { Route } from "./Route";
 import { Model } from "../model";
-import { SocketPacket } from "../structures/SocketPacket";
 
 export type NewableRoute = Newable<Route>;
 

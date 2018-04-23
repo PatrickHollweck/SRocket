@@ -18,7 +18,7 @@ class TestRoute extends Route {
 	}
 }
 
-srocket.router.register(TestRoute);
+srocket.router.routes.register(TestRoute);
 
 srocket.listen(() => {
 	console.log(`Server is listening on ${srocket.getConfig().port}`);

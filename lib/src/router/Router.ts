@@ -66,21 +66,22 @@ export class Router {
 
 		this.logger.info(`Registering Route: ${internalRoute.getRoutePath()}`);
 
-		const nestedRoutes = new Array<TypedPair<RouteConfig, NewableRoute>>();
-		for (const property in instance) {
-			const metadata = Router.getNestedRouteConfig(instance, property);
-			if (metadata) {
-				const nestedRoute = instance[property];
-				nestedRoutes.push(new TypedPair(metadata, nestedRoute));
-			}
-		}
+		// TODO: Refactor
+		// const nestedRoutes = new Array<TypedPair<RouteConfig, NewableRoute>>();
+		// for (const property in instance) {
+		// 	const metadata = Router.getNestedRouteConfig(instance, property);
+		// 	if (metadata) {
+		// 		const nestedRoute = instance[property];
+		// 		nestedRoutes.push(new TypedPair(metadata, nestedRoute));
+		// 	}
+		// }
 
-		if (nestedRoutes.length > 0) {
-			for (const nestedRoute of nestedRoutes) {
-				nestedRoute.key.path = internalRoute.getRoutePath() + nestedRoute.key.path;
-				this.register(nestedRoute.value, nestedRoute.key);
-			}
-		}
+		// if (nestedRoutes.length > 0) {
+		// 	for (const nestedRoute of nestedRoutes) {
+		// 		nestedRoute.key.path = internalRoute.getRoutePath() + nestedRoute.key.path;
+		// 		this.register(nestedRoute.value, nestedRoute.key);
+		// 	}
+		// }
 
 		this.routes.push(internalRoute);
 	}
@@ -144,10 +145,6 @@ export class Router {
 
 	protected static getRouteConfig(route: Route | NewableRoute): RouteConfig {
 		return Metadata.getClassDecorator(RouteDecorator.routeMetadataKey, route);
-	}
-
-	protected static getNestedRouteConfig(route: Route | NewableRoute, property: string): RouteConfig {
-		return Metadata.getPropertyDecorator(RouteDecorator.nestedRouteMetadataKey, route, property);
 	}
 
 	protected static async validateWithModel(model: Newable<Model>, packet: SocketPacket): Promise<ValidationResult> {

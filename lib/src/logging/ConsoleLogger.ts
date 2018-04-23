@@ -6,7 +6,7 @@ export class ConsoleLogger implements Logger {
 	public isEnabled: boolean = true;
 	public name: string;
 
-	private logger: any;
+	private readonly logger: any;
 
 	constructor(name: string) {
 		this.name = name;

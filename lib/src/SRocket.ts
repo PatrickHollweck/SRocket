@@ -6,7 +6,6 @@ import * as sioWildcard from "socketio-wildcard";
 
 import { Router, RouterCallbackType } from "./router";
 import { getModuleConfigDecorator } from "./decorator/ModuleConfig";
-import { AbstractContainer } from "./DI/AbstractContainer";
 import { MiddlewareBase } from "./middleware";
 import { container } from "./DI/SRocketContainer";
 import { Container } from "inversify";
@@ -34,7 +33,8 @@ export class SRocket {
 	}
 	
 	public configureContainer(fn: (container: Container) => void) {
-		fn(this.container);
+		fn(container.instance);
+		return this;
 	}
 	
 	public separationConvention(convention: string) {
@@ -47,10 +47,10 @@ export class SRocket {
 			const metadata = getModuleConfigDecorator(module);
 			if(!metadata) throw new Error(`Could not get decorator for module named: ${module}`);
 			
-			this.router.routes.controller(metadata.controllers);
+			this.router.routes.controller(metadata, metadata.controllers[0]);
 		}
 		
-		return this
+		return this;
 	}
 	
 	public listen(callback?: Function) {

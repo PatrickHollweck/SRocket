@@ -16,6 +16,8 @@ Libs:
 
 TODOS:
 
+	FIX TESTS!
+
 	Features for srocket:
 		☐ Finish up middleware support.
 		☐ Better defaults for error handling.
@@ -42,5 +44,4 @@ TODOS:
 
 	Test:
 		☐ Add more tests :)
-		☐ Remove socket.io dependencies from router.
-		
+		☐ Remove socket.io dependencies from router.	

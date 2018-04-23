@@ -4,25 +4,59 @@
 import * as sio from "socket.io";
 import * as sioWildcard from "socketio-wildcard";
 
-import { MiddlewareBase } from "./middleware";
-import { Config } from "./config";
 import { Router, RouterCallbackType } from "./router";
+import { getModuleConfigDecorator } from "./decorator/ModuleConfig";
+import { AbstractContainer } from "./DI/AbstractContainer";
+import { MiddlewareBase } from "./middleware";
+import { container } from "./DI/SRocketContainer";
+import { Container } from "inversify";
+import { Module } from "./modules";
+import { Config } from "./config";
 
 export class SRocket {
-	public router: Router;
+	public config: Config;
 	public ioServer: SocketIO.Server;
-
-	protected config: Config;
-
-	public constructor(config: Config) {
-		this.config = config;
-		this.ioServer = sio.listen(config.serverConfig);
+	
+	protected router: Router;
+	
+	private constructor(port: number) {
+		this.config = new Config();
+		// TODO: Add ability to access config back
+		this.ioServer = sio.listen(port);
+		// TODO: Remove dependency on server.
 		this.router = new Router(this.ioServer);
+		
+		container.instance.bind(Config).toConstantValue(this.config);
 	}
-
+	
+	public static make(port: number) {
+		return new SRocket(port);
+	}
+	
+	public configureContainer(fn: (container: Container) => void) {
+		fn(this.container);
+	}
+	
+	public separationConvention(convention: string) {
+		this.config.seperationConvention = convention;
+		return this;
+	}
+	
+	public modules(...modules: Module[]) {
+		for(const module of modules) {
+			const metadata = getModuleConfigDecorator(module);
+			if(!metadata) throw new Error(`Could not get decorator for module named: ${module}`);
+			
+			this.router.routes.controller(metadata.controllers);
+		}
+		
+		return this
+	}
+	
 	public listen(callback?: Function) {
 		this.ioServer.use(sioWildcard());
 
+		// TODO: Extract
 		this.ioServer.on("connection", socket => {
 			socket.on("*", async packet => {
 				await this.router.route(packet, socket);
@@ -31,11 +65,11 @@ export class SRocket {
 
 		this.ioServer.listen(this.config.port);
 		if (callback) {
-			callback();
+			callback(this);
 		}
 	}
 
-	public use(middleware: MiddlewareBase) {
+	public middleware(middleware: MiddlewareBase) {
 		this.router.registerCallback(RouterCallbackType.VALIDATION_ERROR, middleware.onEventValidationError);
 		this.router.registerCallback(RouterCallbackType.BEFORE_EVENT, middleware.beforeEventCall);
 		this.router.registerCallback(RouterCallbackType.AFTER_EVENT, middleware.afterEventCall);
@@ -44,9 +78,5 @@ export class SRocket {
 
 	public shutdown() {
 		this.ioServer.close();
-	}
-
-	public getConfig() {
-		return this.config;
 	}
 }

@@ -1,2 +1,2 @@
 export { ModelProp } from "./ModelProp";
-export { RouteConfig } from "./Route";
+export { RouteConfig } from "./RouteConfig";

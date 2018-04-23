@@ -22,10 +22,10 @@ export enum RouterCallbackType {
 
 export class Router {
 	protected logger: Logger;
-	// TODO: Lower access level!
-	public routes: RouteCollection;
 	protected server: SocketIO.Server;
 	protected callbacks: CallbackCollection;
+	
+	public routes: RouteCollection;
 
 	public constructor(server: SocketIO.Server) {
 		this.routes = new RouteCollection();

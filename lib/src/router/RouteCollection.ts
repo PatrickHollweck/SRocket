@@ -1,13 +1,18 @@
-import { SocketPacket } from "../structures/SocketPacket";
+import * as RouteDecorator from "../decorator/RouteConfig";
+
+import { ConsoleLogger, Logger } from "../logging";
 import { InternalRoute } from "./InternalRoute";
-import { NewableRoute, Router } from "./Router";
+import { SocketPacket } from "../structures/SocketPacket";
+import { NewableRoute } from "./Router";
 import { RouteConfig } from "./RouteConfig";
+import { Controller } from "./Controller";
 import { Metadata } from "../utility";
 import { Route } from "./Route";
-import * as RouteDecorator from "../decorator/Route";
-import { ConsoleLogger, Logger } from "../logging";
+import { inject } from "../DI/SRocketContainer";
+import { Config } from "../config";
 
 export class RouteCollection {
+	@inject(Config)	protected config: Config;
 	protected routes: InternalRoute[];
 	protected logger: Logger;
 	
@@ -20,15 +25,15 @@ export class RouteCollection {
 		return this.routes.find(internalRoute => internalRoute.getRoutePath() === packet.getRoutePath());
 	}
 
-	public registerBulk(...routes: Array<NewableRoute>) {
-		routes.forEach(route => this.register(route));
+	public controller(...controllers: Controller[]) {
+		for(const controller of controllers) {
+			console.log(controller);
+		}
 	}
 	
-	public register(route: NewableRoute, routeConfig?: RouteConfig) {
+	public class(route: NewableRoute, routeConfig?: RouteConfig) {
 		const instance = new route();
 		const internalRoute = new InternalRoute(routeConfig || RouteCollection.getRouteConfig(route), instance);
-
-		this.logger.info(`Registering Route: ${internalRoute.getRoutePath()}`);
 
 		// TODO: Refactor
 		// const nestedRoutes = new Array<TypedPair<RouteConfig, NewableRoute>>();
@@ -46,8 +51,13 @@ export class RouteCollection {
 		// 		this.register(nestedRoute.value, nestedRoute.key);
 		// 	}
 		// }
-
-		this.routes.push(internalRoute);
+		
+		this.addRoute(internalRoute);
+	}
+	
+	protected addRoute(route: InternalRoute) {
+		this.logger.info(`Registering Route: ${route.getRoutePath()}`);
+		this.routes.push(route);
 	}
 
 	protected static getRouteConfig(route: Route | NewableRoute): RouteConfig {

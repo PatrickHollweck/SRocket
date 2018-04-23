@@ -12,7 +12,7 @@
 		"allowSyntheticDefaultImports": true,
 		"noLib": false,
 		"noImplicitAny": false,
-		"removeComments": true,
+		"removeComments": false,
 		"noImplicitReturns": true,
 		"diagnostics": true,
 		"noImplicitThis": true,

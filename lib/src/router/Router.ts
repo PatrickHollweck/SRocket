@@ -57,38 +57,37 @@ export class Router {
 		this.callbacks.addCallback(type, callback);
 	}
 
-	protected triggerValidationError(route: InternalRoute, error: Error, socket: SocketIO.Socket, packet: SocketPacket) {
+	protected async triggerValidationError(route: InternalRoute, error: Error, socket: SocketIO.Socket, packet: SocketPacket) {
 		try {
 			this.callbacks.executeFor(RouterCallbackType.VALIDATION_ERROR);
-			route.getInstance().onValidationError(error, new Request(null, socket, packet), new Response(socket, route, this.server));
+			await route.callOnValidationError(error, new Request(null, socket, packet), new Response(socket, route, this.server));
 		} catch (error) {
-			this.triggerInternalError(route, error, socket, packet);
+			await this.triggerInternalError(route, error, socket, packet);
 		}
 	}
 
-	protected triggerInternalError(route: InternalRoute, error: Error, socket: SocketIO.Socket, packet: SocketPacket) {
-		route.getInstance().onError(error, new Request(null, socket, packet), new Response(socket, route, this.server));
+	protected async triggerInternalError(route: InternalRoute, error: Error, socket: SocketIO.Socket, packet: SocketPacket) {
+		await route.callOnError(error, new Request(null, socket, packet), new Response(socket, route, this.server));
 	}
-
+	
 	protected async invokeRoute(route: InternalRoute, socket: SocketIO.Socket, packet: SocketPacket) {
-		const instance = route.getInstance();
 		const response = new Response(socket, route, this.server);
 
 		const execute = async validationResult => {
 			if (validationResult.didFail()) {
-				this.triggerValidationError(route, validationResult.errors[0], socket, packet);
+				await this.triggerValidationError(route, validationResult.errors[0], socket, packet);
 			} else {
 				const request = new Request(validationResult.target, socket, packet);
 				try {
 					this.callbacks.executeFor(RouterCallbackType.BEFORE_EVENT);
 
-					await instance.before(request, response);
-					await instance.on(request, response);
-					await instance.after(request, response);
+					await route.callBefore(request, response);
+					await route.callOn(request, response);
+					await route.callAfter(request, response);
 
 					this.callbacks.executeFor(RouterCallbackType.AFTER_EVENT);
 				} catch (error) {
-					this.triggerInternalError(route, error, socket, packet);
+					await this.triggerInternalError(route, error, socket, packet);
 				}
 			}
 		};
@@ -106,7 +105,7 @@ export class Router {
 		}
 	}
 
-
+	// TODO: Implement this as a middleware.
 	protected static async validateWithModel(model: Newable<Model>, packet: SocketPacket): Promise<ValidationResult> {
 		const actualArgs = packet.getUserData();
 		if (!actualArgs) {

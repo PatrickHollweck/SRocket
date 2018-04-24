@@ -5,7 +5,7 @@ import { SRocket } from "../../lib/src";
 import { UserModule } from "./Users/Users.module";
 
 SRocket.make(1340)
-	.separationConvention("::")
+	.separationConvention(":")
 	.modules(UserModule)
 	.listen(app => {
 		console.log(`Server is listening on ${app.config.port}`);

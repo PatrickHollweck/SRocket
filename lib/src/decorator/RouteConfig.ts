@@ -1,10 +1,16 @@
-import { RouteConfig } from "../router/RouteConfig";
+import { UserRouteConfig, RouteConfig } from "../router/RouteConfig";
 import "reflect-metadata";
 
 export const routeMetadataKey = Symbol("routeDecoratorKey");
 
-export function RouteConfig(config: RouteConfig): Function {
+export function RouteConfig(routePath: string, config: UserRouteConfig = {}): Function {
 	return (target: Function, property: string) => {
-		Reflect.defineMetadata(routeMetadataKey, config, target, property);
+		const actualConfig: RouteConfig = {
+			path: routePath,
+			data: config.data,
+			model: config.model
+		};
+		
+		Reflect.defineMetadata(routeMetadataKey, actualConfig, target, property);
 	};
 }

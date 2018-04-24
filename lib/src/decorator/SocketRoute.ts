@@ -3,10 +3,10 @@ import "reflect-metadata";
 
 export const routeMetadataKey = Symbol("routeDecoratorKey");
 
-export function RouteConfig(routePath: string, config: UserRouteConfig = {}): Function {
+export function SocketRoute(config: UserRouteConfig = {}): Function {
 	return (target: Function, property: string) => {
 		const actualConfig: RouteConfig = {
-			path: routePath,
+			path: config.path || property,
 			data: config.data,
 			model: config.model
 		};

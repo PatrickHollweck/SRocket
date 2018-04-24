@@ -83,7 +83,7 @@ export class Validator {
 		if (rule.message) {
 			return Validator.parseMessage(rule.message, context);
 		} else {
-			return `Validator Rule: "${rule.method}" with args: "${rule.args}" failed!`;
+			return `Validator Rule: "${rule.method.name}" with args: "${rule.args}" failed!`;
 		}
 	}
 

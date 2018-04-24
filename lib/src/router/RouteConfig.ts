@@ -11,6 +11,7 @@ export type RouteConfig = {
 };
 
 export type UserRouteConfig = {
+	path?: string;
 	model?: Newable<Model>;
 	data?: RuleSchema;
 };

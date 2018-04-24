@@ -1,2 +1,2 @@
 export { ModelProp } from "./ModelProp";
-export { RouteConfig } from "./RouteConfig";
+export { SocketRoute } from "./SocketRoute";

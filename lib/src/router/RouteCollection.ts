@@ -1,5 +1,5 @@
 import { ConsoleLogger, Logger } from "../logging";
-import { routeMetadataKey } from "../decorator/RouteConfig";
+import { routeMetadataKey } from "../decorator/SocketRoute";
 import { InternalRoute } from "./InternalRoute";
 import { ModuleConfig } from "../modules/ModuleConfig";
 import { SocketPacket } from "../structures/SocketPacket";

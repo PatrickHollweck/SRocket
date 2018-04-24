@@ -3,13 +3,13 @@ import { CallbackCollection, populateObject } from "../utility";
 import { Logger, ConsoleLogger } from "../logging";
 import { AbsentPropertyError } from "../errors";
 import { Response, Request } from "../io";
+import { RouteCollection } from "./RouteCollection";
 import { InternalRoute } from "./InternalRoute";
 import { getModelProps } from "../decorator/ModelProp";
 import { SocketPacket } from "../structures/SocketPacket";
 import { Newable } from "../structures/Newable";
 import { Route } from "./Route";
 import { Model } from "../model";
-import { RouteCollection } from "./RouteCollection";
 
 export type NewableRoute = Newable<Route>;
 

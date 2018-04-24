@@ -9,6 +9,7 @@ import { Metadata } from "../utility";
 import { Newable } from "../structures/Newable";
 import { inject } from "../DI/SRocketContainer";
 import { Config } from "../config";
+import { Route } from "./Route";
 
 export class RouteCollection {
 	@inject(Config) protected config: Config;
@@ -28,18 +29,51 @@ export class RouteCollection {
 		for (const controller of controllers) {
 			const instance = new controller();
 			for (const property in instance) {
-				const metadata = Metadata.getPropertyDecorator(routeMetadataKey, instance, property);
-				if (!metadata) continue;
-
-				const routeInstance = new instance[property]();
-				this.concatNamespace(metadata, module.namespace);
-				const route = new InternalRoute(metadata, routeInstance);
-
-				this.addRoute(route);
+				if(this.hasValidRouteMetadata(instance, property)) {
+					this.registerStandalone(instance, module, property);
+				}
 			}
 		}
 	}
+	
+	public registerStandalone(target: any, module: ModuleConfig, property?: string) {
+		const metadata = this.getRouteMetadata(target, property );
+		
+		let instance: Route;
+		if(property) {
+			instance = new target[property]();
+		} else {
+			instance = new target();
+		}
+		
+		this.concatNamespace(metadata, module.namespace);
+		const internalRoute = new InternalRoute(metadata, instance);
+		
+		this.addRoute(internalRoute);
+	}
+	
+	protected getRouteMetadata(target: any, property?: string): RouteConfig {
+		let metadata: RouteConfig;
+		if(property) {
+			metadata = Metadata.getPropertyDecorator(routeMetadataKey, target, property);
+		} else {
+			metadata = Metadata.getClassDecorator(routeMetadataKey, target);
+		}
 
+		if(!metadata) throw new Error("Tried to register a class Route with no decorator");
+		
+		return metadata;
+	}
+	
+	protected hasValidRouteMetadata(target: any, property?: string) {
+		try {
+			this.getRouteMetadata(target, property);
+			return true;
+		} catch(error) {
+			return false;
+		}
+	}
+	
 	protected concatNamespace(route: RouteConfig, namespace: string) {
 		route.path = `${namespace}${this.config.seperationConvention}${route.path}`;
 	}

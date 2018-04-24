@@ -17,6 +17,7 @@ Libs:
 TODOS:
 
 	FIX TESTS!
+	Note for docs: Nested routes are killed!
 
 	Features for srocket:
 		☐ Finish up middleware support.

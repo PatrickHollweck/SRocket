@@ -14,14 +14,20 @@ export class UserController extends Controller {
 			}
 		}
 	})
-	addUser = (): Route => {
-		return {
-			onValidationError(e: Error) {
-				console.log("Got validation error call to users:addUser", e.message);
-			},
-			on(req: Request, res: Response) {
-				console.log("Got call to users:addUser with data", req.data);
-			}
-		};
-	};
+	// TODO: Allow for shorthand handlers like addUser() { [code] }
+	lambda = (): Route => ({
+		onValidationError(e: Error) {
+			console.log("Got validation error call to users:lambda", e.message);
+		},
+		on(req: Request, res: Response) {
+			console.log("Got call to users:lambda with data", req.data);
+		}
+	});
+	
+	@SocketRoute()
+	classRoute = class implements Route {
+		on(req: Request) {
+			console.log("Got call to users:classRoute with data:", req.data);
+		}
+	}
 }

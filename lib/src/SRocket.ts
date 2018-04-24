@@ -15,44 +15,44 @@ import { Config } from "./config";
 export class SRocket {
 	public config: Config;
 	public ioServer: SocketIO.Server;
-	
+
 	protected router: Router;
-	
+
 	private constructor(port: number) {
 		this.config = new Config();
 		// TODO: Add ability to access config back
 		this.ioServer = sio.listen(port);
 		// TODO: Remove dependency on server.
 		this.router = new Router(this.ioServer);
-		
+
 		container.instance.bind(Config).toConstantValue(this.config);
 	}
-	
+
 	public static make(port: number) {
 		return new SRocket(port);
 	}
-	
+
 	public configureContainer(fn: (container: Container) => void) {
 		fn(container.instance);
 		return this;
 	}
-	
+
 	public separationConvention(convention: string) {
 		this.config.seperationConvention = convention;
 		return this;
 	}
-	
+
 	public modules(...modules: Module[]) {
-		for(const module of modules) {
+		for (const module of modules) {
 			const metadata = getModuleConfigDecorator(module);
-			if(!metadata) throw new Error(`Could not get decorator for module named: ${module}`);
-			
+			if (!metadata) throw new Error(`Could not get decorator for module named: ${module}`);
+
 			this.router.routes.controller(metadata, metadata.controllers[0]);
 		}
-		
+
 		return this;
 	}
-	
+
 	public listen(callback?: Function) {
 		this.ioServer.use(sioWildcard());
 

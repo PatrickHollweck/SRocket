@@ -5,8 +5,6 @@ import { UserController } from "./Controllers/User.controller";
 
 @ModuleConfig({
 	namespace: "users",
-	controllers: [
-		UserController
-	],
+	controllers: [UserController]
 })
 export class UserModule extends Module {}

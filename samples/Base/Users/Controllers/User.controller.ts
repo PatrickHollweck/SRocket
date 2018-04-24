@@ -8,9 +8,7 @@ export class UserController extends Controller {
 		data: {
 			userName: {
 				type: String,
-				rules: [
-					{ method: jsV.contains, args: ["patrick"] }
-				]
+				rules: [{ method: jsV.contains, args: ["patrick"] }]
 			}
 		}
 	})
@@ -19,6 +17,6 @@ export class UserController extends Controller {
 			on(req: Request, res: Response) {
 				console.log("Got call to users:addUser with data", req.data);
 			}
-		}
-	}
+		};
+	};
 }

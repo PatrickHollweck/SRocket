@@ -10,7 +10,7 @@ export function RouteConfig(routePath: string, config: UserRouteConfig = {}): Fu
 			data: config.data,
 			model: config.model
 		};
-		
+
 		Reflect.defineMetadata(routeMetadataKey, actualConfig, target, property);
 	};
 }

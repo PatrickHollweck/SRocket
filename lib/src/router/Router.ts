@@ -24,7 +24,7 @@ export class Router {
 	protected logger: Logger;
 	protected server: SocketIO.Server;
 	protected callbacks: CallbackCollection;
-	
+
 	public routes: RouteCollection;
 
 	public constructor(server: SocketIO.Server) {
@@ -69,7 +69,7 @@ export class Router {
 	protected async triggerInternalError(route: InternalRoute, error: Error, socket: SocketIO.Socket, packet: SocketPacket) {
 		await route.callOnError(error, new Request(null, socket, packet), new Response(socket, route, this.server));
 	}
-	
+
 	protected async invokeRoute(route: InternalRoute, socket: SocketIO.Socket, packet: SocketPacket) {
 		const response = new Response(socket, route, this.server);
 

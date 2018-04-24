@@ -1,4 +1,4 @@
-import { AbstractContainer } from "./AbstractContainer"
+import { AbstractContainer } from "./AbstractContainer";
 
 const container = new AbstractContainer();
 

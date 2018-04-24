@@ -13,4 +13,4 @@ export type RouteConfig = {
 export type UserRouteConfig = {
 	model?: Newable<Model>;
 	data?: RuleSchema;
-}
+};

@@ -4,6 +4,9 @@ import { Route } from "../../../../lib/src/router";
 import { jsV } from "../../../../lib/src/validation";
 
 export class UserController extends Controller {
+	
+	private someClassLevelProp: string = "Hello World";
+	
 	@SocketRoute({
 		data: {
 			userName: {
@@ -15,19 +18,17 @@ export class UserController extends Controller {
 		}
 	})
 	// TODO: Allow for shorthand handlers like addUser() { [code] }
-	lambda = (): Route => ({
-		onValidationError(e: Error) {
-			console.log("Got validation error call to users:lambda", e.message);
+	objectRoute: Route = {
+		onValidationError: (e: Error) => {
+			console.log("Got validation error call to users:objectRoute", e.message);
 		},
-		on(req: Request, res: Response) {
-			console.log("Got call to users:lambda with data", req.data);
+		on: (req: Request, res: Response) => {
+			console.log("Got call to users:objectRoute with data", req.data);
 		}
-	});
+	};
 	
 	@SocketRoute()
-	classRoute = class implements Route {
-		on(req: Request) {
-			console.log("Got call to users:classRoute with data:", req.data);
-		}
+	functional(req: Request, res: Response) {
+		console.log("Got call to users:functional with data:", req.data);
 	}
 }

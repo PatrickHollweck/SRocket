@@ -1,6 +1,7 @@
+import { InternalFunctionalRoute, InternalObjectRoute, InternalRoute } from "./InternalRoute";
+import { FunctionalRoute, Route } from "./Route";
 import { ConsoleLogger, Logger } from "../logging";
 import { routeMetadataKey } from "../decorator/SocketRoute";
-import { InternalRoute } from "./InternalRoute";
 import { ModuleConfig } from "../modules/ModuleConfig";
 import { SocketPacket } from "../structures/SocketPacket";
 import { RouteConfig } from "./RouteConfig";
@@ -9,7 +10,6 @@ import { Metadata } from "../utility";
 import { Newable } from "../structures/Newable";
 import { inject } from "../DI/SRocketContainer";
 import { Config } from "../config";
-import { Route } from "./Route";
 
 export class RouteCollection {
 	@inject(Config) protected config: Config;
@@ -34,24 +34,44 @@ export class RouteCollection {
 			const instance = new controller();
 			for (const property in instance) {
 				if(this.hasValidRouteMetadata(instance, property)) {
-					this.registerStandalone(instance, module, property);
+					if(this.isFunctional(instance[property])) {
+						this.registerFunctional(instance, module, property);
+					} else {
+						this.registerObject(instance, module, property);
+					}
 				}
 			}
 		}
 	}
 	
-	public registerStandalone(target: any, module: ModuleConfig, property?: string) {
+	public registerFunctional(target: any, module: ModuleConfig, property?: string) {
+		const metadata = this.getRouteMetadata(target, property);
+		
+		let instance: FunctionalRoute;
+		if(property) {
+			instance = target[property];
+		} else {
+			instance = target;
+		}
+		
+		this.concatNamespace(metadata, module.namespace);
+		const internalRoute = new InternalFunctionalRoute(metadata, instance);
+		
+		this.addRoute(internalRoute);
+	}
+	
+	public registerObject(target: any, module: ModuleConfig, property?: string) {
 		const metadata = this.getRouteMetadata(target, property );
 		
 		let instance: Route;
 		if(property) {
-			instance = new target[property]();
+			instance = target[property];
 		} else {
-			instance = new target();
+			instance = target;
 		}
 		
 		this.concatNamespace(metadata, module.namespace);
-		const internalRoute = new InternalRoute(metadata, instance);
+		const internalRoute = new InternalObjectRoute(metadata, instance);
 		
 		this.addRoute(internalRoute);
 	}
@@ -67,6 +87,16 @@ export class RouteCollection {
 		if(!metadata) throw new Error("Tried to register a class Route with no decorator");
 		
 		return metadata;
+	}
+	
+	public isFunctional(target: any) {
+		if(typeof target === "object") {
+			return false;
+		} else if(typeof target === "function") {
+			return true
+		} else {
+			throw new Error("Tried to register something as a Route that is nor a object nor a function!");
+		}
 	}
 	
 	protected hasValidRouteMetadata(target: any, property?: string) {

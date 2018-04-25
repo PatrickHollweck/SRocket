@@ -25,10 +25,10 @@ export class Router {
 	protected server: SocketIO.Server;
 	protected callbacks: CallbackCollection;
 
-	public routes: RouteCollection;
+	public routeContainer: RouteCollection;
 
 	public constructor(server: SocketIO.Server) {
-		this.routes = new RouteCollection();
+		this.routeContainer = new RouteCollection();
 		this.server = server;
 		this.logger = new ConsoleLogger("Router");
 
@@ -44,7 +44,7 @@ export class Router {
 	public async route(packet: SocketIO.Packet, socket: SocketIO.Socket) {
 		const socketPacket = SocketPacket.fromSocketIOPacket(packet);
 
-		const route = this.routes.find(socketPacket);
+		const route = this.routeContainer.findForPacket(socketPacket);
 		if (!route) {
 			this.callbacks.executeFor(RouterCallbackType.ROUTE_NOT_FOUND);
 			return this.logger.warning(`Could not find a route for ${socketPacket.getRoutePath()}`);
@@ -80,11 +80,7 @@ export class Router {
 				const request = new Request(validationResult.target, socket, packet);
 				try {
 					this.callbacks.executeFor(RouterCallbackType.BEFORE_EVENT);
-
-					await route.callBefore(request, response);
 					await route.callOn(request, response);
-					await route.callAfter(request, response);
-
 					this.callbacks.executeFor(RouterCallbackType.AFTER_EVENT);
 				} catch (error) {
 					await this.triggerInternalError(route, error, socket, packet);

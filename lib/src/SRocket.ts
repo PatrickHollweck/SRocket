@@ -25,6 +25,7 @@ export class SRocket {
 		// TODO: Remove dependency on server.
 		this.router = new Router(this.ioServer);
 
+		container.instance.bind(SRocket).toConstantValue(this);
 		container.instance.bind(Config).toConstantValue(this.config);
 	}
 
@@ -47,13 +48,13 @@ export class SRocket {
 			const metadata = getModuleConfigDecorator(module);
 			if (!metadata) throw new Error(`Could not get decorator for module named: ${module}`);
 
-			this.router.routes.controller(metadata, metadata.controllers[0]);
+			this.router.routeContainer.controller(metadata, metadata.controllers[0]);
 		}
 
 		return this;
 	}
 
-	public listen(callback?: Function) {
+	public listen(callback?: (app: SRocket) => void) {
 		this.ioServer.use(sioWildcard());
 
 		// TODO: Extract

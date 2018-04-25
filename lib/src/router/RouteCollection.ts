@@ -21,8 +21,12 @@ export class RouteCollection {
 		this.routes = [];
 	}
 
-	public find(packet: SocketPacket) {
+	public findForPacket(packet: SocketPacket) {
 		return this.routes.find(internalRoute => internalRoute.getRoutePath() === packet.getRoutePath());
+	}
+	
+	public find(route: string) {
+		return this.routes.find(internalRoute => internalRoute.getRoutePath() === route);
 	}
 
 	public controller(module: ModuleConfig, ...controllers: Newable<Controller>[]) {

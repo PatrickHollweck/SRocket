@@ -31,4 +31,12 @@ export class UserController extends Controller {
 	functional(req: Request, res: Response) {
 		console.log("Got call to users:functional with data:", req.data);
 	}
+	
+	// TODO: Make SocketRoute a non invokable.
+	@SocketRoute()
+	classR = class implements Route {
+		on(req: Request, res: Response) {
+			console.log("Got call to users:classR with data:", req.data);
+		}
+	}
 }

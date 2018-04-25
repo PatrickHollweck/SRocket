@@ -1,4 +1,10 @@
-import { InternalFunctionalRoute, InternalObjectRoute, InternalRoute } from "./InternalRoute";
+import {
+	InternalClassRoute,
+	InternalFunctionalRoute,
+	InternalObjectRoute,
+	InternalRoute,
+	RouteType
+} from "./InternalRoute";
 import { FunctionalRoute, Route } from "./Route";
 import { ConsoleLogger, Logger } from "../logging";
 import { routeMetadataKey } from "../decorator/SocketRoute";
@@ -34,14 +40,38 @@ export class RouteCollection {
 			const instance = new controller();
 			for (const property in instance) {
 				if(this.hasValidRouteMetadata(instance, property)) {
-					if(this.isFunctional(instance[property])) {
-						this.registerFunctional(instance, module, property);
-					} else {
-						this.registerObject(instance, module, property);
+					switch(this.getRouteType(instance[property])) {
+						case RouteType.objectBased:
+							this.registerObject(instance, module, property);
+							break;
+						case RouteType.functionBased:
+							this.registerFunctional(instance, module, property);
+							break;
+						case RouteType.classBased:
+							this.registerClass(instance, module, property);
+							break;
 					}
 				}
 			}
 		}
+	}
+	
+	public registerClass(target: any, module: ModuleConfig, property?: string) {
+		const metadata = this.getRouteMetadata(target, property);
+		
+		let instance: Route;
+		if(property) {
+			instance = new target[property]();
+		} else {
+			instance = new target();
+		}
+		
+		// TODO: Add support for nested routes ?
+		
+		this.concatNamespace(metadata, module.namespace);
+		const internalRoute = new InternalClassRoute(metadata, instance);
+		
+		this.addRoute(internalRoute);
 	}
 	
 	public registerFunctional(target: any, module: ModuleConfig, property?: string) {
@@ -89,13 +119,17 @@ export class RouteCollection {
 		return metadata;
 	}
 	
-	public isFunctional(target: any) {
+	public getRouteType(target: any): RouteType {
 		if(typeof target === "object") {
-			return false;
-		} else if(typeof target === "function") {
-			return true
+			return RouteType.objectBased;
+		} else if(typeof target === "function") {	
+			if(typeof target.prototype.on === "function") {
+				return RouteType.classBased;
+			} else {
+				return RouteType.functionBased;
+			}
 		} else {
-			throw new Error("Tried to register something as a Route that is nor a object nor a function!");
+			throw new Error("Tried to register something as a Route that is nor a object nor a function or a class without a 'on' function!");
 		}
 	}
 	

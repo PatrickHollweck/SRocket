@@ -22,16 +22,6 @@ export class InternalRoute {
 		return await this.instance.on(req, res);
 	}
 
-	public async callBefore(req: Request, res: Response) {
-		if (!this.instance.before) return;
-		return await this.instance.before(req, res);
-	}
-
-	public async callAfter(req: Request, res: Response) {
-		if (!this.instance.after) return;
-		return await this.instance.after(req, res);
-	}
-
 	public async callOnError(e: Error, req: Request, res: Response) {
 		if (!this.instance.onError) return;
 		return await this.instance.onError(e, req, res);

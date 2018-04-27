@@ -25,8 +25,8 @@ export class SRocket {
 		// TODO: Remove dependency on server.
 		this.router = new Router(this.ioServer);
 
-		container.instance.bind(SRocket).toConstantValue(this);
-		container.instance.bind(Config).toConstantValue(this.config);
+		container.bind(SRocket).toConstantValue(this);
+		container.bind(Config).toConstantValue(this.config);
 	}
 
 	public static make(port: number) {
@@ -34,7 +34,7 @@ export class SRocket {
 	}
 
 	public configureContainer(fn: (container: Container) => void) {
-		fn(container.instance);
+          fn(container);
 		return this;
 	}
 

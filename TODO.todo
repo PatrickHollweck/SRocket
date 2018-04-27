@@ -1,48 +1,50 @@
-Libs:
-    io-router: 
-        - : https://github.com/tdzienniak/io-router/
-        - Uses object based routing -> first arg : config -> route-prefix...
-        - Uses nested objects for routing
-        - Interesting init call with the socket -> https://github.com/tdzienniak/io-router/blob/master/src/index.js
-        - Supports rerouting with merged .route object
-        - Gets request ( modified socket ) as a route param.
+Features:
+	☐ Finish up middleware support.
+	☐ Better defaults for error handling.
+	☐ Handle rooms better.
+	☐ Add validation pipeline
 
-    socketnet:
-        - Built in sessions.
+	Modules:
+		☐ Exposes a socket.io namespace for every module.
 
-    Socket.io-Wildcard:
-		- : https://github.com/hden/socketio-wildcard
-		- Example of a simple middleware
+	Components / Services:
+		☐ Expose via DI container
+		☐ Added via module config field.
 
-TODOS:
+	Controllers:
+		☐ Can have a seperate namespace than the parent module.
+		☐ Decorator ?
+		☐ Can implement a Client-Server interface.
 
-	FIX TESTS!
-	Note for docs: Nested routes are killed!
+	Routes:
+		Validation:
+			Options:
+				☐ ModelState -> Asp.net like
+				☐ Inline -> req.context.validation
+				☐ Validation middleware.
+				☐ Decorator based.
+		☐ Route result: IActionResult -> Asp.net like
+		☐ Request and Response objects ? Or one context like object.
+		☐ Parameter like injections ?
 
-	Features for srocket:
-		☐ Finish up middleware support.
-		☐ Better defaults for error handling.
-		☐ Namespace handling
-		☐ Handle rooms better.
-		☐ Add validation pipeline
-		☐ Cleanup validation code
-		✔ Build wrapper on top of SocketIO.Packet @done (4/1/2018, 2:19:35 PM)
-	
-	Docs:
-		✔ Update docs after refactor, @done (3/30/2018, 4:43:32 PM)
-		✔ Middleware docs. @done (3/30/2018, 4:43:35 PM)
-		✔ Write a section for how to use connection events -> srocket.ioServer.on("connection"); @done (3/30/2018, 4:58:26 PM)
-		☐ Write validation docs.
-		☐ Write a section for recomended configs -> tsconfig - tslint...
+	AppEntry:
+		☐ Async instantiation.
+		☐ Solve the original config problem -> Port in SRocket.make()
+		☐ Client-Server interfaces.
 
-	Misc:
-		☐ Fancy Readme :) -> https://github.com/thoov/mock-socket
+	Proposals:
+		☐ Models.
+		☐ Middlewares.
 
-	Implementation Details:
-		☐ Rethink what should be a default export
-		☐ IOC Container
-		☐ Maybe use socket.io middlewares ?
+Docs:
+	☐ Write validation docs.
+	☐ Write a section for recomended configs -> tsconfig - tslint...
 
-	Test:
-		☐ Add more tests :)
-		☐ Remove socket.io dependencies from router.	
+Implementation Details:
+	☐ Maybe use socket.io middlewares ?
+	☐ Decouple Route from the actuall socket server
+
+Test:
+	☐ Fix existing tests.
+	☐ Add more tests :)
+	☐ Remove socket.io dependencies from router.	

@@ -6,7 +6,7 @@ export interface Route {
 	onError?(error: Error, request: Request, response: Response): Promise<void> | void;
 
 	on?(request: Request, response: Response): Promise<void> | void;
-	
+
 	nested?: {
 		[name: string]: NestedRoute;
 	};

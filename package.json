@@ -6,13 +6,22 @@
         "prettier": "prettier --write ./**/*.ts",
         "start": "nodemon --exec ts-node ./samples/Base/Server.ts",
         "docs:serve": "docsify serve ./docs",
-        "release": "node ./scripts/deploy.js"
+		"release": "node ./scripts/deploy.js",
+		"precommit": "lint-staged"
     },
     "main": "./index.js",
     "types": "./index.d.ts",
+	"lint-staged": {
+		"*.{ts}": [
+			"prettier --write",
+			"git add"
+		]
+	},
     "dependencies": {
         "class-validator": "^0.8.4",
+		"husky": "^0.14.3",
         "inversify": "^4.11.1",
+		"lint-staged": "^7.0.5",
         "reflect-metadata": "^0.1.12",
         "socket.io": "^2.0.4",
         "socket.io-client": "^2.0.4",

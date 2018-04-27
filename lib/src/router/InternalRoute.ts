@@ -5,16 +5,16 @@ import { FunctionalRoute, Route } from "./Route";
 export enum RouteType {
 	functionBased,
 	classBased,
-	objectBased,
+	objectBased
 }
 
 export interface InternalRoute {
 	config: RouteConfig;
-	
+
 	callOn(req: Request, res: Response): Promise<void>;
 	callOnError(e: Error, req: Request, res: Response): Promise<void>;
 	callOnValidationError(e: Error, req: Request, res: Response): Promise<void>;
-	
+
 	getRoutePath(): string;
 }
 
@@ -50,7 +50,7 @@ export class InternalObjectRoute implements InternalRoute {
 export class InternalFunctionalRoute implements InternalRoute {
 	public config: RouteConfig;
 	private readonly instance: FunctionalRoute;
-	
+
 	public constructor(config: RouteConfig, instance: FunctionalRoute) {
 		this.config = config;
 		this.instance = instance;
@@ -59,7 +59,7 @@ export class InternalFunctionalRoute implements InternalRoute {
 	public getRoutePath(): string {
 		return this.config.path;
 	}
-	
+
 	public async callOn(req: Request, res: Response): Promise<void> {
 		return await this.instance(req, res);
 	}
@@ -76,14 +76,14 @@ export class InternalFunctionalRoute implements InternalRoute {
 export class InternalClassRoute implements InternalRoute {
 	public config: RouteConfig;
 	private readonly instance: Route;
-	
+
 	constructor(config: RouteConfig, instance: Route) {
 		this.config = config;
 		this.instance = instance;
 	}
-	
+
 	public getRoutePath(): string {
-		return this.config.path;	
+		return this.config.path;
 	}
 
 	public async callOn(req: Request, res: Response) {

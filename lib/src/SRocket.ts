@@ -34,7 +34,7 @@ export class SRocket {
 	}
 
 	public configureContainer(fn: (container: Container) => void) {
-          fn(container);
+		fn(container);
 		return this;
 	}
 
@@ -48,7 +48,7 @@ export class SRocket {
 			const metadata = getModuleConfigDecorator(module);
 			if (!metadata) throw new Error(`Could not get decorator for module named: ${module}`);
 
-			this.router.routeContainer.controller([ metadata.namespace ], metadata.controllers[0]);
+			this.router.routeContainer.controller([metadata.namespace], metadata.controllers[0]);
 		}
 
 		return this;

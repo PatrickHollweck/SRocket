@@ -26,33 +26,7 @@
 			"options": [180]
 		},
 
-		"member-ordering": [
-			true,
-			{
-				"order": [
-					"public-static-field",
-					"protected-static-field",
-					"private-static-field",
-
-					"public-instance-field",
-					"protected-instance-field",
-					"private-instance-field",
-
-					"public-constructor",
-					"protected-constructor",
-					"private-constructor",
-
-					"public-instance-method",
-					"public-static-method",
-
-					"protected-instance-method",
-					"protected-static-method",
-
-					"private-instance-method",
-					"private-static-method"
-				]
-			}
-		],
+		"member-ordering": false,
 
 		"variable-name": true,
 		"class-name": true,
@@ -86,7 +60,7 @@
 		"encoding": true,
 		"file-header": false,
 		"forin": false,
-		"indent": [true, "tab", 4],
+		"indent": [true, "tabs", 4],
 		"interface-name": false,
 		"jsdoc-format": true,
 		"label-position": true,

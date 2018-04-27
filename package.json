@@ -1,80 +1,71 @@
 {
-    "name": "srocket",
-    "version": "1.4.0",
-    "scripts": {
-        "test": "jest --config=jest.json --watch",
-        "prettier": "prettier --write ./**/*.ts",
-        "start": "nodemon --exec ts-node ./samples/Base/Server.ts",
-        "docs:serve": "docsify serve ./docs",
+	"name": "srocket",
+	"version": "1.4.0",
+	"scripts": {
+		"test": "jest --config=jest.json --watch",
+		"prettier": "prettier --write ./**/*.ts",
+		"start": "nodemon --exec ts-node ./samples/Base/Server.ts",
+		"docs:serve": "docsify serve ./docs",
 		"release": "node ./scripts/deploy.js",
 		"precommit": "lint-staged"
-    },
-    "main": "./index.js",
-    "types": "./index.d.ts",
-	"lint-staged": {
-		"*.{ts}": [
-			"prettier --write",
-			"git add"
-		]
 	},
-    "dependencies": {
-        "class-validator": "^0.8.4",
-		"husky": "^0.14.3",
-        "inversify": "^4.11.1",
-		"lint-staged": "^7.0.5",
-        "reflect-metadata": "^0.1.12",
-        "socket.io": "^2.0.4",
-        "socket.io-client": "^2.0.4",
-        "socketio-wildcard": "^2.0.0",
-        "typescript": "^2.7.2",
-        "validator": "^9.4.1"
-    },
-    "devDependencies": {
-        "@types/debug": "0.0.30",
-        "@types/jest": "^22.2.2",
-        "@types/lodash": "4.14.105",
-        "@types/node": "^9.4.6",
-        "@types/readline-sync": "^1.4.3",
-        "@types/semver": "^5.5.0",
-        "@types/socket.io": "^1.4.31",
-        "@types/socket.io-client": "^1.4.32",
-        "@types/validator": "^9.4.0",
-        "chalk": "^2.3.2",
-        "docsify": "^4.6.9",
-        "docsify-cli": "^4.2.1",
-        "handy-redis": "^1.3.0",
-        "inversify-inject-decorators": "latest",
-        "jest": "^22.4.3",
-        "lodash": "^4.17.5",
-        "mock-socket": "^7.1.0",
-        "prettier": "1.11.1",
-        "readline-sync": "^1.4.9",
-        "semver": "^5.5.0",
-        "shelljs": "^0.8.1",
-        "ts-jest": "^22.4.2",
-        "ts-node": "^5.0.1",
-        "tsconfig-paths": "^3.1.3"
-    },
-    "engines": {
-        "node": ">=4.2.4"
-    },
-    "description": "A opinionated typesafe socket.io framework",
-    "author": "Patrick Hollweck <patrick-hollweck@gmx.de>",
-    "homepage": "https://fetzenrndy.github.io/SRocket/#/",
-    "license": "https://github.com/FetzenRndy/SRocket/blob/master/LICENSE",
-    "bugs": {
-        "url": "https://github.com/FetzenRndy/SRocket/issues",
-        "email": "patrick-hollweck@gmx.de"
-    },
-    "repository": {
-        "type": "GitHub",
-        "url": "https://github.com/FetzenRndy/SRocket"
-    },
-    "keywords": [
-        "socket.io",
-        "srocket",
-        "realtime",
-        "typescript",
-        "framework"
-    ]
+	"lint-staged": {
+		"*.ts": ["./node_modules/.bin/prettier --write", "git add"]
+	},
+	"main": "./index.js",
+	"types": "./index.d.ts",
+	"dependencies": {
+		"class-validator": "^0.8.4",
+		"inversify": "^4.11.1",
+		"reflect-metadata": "^0.1.12",
+		"socket.io": "^2.0.4",
+		"socket.io-client": "^2.0.4",
+		"socketio-wildcard": "^2.0.0",
+		"typescript": "^2.7.2",
+		"validator": "^9.4.1"
+	},
+	"devDependencies": {
+		"@types/debug": "0.0.30",
+		"@types/jest": "^22.2.2",
+		"@types/lodash": "4.14.105",
+		"@types/node": "^9.4.6",
+		"@types/readline-sync": "^1.4.3",
+		"@types/semver": "^5.5.0",
+		"@types/socket.io": "^1.4.31",
+		"@types/socket.io-client": "^1.4.32",
+		"@types/validator": "^9.4.0",
+		"husky": "0.14.3",
+		"lint-staged": "7.0.5",
+		"chalk": "^2.3.2",
+		"docsify": "^4.6.9",
+		"docsify-cli": "^4.2.1",
+		"handy-redis": "^1.3.0",
+		"inversify-inject-decorators": "latest",
+		"jest": "^22.4.3",
+		"lodash": "^4.17.5",
+		"mock-socket": "^7.1.0",
+		"prettier": "1.11.1",
+		"readline-sync": "^1.4.9",
+		"semver": "^5.5.0",
+		"shelljs": "^0.8.1",
+		"ts-jest": "^22.4.2",
+		"ts-node": "^5.0.1",
+		"tsconfig-paths": "^3.1.3"
+	},
+	"engines": {
+		"node": ">=4.2.4"
+	},
+	"description": "A opinionated typesafe socket.io framework",
+	"author": "Patrick Hollweck <patrick-hollweck@gmx.de>",
+	"homepage": "https://fetzenrndy.github.io/SRocket/#/",
+	"license": "https://github.com/FetzenRndy/SRocket/blob/master/LICENSE",
+	"bugs": {
+		"url": "https://github.com/FetzenRndy/SRocket/issues",
+		"email": "patrick-hollweck@gmx.de"
+	},
+	"repository": {
+		"type": "GitHub",
+		"url": "https://github.com/FetzenRndy/SRocket"
+	},
+	"keywords": ["socket.io", "srocket", "realtime", "typescript", "framework"]
 }

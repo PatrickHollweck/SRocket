@@ -55,15 +55,15 @@ export class Response<T = any> {
 
 	public error(error: Error) {
 		if (this.getStatus() < 499) {
-			this.status(StatusCodes.INTERNAL_SERVER_ERROR);
+			this.status(StatusCodes.InternalServerError);
 		}
 
-		this.message(error.message).relay();
+		this.message(error.message).toEmitter();
 	}
 
 	// -- Sender functions
 
-	public relay() {
+	public toSender() {
 		this.socket.emit(this.getEventRoute(), this.formatPayload());
 	}
 
@@ -71,8 +71,7 @@ export class Response<T = any> {
 		this.socket.broadcast.emit(this.getEventRoute(), this.formatPayload());
 	}
 
-	public toAllInRoom_ExceptSender(roomName: string) {
-		// TODO: Support emit to multiple rooms -> Builder ?
+	public toAllInRoomExceptSender(roomName: string) {
 		this.socket.to(roomName).emit(this.getEventRoute(), this.formatPayload());
 	}
 

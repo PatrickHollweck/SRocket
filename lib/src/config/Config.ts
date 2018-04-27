@@ -4,7 +4,7 @@ export class Config {
 	public seperationConvention: string;
 
 	constructor() {
-		this.port = 8080;
+		this.port = 0;
 		this.serverConfig = {};
 	}
 }

@@ -7,7 +7,7 @@ import * as sioWildcard from "socketio-wildcard";
 import { Router, RouterCallbackType } from "./router";
 import { getModuleConfigDecorator } from "./decorator/ModuleConfig";
 import { MiddlewareBase } from "./middleware";
-import { container } from "./DI/SRocketContainer";
+import { container } from "./di/SRocketContainer";
 import { Container } from "inversify";
 import { Module } from "./modules";
 import { Config } from "./config";
@@ -22,7 +22,6 @@ export class SRocket {
 		this.config = new Config();
 		// TODO: Add ability to access config back
 		this.ioServer = sio.listen(port);
-		// TODO: Remove dependency on server.
 		this.router = new Router(this.ioServer);
 
 		container.bind(SRocket).toConstantValue(this);
@@ -72,8 +71,8 @@ export class SRocket {
 
 	public middleware(middleware: MiddlewareBase) {
 		this.router.registerCallback(RouterCallbackType.VALIDATION_ERROR, middleware.onEventValidationError);
-		this.router.registerCallback(RouterCallbackType.BEFORE_EVENT, middleware.beforeEventCall);
-		this.router.registerCallback(RouterCallbackType.AFTER_EVENT, middleware.afterEventCall);
+		this.router.registerCallback(RouterCallbackType.BEFORE_EVENT, middleware.beforeEventExecution);
+		this.router.registerCallback(RouterCallbackType.AFTER_EVENT, middleware.afterEventExecution);
 		this.router.registerCallback(RouterCallbackType.ROUTE_NOT_FOUND, middleware.routeNotFound);
 	}
 

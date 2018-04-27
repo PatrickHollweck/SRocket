@@ -1,10 +1,4 @@
-import {
-	InternalClassRoute,
-	InternalFunctionalRoute,
-	InternalObjectRoute,
-	InternalRoute,
-	RouteType
-} from "./InternalRoute";
+import { InternalClassRoute, InternalFunctionalRoute, InternalObjectRoute, InternalRoute, RouteType } from "./InternalRoute";
 
 import { FunctionalRoute, NestedRoute, Route } from "./Route";
 import { ConsoleLogger, Logger } from "../logging";
@@ -14,7 +8,7 @@ import { RouteConfig } from "./RouteConfig";
 import { Controller } from "./Controller";
 import { Metadata } from "../utility";
 import { Newable } from "../structures/Newable";
-import { inject } from "../DI/SRocketContainer";
+import { inject } from "../di/SRocketContainer";
 import { Config } from "../config";
 
 export class RouteCollection {
@@ -67,16 +61,16 @@ export class RouteCollection {
 				} else {
 					return new target();
 				}
+			default:
+				throw new Error("Could not get a Route instance for a object that is not a class function or object route!");
 		}
 	}
 
 	protected static getRouteMetadata(target: any, property?: string): RouteConfig {
 		let metadata: RouteConfig;
-		if (property) {
-			metadata = Metadata.getPropertyDecorator(routeMetadataKey, target, property);
-		} else {
-			metadata = Metadata.getClassDecorator(routeMetadataKey, target);
-		}
+		metadata = property
+			? Metadata.getPropertyDecorator(routeMetadataKey, target, property)
+			: Metadata.getClassDecorator(routeMetadataKey, target);
 
 		if (!metadata) throw new Error("Tried to register a class Route with no decorator");
 
@@ -107,6 +101,8 @@ export class RouteCollection {
 						case RouteType.classBased:
 							this.registerClass(instance, namespaces, property);
 							break;
+						default:
+							continue;
 					}
 				}
 			}

@@ -3,7 +3,7 @@ import { Container as InversifyContainer } from "inversify";
 import getDecorators from "inversify-inject-decorators";
 
 export class AbstractContainer {
-	public instance: InversifyContainer;
+	public readonly instance: InversifyContainer;
 
 	constructor() {
 		this.instance = new InversifyContainer();

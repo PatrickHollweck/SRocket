@@ -1,19 +1,17 @@
 {
-    "version": "0.2.0",
-    "configurations": [
+	"version": "0.2.0",
+	"configurations": [
 		{
-			"name": "Launch test/TestApp",
+			"name": "Launch TestApp",
 			"type": "node",
 			"request": "launch",
-			"args": [
-				"./lib/test/App/TestApp.ts",
-			],
+			"args": ["./samples/Base/Server.ts"],
 			"runtimeExecutable": "nodemon",
 			"restart": true,
 			"cwd": "${workspaceRoot}",
 			"runtimeArgs": ["--nolazy", "-r", "ts-node/register"],
 			"protocol": "inspector",
 			"internalConsoleOptions": "openOnFirstSessionStart"
-        }
-    ]
+		}
+	]
 }

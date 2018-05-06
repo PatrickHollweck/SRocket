@@ -4,7 +4,14 @@ import { Namespace } from "../../../../lib/src/decorator/Namespace";
 import { jsV } from "../../../../lib/src/validation";
 
 export class UserController extends Controller {
-	@Namespace() private namespace: SocketIO.Namespace;
+	public $onConnect(socket: SocketIO.Socket) {
+		console.log("Socket connected... ", socket.id);
+		socket.disconnect();
+	}
+
+	public $onDisconnect(socket: SocketIO.Socket) {
+		console.log("Socket disconnected...", socket.id);
+	}
 
 	@SocketRoute({
 		data: {
@@ -22,7 +29,7 @@ export class UserController extends Controller {
 			console.log("Got validation error call to users:objectRoute ->", e.message);
 		},
 		on: (req: Request, res: Response) => {
-			res.toAllInNamespace(this.namespace.name);
+			console.log(this.namespace.name, this.namespace.connected);
 			console.log("Got call to users:objectRoute with data:", req.data);
 		},
 		nested: {

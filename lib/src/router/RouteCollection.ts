@@ -2,6 +2,7 @@ import { InternalClassRoute, InternalFunctionalRoute, InternalObjectRoute, Inter
 import { FunctionalRoute, NestedRoute, Route } from "./Route";
 import { ModuleTree, ModuleNode } from "../structures/ModuleTree";
 import { ConsoleLogger, Logger } from "../logging";
+import { container, inject } from "../di/SRocketContainer";
 import { routeMetadataKey } from "../decorator/SocketRoute";
 import { SocketPacket } from "../structures/SocketPacket";
 import { ModuleConfig } from "../modules/ModuleConfig";
@@ -10,7 +11,6 @@ import { Controller } from "./Controller";
 import { Metadata } from "../utility";
 import { Newable } from "../structures/Newable";
 import { SRocket } from "..";
-import { inject } from "../di/SRocketContainer";
 import { Config } from "../config";
 
 export class RouteCollection {
@@ -34,7 +34,8 @@ export class RouteCollection {
 	public controller(module: ModuleConfig, ...controllers: Newable<Controller>[]) {
 		for (const controller of controllers) {
 			const instance = new controller();
-			instance.module = module;
+			this.setupController(instance, module);
+
 			for (const property in instance) {
 				if (RouteCollection.hasValidRouteMetadata(instance, property)) {
 					switch (RouteCollection.getRouteType(instance[property])) {
@@ -114,7 +115,7 @@ export class RouteCollection {
 		route.path = `${completeNamespace}${route.path}`;
 	}
 
-	public static getRouteType(target: any, property?: string): RouteType {
+	protected static getRouteType(target: any, property?: string): RouteType {
 		if (property) target = target[property];
 
 		if (typeof target === "object") {
@@ -128,6 +129,14 @@ export class RouteCollection {
 		} else {
 			throw new Error("Tried to register something as a Route that is nor a object nor a function or a class/object with a 'on' function!");
 		}
+	}
+
+	protected setupController(instance: Controller, module: ModuleConfig) {
+		instance.module = module;
+		instance.namespace = container.get(SRocket).ioServer.of(module.namespace);
+
+		instance.namespace.on("connection", instance.$onConnect);
+		instance.namespace.on("disconnect", instance.$onDisconnect);
 	}
 
 	protected static getRouteInstance(target: any, property?: string) {

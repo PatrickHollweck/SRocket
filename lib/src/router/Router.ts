@@ -1,5 +1,5 @@
 import { Validator, ValidationResult, RuleSchema } from "../validation/Validator";
-import { CallbackCollection, populateObject } from "../utility";
+import { populateObject } from "../utility";
 import { Logger, ConsoleLogger } from "../logging";
 import { AbsentPropertyError } from "../errors";
 import { Response, Request } from "../io";
@@ -13,29 +13,13 @@ import { Model } from "../model";
 
 export type NewableRoute = Newable<Route>;
 
-export enum RouterCallbackType {
-	BEFORE_EVENT = "beforeEvent",
-	AFTER_EVENT = "afterEvent",
-	VALIDATION_ERROR = "onValidationError",
-	ROUTE_NOT_FOUND = "routeNotFound"
-}
-
 export class Router {
 	public routeContainer: RouteCollection;
-
 	protected logger: Logger;
-	protected callbacks: CallbackCollection;
 
 	public constructor(protected server: SocketIO.Server) {
 		this.routeContainer = new RouteCollection({ namespace: "", controllers: [] });
 		this.logger = new ConsoleLogger("Router");
-		this.callbacks = new CallbackCollection();
-		this.callbacks.registerCollections([
-			RouterCallbackType.BEFORE_EVENT,
-			RouterCallbackType.AFTER_EVENT,
-			RouterCallbackType.VALIDATION_ERROR,
-			RouterCallbackType.ROUTE_NOT_FOUND
-		]);
 	}
 
 	public async route(packet: SocketIO.Packet, socket: SocketIO.Socket) {
@@ -43,20 +27,14 @@ export class Router {
 
 		const route = this.routeContainer.findForPacket(socketPacket);
 		if (!route) {
-			this.callbacks.executeFor(RouterCallbackType.ROUTE_NOT_FOUND);
 			return this.logger.warning(`Could not find a route for ${socketPacket.getRoutePath()}`);
 		}
 
 		await this.invokeRoute(route, socket, socketPacket);
 	}
 
-	public registerCallback(type: RouterCallbackType, callback: Function) {
-		this.callbacks.addCallback(type, callback);
-	}
-
 	protected async triggerValidationError(route: InternalRoute, error: Error, socket: SocketIO.Socket, packet: SocketPacket) {
 		try {
-			this.callbacks.executeFor(RouterCallbackType.VALIDATION_ERROR);
 			await route.callOnValidationError(error, new Request(null, socket, packet), new Response(socket, route, this.server));
 		} catch (error) {
 			await this.triggerInternalError(route, error, socket, packet);
@@ -76,9 +54,7 @@ export class Router {
 			} else {
 				const request = new Request(validationResult.target, socket, packet);
 				try {
-					this.callbacks.executeFor(RouterCallbackType.BEFORE_EVENT);
 					await route.callOn(request, response);
-					this.callbacks.executeFor(RouterCallbackType.AFTER_EVENT);
 				} catch (error) {
 					await this.triggerInternalError(route, error, socket, packet);
 				}

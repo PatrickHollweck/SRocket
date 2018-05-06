@@ -4,9 +4,8 @@
 import * as sio from "socket.io";
 import * as sioWildcard from "socketio-wildcard";
 
-import { Router, RouterCallbackType } from "./router";
 import { getModuleConfigDecorator } from "./decorator/ModuleConfig";
-import { MiddlewareBase } from "./middleware";
+import { Route, Router } from "./router";
 import { container } from "./di/SRocketContainer";
 import { Container } from "inversify";
 import { Module } from "./modules";
@@ -67,13 +66,6 @@ export class SRocket {
 		if (callback) {
 			callback(this);
 		}
-	}
-
-	public middleware(middleware: MiddlewareBase) {
-		this.router.registerCallback(RouterCallbackType.VALIDATION_ERROR, middleware.onEventValidationError);
-		this.router.registerCallback(RouterCallbackType.BEFORE_EVENT, middleware.beforeEventExecution);
-		this.router.registerCallback(RouterCallbackType.AFTER_EVENT, middleware.afterEventExecution);
-		this.router.registerCallback(RouterCallbackType.ROUTE_NOT_FOUND, middleware.routeNotFound);
 	}
 
 	public shutdown() {

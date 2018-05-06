@@ -2,11 +2,11 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": "Launch TestApp",
 			"type": "node",
 			"request": "launch",
+			"name": "Launch TestApp",
 			"args": ["./samples/Base/Server.ts"],
-			"runtimeExecutable": "nodemon",
+			"runtimeExecutable": "node",
 			"restart": true,
 			"cwd": "${workspaceRoot}",
 			"runtimeArgs": ["--nolazy", "-r", "ts-node/register"],

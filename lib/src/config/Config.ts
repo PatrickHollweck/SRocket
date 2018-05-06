@@ -1,7 +1,7 @@
 export class Config {
 	public port: number;
 	public serverConfig: SocketIO.ServerOptions;
-	public seperationConvention: string;
+	public separationConvention: string;
 
 	constructor() {
 		this.port = 0;

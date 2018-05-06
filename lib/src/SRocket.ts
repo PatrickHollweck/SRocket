@@ -39,7 +39,7 @@ export class SRocket {
 	}
 
 	public separationConvention(convention: string) {
-		this.config.seperationConvention = convention;
+		this.config.separationConvention = convention;
 		return this;
 	}
 

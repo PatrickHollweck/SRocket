@@ -1,31 +1,29 @@
 import { Request, SocketRoute } from "../../../../lib/src/";
-import { Controller } from "../../../../lib/src/router/Controller";
-import { Route } from "../../../../lib/src/router";
-import { NestedRoute } from "../../../../lib/src/router/Route";
+import { Controller, Route } from "../../../../lib/src/router";
+import { Namespace } from "../../../../lib/src/decorator/Namespace";
 import { jsV } from "../../../../lib/src/validation";
 
 export class UserController extends Controller {
-	private someClassLevelProp: string = "Hello World";
+	@Namespace() private namespace: SocketIO.Namespace;
 
 	@SocketRoute({
 		data: {
 			userName: {
 				type: String,
-				rules: [
-					{
-						method: jsV.contains,
-						args: ["Patrick"]
-					}
-				]
+				rules: [{ method: jsV.contains, args: ["Patrick"] }]
 			}
 		}
 	})
 	objectRoute: Route = {
+		onError: (e: Error) => {
+			console.log("Error in users:objectRoute ->", e);
+		},
 		onValidationError: (e: Error) => {
-			console.log("Got validation error call to users:objectRoute", e.message);
+			console.log("Got validation error call to users:objectRoute ->", e.message);
 		},
 		on: (req: Request) => {
-			console.log("Got call to users:objectRoute with data", req.data);
+			console.log("Namepace name from property: ", this.namespace.name);
+			console.log("Got call to users:objectRoute with data:", req.data);
 		},
 		nested: {
 			nestedRoute: {

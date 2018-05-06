@@ -20,6 +20,7 @@ export class SRocket {
 
 	private constructor(port: number) {
 		this.config = new Config();
+		this.config.port = port;
 		// TODO: Add ability to access config back
 		this.ioServer = sio.listen(port);
 		this.router = new Router(this.ioServer);
@@ -47,7 +48,7 @@ export class SRocket {
 			const metadata = getModuleConfigDecorator(module);
 			if (!metadata) throw new Error(`Could not get decorator for module named: ${module}`);
 
-			this.router.routeContainer.controller([metadata.namespace], metadata.controllers[0]);
+			this.router.routeContainer.controller(metadata, metadata.controllers[0]);
 		}
 
 		return this;
@@ -63,7 +64,6 @@ export class SRocket {
 			});
 		});
 
-		this.ioServer.listen(this.config.port);
 		if (callback) {
 			callback(this);
 		}

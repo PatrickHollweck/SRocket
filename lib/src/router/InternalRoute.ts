@@ -1,6 +1,8 @@
+import { Metadata } from "../utility/Metadata";
 import { Request, Response } from "../io";
 import { RouteConfig } from "./RouteConfig";
 import { FunctionalRoute, Route } from "./Route";
+import { namespaceMetadataKey } from "../decorator/Namespace";
 
 export enum RouteType {
 	functionBased,
@@ -65,11 +67,11 @@ export class InternalFunctionalRoute implements InternalRoute {
 	}
 
 	public async callOnError(e: Error, req: Request, res: Response): Promise<void> {
-		// No default impl for now.
+		// No default impl.
 	}
 
 	public async callOnValidationError(e: Error, req: Request, res: Response): Promise<void> {
-		// No default impl for now.
+		// No default impl.
 	}
 }
 

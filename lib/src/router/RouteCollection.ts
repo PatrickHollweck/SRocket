@@ -1,32 +1,117 @@
 import { InternalClassRoute, InternalFunctionalRoute, InternalObjectRoute, InternalRoute, RouteType } from "./InternalRoute";
-
 import { FunctionalRoute, NestedRoute, Route } from "./Route";
+import { ModuleTree, ModuleNode } from "../structures/Tree";
 import { ConsoleLogger, Logger } from "../logging";
 import { routeMetadataKey } from "../decorator/SocketRoute";
 import { SocketPacket } from "../structures/SocketPacket";
+import { ModuleConfig } from "../modules/ModuleConfig";
 import { RouteConfig } from "./RouteConfig";
 import { Controller } from "./Controller";
 import { Metadata } from "../utility";
 import { Newable } from "../structures/Newable";
+import { SRocket } from "..";
 import { inject } from "../di/SRocketContainer";
 import { Config } from "../config";
 
 export class RouteCollection {
 	@inject(Config) protected config: Config;
-	protected routes: InternalRoute[];
+	protected moduleTree: ModuleTree;
 	protected logger: Logger;
 
-	constructor() {
+	constructor(rootModule: ModuleConfig) {
 		this.logger = new ConsoleLogger("RouterC");
-		this.routes = [];
+		this.moduleTree = new ModuleTree(rootModule);
 	}
 
 	public findForPacket(packet: SocketPacket) {
-		return this.routes.find(internalRoute => internalRoute.getRoutePath() === packet.getRoutePath());
+		return this.moduleTree.findRoute(packet.getRoutePath());
 	}
 
-	public find(route: string) {
-		return this.routes.find(internalRoute => internalRoute.getRoutePath() === route);
+	public find(path: string) {
+		return this.moduleTree.findRoute(path);
+	}
+
+	public controller(module: ModuleConfig, ...controllers: Newable<Controller>[]) {
+		for (const controller of controllers) {
+			const instance = new controller();
+			instance.module = module;
+			for (const property in instance) {
+				if (RouteCollection.hasValidRouteMetadata(instance, property)) {
+					switch (RouteCollection.getRouteType(instance[property])) {
+						case RouteType.objectBased:
+							this.registerObject(instance, [], module, property);
+							break;
+						case RouteType.functionBased:
+							this.registerFunctional(instance, [], module, property);
+							break;
+						case RouteType.classBased:
+							this.registerClass(instance, [], module, property);
+							break;
+						default:
+							throw new Error("Tried to register a unknown Route type");
+					}
+				}
+			}
+		}
+	}
+
+	public registerClass(target: any, namespaces: string[], module: ModuleConfig, property?: string, config?: RouteConfig) {
+		const metadata = config || RouteCollection.getRouteMetadata(target, property);
+		const instance: Route = RouteCollection.getRouteInstance(target, property);
+
+		this.concatNamespace(metadata, module.namespace, ...namespaces);
+		const internalRoute = new InternalClassRoute(metadata, instance);
+
+		this.addRoute(module, internalRoute);
+
+		// TODO: Classes should not have the nested property but we should scan for route like objects in the parent route.
+		if (instance.nested) {
+			for (const nestedProperty in instance.nested) {
+				this.registerNestedObject(instance.nested[nestedProperty], instance, module, [...namespaces, property || ""], nestedProperty);
+			}
+		}
+	}
+
+	public registerFunctional(target: any, namespaces: string[], module: ModuleConfig, property?: string) {
+		const metadata = RouteCollection.getRouteMetadata(target, property);
+		const instance: FunctionalRoute = RouteCollection.getRouteInstance(target, property);
+
+		this.concatNamespace(metadata, module.namespace, ...namespaces);
+		const internalRoute = new InternalFunctionalRoute(metadata, instance);
+
+		this.addRoute(module, internalRoute);
+	}
+
+	public registerObject(target: any, namespaces: string[], module: ModuleConfig, property?: string, config?: RouteConfig) {
+		const metadata = config || RouteCollection.getRouteMetadata(target, property);
+		const instance: Route = RouteCollection.getRouteInstance(target, property);
+
+		this.concatNamespace(metadata, module.namespace, ...namespaces);
+		const internalRoute = new InternalObjectRoute(metadata, instance);
+
+		this.addRoute(module, internalRoute);
+
+		if (instance.nested) {
+			for (const nestedProperty in instance.nested) {
+				this.registerNestedObject(instance.nested[nestedProperty], instance, module, [...namespaces, property || ""], nestedProperty);
+			}
+		}
+	}
+
+	public registerNestedObject(target: NestedRoute, parentRoute: Route, module: ModuleConfig, namespaces: string[], property: string) {
+		if (!target.config) target.config = { path: property };
+
+		const metadata: RouteConfig = target.config || { path: property };
+		this.registerObject(parentRoute.nested, namespaces, module, property, metadata);
+	}
+
+	protected concatNamespace(route: RouteConfig, ...namespaces: string[]) {
+		let completeNamespace = "";
+		for (const namespace of namespaces) {
+			completeNamespace += `${namespace}${this.config.separationConvention}`;
+		}
+
+		route.path = `${completeNamespace}${route.path}`;
 	}
 
 	public static getRouteType(target: any, property?: string): RouteType {
@@ -41,7 +126,7 @@ export class RouteCollection {
 				return RouteType.functionBased;
 			}
 		} else {
-			throw new Error("Tried to register something as a Route that is nor a object nor a function or a class without a 'on' function!");
+			throw new Error("Tried to register something as a Route that is nor a object nor a function or a class/object with a 'on' function!");
 		}
 	}
 
@@ -86,90 +171,15 @@ export class RouteCollection {
 		}
 	}
 
-	public controller(namespaces: string[], ...controllers: Newable<Controller>[]) {
-		for (const controller of controllers) {
-			const instance = new controller();
-			for (const property in instance) {
-				if (RouteCollection.hasValidRouteMetadata(instance, property)) {
-					switch (RouteCollection.getRouteType(instance[property])) {
-						case RouteType.objectBased:
-							this.registerObject(instance, namespaces, property);
-							break;
-						case RouteType.functionBased:
-							this.registerFunctional(instance, namespaces, property);
-							break;
-						case RouteType.classBased:
-							this.registerClass(instance, namespaces, property);
-							break;
-						default:
-							continue;
-					}
-				}
-			}
-		}
-	}
-
-	public registerClass(target: any, namespaces: string[], property?: string, config?: RouteConfig) {
-		const metadata = config || RouteCollection.getRouteMetadata(target, property);
-		const instance: Route = RouteCollection.getRouteInstance(target, property);
-
-		this.concatNamespace(metadata, namespaces);
-		const internalRoute = new InternalClassRoute(metadata, instance);
-
-		this.addRoute(internalRoute);
-
-		// TODO: Classes should not have the nested property but we should scan for route like objects in the parent route.
-		if (instance.nested) {
-			for (const nestedProperty in instance.nested) {
-				this.registerNestedObject(instance.nested[nestedProperty], instance, [...namespaces, property || ""], nestedProperty);
-			}
-		}
-	}
-
-	public registerFunctional(target: any, namespaces: string[], property?: string) {
-		const metadata = RouteCollection.getRouteMetadata(target, property);
-		const instance: FunctionalRoute = RouteCollection.getRouteInstance(target, property);
-
-		this.concatNamespace(metadata, namespaces);
-		const internalRoute = new InternalFunctionalRoute(metadata, instance);
-
-		this.addRoute(internalRoute);
-	}
-
-	public registerObject(target: any, namespaces: string[], property?: string, config?: RouteConfig) {
-		const metadata = config || RouteCollection.getRouteMetadata(target, property);
-		const instance: Route = RouteCollection.getRouteInstance(target, property);
-
-		this.concatNamespace(metadata, namespaces);
-		const internalRoute = new InternalObjectRoute(metadata, instance);
-
-		this.addRoute(internalRoute);
-
-		if (instance.nested) {
-			for (const nestedProperty in instance.nested) {
-				this.registerNestedObject(instance.nested[nestedProperty], instance, [...namespaces, property || ""], nestedProperty);
-			}
-		}
-	}
-
-	public registerNestedObject(target: NestedRoute, parentRoute: Route, namespaces: string[], property: string) {
-		if (!target.config) target.config = { path: property };
-
-		const metadata: RouteConfig = target.config || { path: property };
-		this.registerObject(parentRoute.nested, namespaces, property, metadata);
-	}
-
-	protected concatNamespace(route: RouteConfig, namespaces: string[]) {
-		let completeNamespace = "";
-		for (const namespace of namespaces) {
-			completeNamespace += `${namespace}${this.config.seperationConvention}`;
-		}
-
-		route.path = `${completeNamespace}${route.path}`;
-	}
-
-	protected addRoute(route: InternalRoute) {
+	protected addRoute(moduleConfig: ModuleConfig, route: InternalRoute) {
 		this.logger.info(`Registering Route: ${route.getRoutePath()}`);
-		this.routes.push(route);
+
+		let module = this.moduleTree.findModule(innerModule => innerModule.module === moduleConfig);
+		if (!module) {
+			module = new ModuleNode(moduleConfig);
+			this.moduleTree.root.insertNode(module);
+		}
+
+		module.value.routes.push(route);
 	}
 }

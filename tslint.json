@@ -97,7 +97,7 @@
 		"no-import-side-effect": false,
 		"no-invalid-template-strings": true,
 		"no-magic-numbers": false,
-		"no-invalid-this": true,
+		"no-invalid-this": false,
 		"no-irregular-whitespace": true,
 		"no-null-assertion": true,
 		"no-reference": true,

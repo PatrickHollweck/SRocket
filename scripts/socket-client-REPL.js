@@ -25,25 +25,25 @@ defineCommand("emitData", "Emits a socket event with some default data", eventNa
 	});
 });
 
+defineCommand("nsp", "Joins a specific namespace", name => {
+	const conn = `http://localhost:${r.context.s.io.engine.port}/${name}`;
+	console.log(`Making connection to '${conn}'`);
+	r.context.s = require("socket.io-client")(conn);
+});
+
 defineCommand("c", "Clears the console", () => {
 	console.clear();
 });
 
-defineCommand("con", "Checks the connection and connects if it needs to.", port => {
-	if (port) {
-		const connectionString = `http://localhost:${port}`;
-		console.log(`Making new connection to ${connectionString}`);
-		r.context.s = require("socket.io-client")(connectionString);
-
-		return;
-	}
-
+defineCommand("con", "Checks the connection and connects if it needs to.", () => {
 	const isConnected = r.context.s.connected;
 	console.log("Socket is connected ? :", isConnected);
 
 	if (!isConnected) {
-		console.log("Not connected... Connecting...");
+		console.log("Not connected... Trying to connect...");
 		r.context.s.connect();
+
+		console.log(r.context.s.connected ? "Connected..." : "Still not connected...");
 	}
 });
 

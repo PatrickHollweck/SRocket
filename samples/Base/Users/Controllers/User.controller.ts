@@ -1,6 +1,5 @@
 import { Request, Response, SocketRoute } from "../../../../lib/src/";
 import { Controller, Route } from "../../../../lib/src/router";
-import { Namespace } from "../../../../lib/src/decorator/Namespace";
 import { jsV } from "../../../../lib/src/validation";
 
 export class UserController extends Controller {

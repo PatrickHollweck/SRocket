@@ -1,15 +1,17 @@
-import { Validator, ValidationResult, RuleSchema } from "../validation/Validator";
-import { populateObject } from "../utility";
+import { Validator, ValidationResult } from "../validation";
 import { Logger, ConsoleLogger } from "../logging";
 import { AbsentPropertyError } from "../errors";
 import { Response, Request } from "../io";
 import { RouteCollection } from "./RouteCollection";
+import { populateObject } from "../utility";
 import { InternalRoute } from "./InternalRoute";
 import { getModelProps } from "../decorator/ModelProp";
 import { SocketPacket } from "../structures/SocketPacket";
+import { RuleSchema } from "../validation/Validator";
 import { Newable } from "../structures/Newable";
 import { Route } from "./Route";
 import { Model } from "../model";
+import { IOFactory } from "../io/IOFactory";
 
 export type NewableRoute = Newable<Route>;
 
@@ -33,30 +35,30 @@ export class Router {
 		await this.invokeRoute(route, socket, socketPacket);
 	}
 
-	protected async triggerValidationError(route: InternalRoute, error: Error, socket: SocketIO.Socket, packet: SocketPacket) {
+	protected async triggerValidationError(route: InternalRoute, error: Error, request: Request, response: Response) {
 		try {
-			await route.callOnValidationError(error, new Request(null, socket, packet), new Response(socket, route, this.server));
+			await route.callOnValidationError(error, request, response);
 		} catch (error) {
-			await this.triggerInternalError(route, error, socket, packet);
+			await this.triggerInternalError(route, error, request, response);
 		}
 	}
 
-	protected async triggerInternalError(route: InternalRoute, error: Error, socket: SocketIO.Socket, packet: SocketPacket) {
-		await route.callOnError(error, new Request(null, socket, packet), new Response(socket, route, this.server));
+	protected async triggerInternalError(route: InternalRoute, error: Error, request: Request, response: Response) {
+		await route.callOnError(error, request, response);
 	}
 
 	protected async invokeRoute(route: InternalRoute, socket: SocketIO.Socket, packet: SocketPacket) {
-		const response = new Response(socket, route, this.server);
-
 		const execute = async validationResult => {
+			const request = new Request(validationResult.target, socket, packet);
+			const response = new Response(socket, route, this.server);
+
 			if (validationResult.didFail()) {
-				await this.triggerValidationError(route, validationResult.errors[0], socket, packet);
+				await this.triggerValidationError(route, validationResult.errors[0], request, response);
 			} else {
-				const request = new Request(validationResult.target, socket, packet);
 				try {
 					await route.callOn(request, response);
 				} catch (error) {
-					await this.triggerInternalError(route, error, socket, packet);
+					await this.triggerInternalError(route, error, request, response);
 				}
 			}
 		};
@@ -74,7 +76,7 @@ export class Router {
 		}
 	}
 
-	// TODO: Implement this as a middleware.
+	// TODO: Implement as a middleware.
 	protected static async validateWithModel(model: Newable<Model>, packet: SocketPacket): Promise<ValidationResult> {
 		const actualArgs = packet.getUserData();
 		if (!actualArgs) {

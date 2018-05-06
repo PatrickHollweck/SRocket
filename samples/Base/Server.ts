@@ -1,4 +1,8 @@
-// NOTE: Before I get to writing proper tests use this tool: http://amritb.github.io/socketio-client-tool/
+/*
+	NOTE: Before I get to writing proper tests use this tool: http://amritb.github.io/socketio-client-tool/
+	Alternativly you could use the repl client located at ~/scripts/socket-client-REPL.js, just run it with node...
+*/
+
 process.env["DEBUG"] = "srocket:*";
 
 import { SRocket } from "../../lib/src";

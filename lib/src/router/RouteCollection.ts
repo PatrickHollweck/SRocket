@@ -144,17 +144,9 @@ export class RouteCollection {
 		switch (routeType) {
 			case RouteType.functionBased:
 			case RouteType.objectBased:
-				if (property) {
-					return target[property];
-				} else {
-					return target;
-				}
+				return property ? target[property] : target;
 			case RouteType.classBased:
-				if (property) {
-					return new target[property]();
-				} else {
-					return new target();
-				}
+				return property ? new target[property]() : new target();
 			default:
 				throw new Error("Could not get a Route instance for a object that is not a class function or object route!");
 		}
@@ -172,6 +164,7 @@ export class RouteCollection {
 	}
 
 	protected static hasValidRouteMetadata(target: any, property?: string) {
+		// TODO: Poor mans implementation
 		try {
 			RouteCollection.getRouteMetadata(target, property);
 			return true;

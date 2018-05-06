@@ -93,7 +93,7 @@ export class Response<T = any> {
 		return this.socket;
 	}
 
-	// -- Private Helpers
+	// -- Helpers
 
 	protected getEventRoute() {
 		if (!this.emitEventName) {

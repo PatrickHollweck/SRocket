@@ -5,11 +5,11 @@ import * as sio from "socket.io";
 import * as sioWildcard from "socketio-wildcard";
 
 import { getModuleConfigDecorator } from "./decorator/ModuleConfig";
-import { Route, Router } from "./router";
 import { container } from "./di/SRocketContainer";
 import { Container } from "inversify";
 import { Module } from "./modules";
 import { Config } from "./config";
+import { Router } from "./router";
 
 export class SRocket {
 	public config: Config;

@@ -4,9 +4,6 @@ import * as jsValidator from "validator";
 import { AbsentPropertyError, ValidationError } from "../errors";
 import { ValidationResult } from "./ValidationResult";
 import { ValidationContext } from "./ValidationContext";
-import { ValidationStatus } from "./ValidationStatus";
-
-export { ValidationResult, ValidationContext, ValidationError, ValidationStatus };
 
 export const tsV = ClassValidator;
 export const jsV = jsValidator;
@@ -48,7 +45,7 @@ export class Validator {
 			const currentExpectedValue = schema[expectedProperty];
 			const currentActualValue = actualData[expectedProperty];
 
-			if (currentActualValue == undefined) {
+			if (currentActualValue === undefined) {
 				validationErrors.push(new AbsentPropertyError(`Property ${expectedProperty} is missing!`, expectedProperty));
 				continue;
 			}

@@ -1,8 +1,6 @@
-import { Metadata } from "../utility/Metadata";
 import { Request, Response } from "../io";
 import { RouteConfig } from "./RouteConfig";
 import { FunctionalRoute, Route } from "./Route";
-import { namespaceMetadataKey } from "../decorator/Namespace";
 
 export enum RouteType {
 	functionBased,

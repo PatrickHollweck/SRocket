@@ -58,7 +58,7 @@ export class Response<T = any> {
 			this.status(StatusCodes.InternalServerError);
 		}
 
-		this.message(error.message).toEmitter();
+		this.message(error.message).toSender();
 	}
 
 	// -- Sender functions

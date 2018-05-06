@@ -5,7 +5,8 @@ Features:
 	☐ Add validation pipeline
 
 	Modules:
-		☐ Exposes a socket.io namespace for every module.
+		✔ Exposes a socket.io namespace for every module. @done (5/6/2018, 1:39:29 PM)
+		☐ Imports / Exports other modules -> ApplicationModule -> AppStart
 
 	Components / Services:
 		☐ Expose via DI container

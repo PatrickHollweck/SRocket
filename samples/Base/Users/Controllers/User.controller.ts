@@ -1,4 +1,4 @@
-import { Request, SocketRoute } from "../../../../lib/src/";
+import { Request, Response, SocketRoute } from "../../../../lib/src/";
 import { Controller, Route } from "../../../../lib/src/router";
 import { Namespace } from "../../../../lib/src/decorator/Namespace";
 import { jsV } from "../../../../lib/src/validation";
@@ -21,8 +21,8 @@ export class UserController extends Controller {
 		onValidationError: (e: Error) => {
 			console.log("Got validation error call to users:objectRoute ->", e.message);
 		},
-		on: (req: Request) => {
-			console.log("Namepace name from property: ", this.namespace.name);
+		on: (req: Request, res: Response) => {
+			res.toAllInNamespace(this.namespace.name);
 			console.log("Got call to users:objectRoute with data:", req.data);
 		},
 		nested: {

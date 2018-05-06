@@ -1,6 +1,6 @@
 import { InternalClassRoute, InternalFunctionalRoute, InternalObjectRoute, InternalRoute, RouteType } from "./InternalRoute";
 import { FunctionalRoute, NestedRoute, Route } from "./Route";
-import { ModuleTree, ModuleNode } from "../structures/Tree";
+import { ModuleTree, ModuleNode } from "../structures/ModuleTree";
 import { ConsoleLogger, Logger } from "../logging";
 import { routeMetadataKey } from "../decorator/SocketRoute";
 import { SocketPacket } from "../structures/SocketPacket";

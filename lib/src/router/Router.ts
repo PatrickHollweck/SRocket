@@ -21,17 +21,14 @@ export enum RouterCallbackType {
 }
 
 export class Router {
-	protected logger: Logger;
-	protected server: SocketIO.Server;
-	protected callbacks: CallbackCollection;
-
 	public routeContainer: RouteCollection;
 
-	public constructor(server: SocketIO.Server) {
-		this.routeContainer = new RouteCollection();
-		this.server = server;
-		this.logger = new ConsoleLogger("Router");
+	protected logger: Logger;
+	protected callbacks: CallbackCollection;
 
+	public constructor(protected server: SocketIO.Server) {
+		this.routeContainer = new RouteCollection({ namespace: "", controllers: [] });
+		this.logger = new ConsoleLogger("Router");
 		this.callbacks = new CallbackCollection();
 		this.callbacks.registerCollections([
 			RouterCallbackType.BEFORE_EVENT,

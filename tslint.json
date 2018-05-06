@@ -139,7 +139,7 @@
 		"no-mergeable-namespace": true,
 		"no-inferred-empty-object-type": true,
 		"no-internal-module": true,
-		"no-parameter-properties": true,
+		"no-parameter-properties": false,
 		"object-literal-shorthand": true,
 		"one-variable-per-declaration": false,
 		"max-classes-per-file": false,

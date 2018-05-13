@@ -8,10 +8,10 @@ import { InternalRoute } from "./InternalRoute";
 import { getModelProps } from "../decorator/ModelProp";
 import { SocketPacket } from "../structures/SocketPacket";
 import { RuleSchema } from "../validation/Validator";
+import { IOFactory } from "../io/IOFactory";
 import { Newable } from "../structures/Newable";
 import { Route } from "./Route";
 import { Model } from "../model";
-import { IOFactory } from "../io/IOFactory";
 
 export type NewableRoute = Newable<Route>;
 
@@ -50,7 +50,7 @@ export class Router {
 	protected async invokeRoute(route: InternalRoute, socket: SocketIO.Socket, packet: SocketPacket) {
 		const execute = async validationResult => {
 			const request = new Request(validationResult.target, socket, packet);
-			const response = new Response(socket, route, this.server);
+			const response = new Response(socket, route, this.server, packet.getAck());
 
 			if (validationResult.didFail()) {
 				await this.triggerValidationError(route, validationResult.errors[0], request, response);

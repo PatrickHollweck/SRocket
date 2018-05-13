@@ -26,6 +26,10 @@ export class SocketPacket implements SocketIO.Packet {
 		return this.data[1];
 	}
 
+	public getAck() {
+		return this.data[2];
+	}
+
 	public setRoutePath(newPath: string) {
 		this.data[0] = newPath;
 		return this;

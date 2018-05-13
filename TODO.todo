@@ -20,12 +20,16 @@ Features:
 
 	Controllers:
 		☐ Can have a seperate namespace than the parent module.
+		☐ Make the $onConnected and $onDisconnected event work!
 		☐ Decorator ?
 		☐ Can implement a Client-Server interface.
 
 	Middlewares:
 		☐ Implement.
 		☐ Request pipleline or Event based ?
+	
+	Acks:
+		✔ Support acks. @done (5/13/2018, 2:51:30 PM)
 
 	Routes:
 		Validation:

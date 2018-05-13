@@ -4,7 +4,7 @@ import { jsV } from "../../../../lib/src/validation";
 
 export class UserController extends Controller {
 	public $onConnect(socket: SocketIO.Socket) {
-		console.log("Socket connected... ", socket.id);
+		console.log("NAMESPACE - Socket connected... ", socket.id);
 		socket.disconnect();
 	}
 
@@ -30,6 +30,7 @@ export class UserController extends Controller {
 		on: (req: Request, res: Response) => {
 			console.log(this.namespace.name, this.namespace.connected);
 			console.log("Got call to users:objectRoute with data:", req.data);
+			res.withData({ greeting: `Hello, ${req.data.userName}` }).invokeAck();
 		},
 		nested: {
 			nestedRoute: {

@@ -9,11 +9,13 @@ export class Response<T = any> {
 	protected socket: SocketIO.Socket;
 	protected route: InternalRoute;
 	protected server: SocketIO.Server;
+	protected ack: SocketIO.Ack;
 
-	constructor(socket: SocketIO.Socket, route: InternalRoute, server: SocketIO.Server) {
+	constructor(socket: SocketIO.Socket, route: InternalRoute, server: SocketIO.Server, ack?: SocketIO.Ack) {
 		this.socket = socket;
 		this.server = server;
 
+		this.ack = ack || (() => {});
 		this.payloadMessage = "";
 		this.statusCode = 200;
 		this.route = route;
@@ -35,8 +37,8 @@ export class Response<T = any> {
 		return this.statusCode;
 	}
 
-	public withData(obj: T) {
-		this.data = obj;
+	public withData(data: T) {
+		this.data = data;
 		return this;
 	}
 
@@ -62,6 +64,10 @@ export class Response<T = any> {
 	}
 
 	// -- Sender functions
+
+	public invokeAck(data?: T) {
+		this.ack(this.getData());
+	}
 
 	public toSender() {
 		this.socket.emit(this.getEventRoute(), this.formatPayload());

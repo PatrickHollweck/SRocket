@@ -33,6 +33,8 @@ export class RouteCollection {
 
 	public controller(module: ModuleConfig, ...controllers: Newable<Controller>[]) {
 		for (const controller of controllers) {
+			this.logger.info(`Registering Controller : ${controller.name} - Namespace: ${module.namespace}`);
+
 			const instance = new controller();
 			this.setupController(instance, module);
 

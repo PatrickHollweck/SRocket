@@ -33,12 +33,14 @@ export class RouteCollection {
 
 	public controller(module: ModuleConfig, ...controllers: Newable<Controller>[]) {
 		for (const controller of controllers) {
-			this.logger.info(`Registering Controller : ${controller.name} - Namespace: ${module.namespace}`);
+			this.logger.info(`- Registering Controller : ${controller.name} - Namespace: ${module.namespace}`);
 
 			const instance = new controller();
 			this.setupController(instance, module);
 
-			for (const property in instance) {
+			const properties = [...Object.getOwnPropertyNames(instance), ...Object.getOwnPropertyNames(controller.prototype)];
+
+			for (const property of properties) {
 				if (RouteCollection.hasValidRouteMetadata(instance, property)) {
 					switch (RouteCollection.getRouteType(instance[property])) {
 						case RouteType.objectBased:
@@ -123,7 +125,7 @@ export class RouteCollection {
 		if (typeof target === "object") {
 			return RouteType.objectBased;
 		} else if (typeof target === "function") {
-			if (typeof target.prototype.on === "function") {
+			if (target.prototype && typeof target.prototype.on === "function") {
 				return RouteType.classBased;
 			} else {
 				return RouteType.functionBased;

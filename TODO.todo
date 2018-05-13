@@ -24,8 +24,8 @@ Features:
 		☐ Decorator ?
 		☐ Can implement a Client-Server interface.
 
-	Middlewares:
-		☐ Implement.
+	Middlewares: 
+		☐ Implement. @critical
 		☐ Request pipleline or Event based ?
 	
 	Acks:
@@ -48,17 +48,16 @@ Features:
 
 	Proposals:
 		☐ Models.
-		☐ Middlewares. @high
 
 Docs:
+	☐ Acks
 	☐ Write validation docs.
 	☐ Write a section for recomended configs -> tsconfig - tslint...
 
 Implementation Details:
-	☐ Integrate use socket.io middlewares ?
-	☐ Decouple Routeing system from the actuall socket server
+	☐ Integrate socket.io middlewares ?
+	☐ Decouple Routing system from the actuall socket server
 
 Test:
 	☐ Fix existing tests.
 	☐ Add more tests :)
-	☐ Remove socket.io dependencies from router.	

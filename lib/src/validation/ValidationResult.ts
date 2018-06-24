@@ -1,13 +1,11 @@
 import { ValidationStatus } from "./ValidationStatus";
 
 export class ValidationResult<T = any> {
-	public target: T | null;
-	public errors: Array<Error>;
+	public errors: Error[];
 	public status: ValidationStatus;
 
-	constructor(result: T | null, errors: Array<Error> = new Array<Error>(), status: ValidationStatus = ValidationStatus.Failed) {
-		this.target = result;
-		this.errors = errors;
+	constructor(public result: T | null, errors?: Error[]) {
+		this.errors = errors || [];
 		this.status = status || this.errors.length > 0 ? ValidationStatus.Failed : ValidationStatus.Succeeded;
 	}
 

@@ -1,15 +1,17 @@
 import { StatusCodes } from "./StatusCode";
 import { InternalRoute } from "../router/InternalRoute";
 
+/// <reference path="./../typings/socket.io.d.ts" />
+
 export class Response<T = any> {
-	protected emitEventName: string;
-	protected statusCode: number;
-	protected data?: T;
-	protected payloadMessage: string;
-	protected socket: SocketIO.Socket;
-	protected route: InternalRoute;
-	protected server: SocketIO.Server;
 	protected ack: SocketIO.Ack;
+	protected data?: T;
+	protected route: InternalRoute;
+	protected socket: SocketIO.Socket;
+	protected server: SocketIO.Server;
+	protected statusCode: number;
+	protected emitEventName: string;
+	protected payloadMessage: string;
 
 	constructor(socket: SocketIO.Socket, route: InternalRoute, server: SocketIO.Server, ack?: SocketIO.Ack) {
 		this.socket = socket;

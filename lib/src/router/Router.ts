@@ -13,8 +13,6 @@ import { Newable } from "../structures/Newable";
 import { Route } from "./Route";
 import { Model } from "../model";
 
-export type NewableRoute = Newable<Route>;
-
 export class Router {
 	public routeContainer: RouteCollection;
 	protected logger: Logger;
@@ -49,7 +47,7 @@ export class Router {
 
 	protected async invokeRoute(route: InternalRoute, socket: SocketIO.Socket, packet: SocketPacket) {
 		const execute = async validationResult => {
-			const request = new Request(validationResult.target, socket, packet);
+			const request = new Request(validationResult.target, socket);
 			const response = new Response(socket, route, this.server, packet.getAck());
 
 			if (validationResult.didFail()) {
@@ -93,7 +91,7 @@ export class Router {
 		if (validationResult.didFail()) {
 			return new ValidationResult(null, validationResult.errors);
 		} else {
-			return new ValidationResult(validationResult.target);
+			return validationResult;
 		}
 	}
 

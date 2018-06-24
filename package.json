@@ -19,8 +19,10 @@
 	"main": "./index.js",
 	"types": "./index.d.ts",
 	"dependencies": {
+		"@types/inversify-inject-decorators": "^2.0.0",
 		"class-validator": "0.8.5",
 		"inversify": "4.13.0",
+		"inversify-inject-decorators": "^3.1.0",
 		"reflect-metadata": "0.1.12",
 		"socket.io": "2.1.1",
 		"socket.io-client": "2.1.1",
@@ -32,7 +34,7 @@
 		"@types/debug": "0.0.30",
 		"@types/jest": "23.1.1",
 		"@types/lodash": "4.14.110",
-		"@types/node": "10.3.4",
+		"@types/node": "10.3.5",
 		"@types/readline-sync": "1.4.3",
 		"@types/semver": "5.5.0",
 		"@types/socket.io": "1.4.36",
@@ -53,7 +55,8 @@
 		"shelljs": "0.8.2",
 		"ts-jest": "22.4.6",
 		"ts-node": "6.1.2",
-		"tsconfig-paths": "3.4.0"
+		"tsconfig-paths": "3.4.0",
+		"typedoc": "^0.11.1"
 	},
 	"engines": {
 		"node": ">=6.0.0"

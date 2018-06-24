@@ -1,7 +1,7 @@
 {
 	"compilerOptions": {
 		"lib": ["es2016", "dom"],
-		"typeRoots": ["node_modules/@types", "./typings"],
+		"typeRoots": ["node_modules/@types", "./lib/src/typings"],
 		"target": "es2016",
 		"module": "commonjs",
 		"moduleResolution": "node",

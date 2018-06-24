@@ -1,5 +1,5 @@
 // tslint:disable-next-line:no-reference
-/// <reference path="./typings/types.d.ts" />
+/// <reference path="./typings/index.d.ts" />
 
 import * as sio from "socket.io";
 import * as sioWildcard from "socketio-wildcard";

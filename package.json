@@ -4,9 +4,10 @@
 	"scripts": {
 		"test": "jest --config=jest.json",
 		"test:watch": "npm run jest -- --watch",
+		"docs:build": "typedoc --out ./docs/apidoc",
+		"docs:serve": "docsify serve ./docs",
 		"prettier": "prettier --write ./**/*.ts",
 		"start": "nodemon --exec ts-node ./samples/Base/Server.ts",
-		"docs:serve": "docsify serve ./docs",
 		"release": "node ./scripts/deploy.js",
 		"precommit": "lint-staged"
 	},

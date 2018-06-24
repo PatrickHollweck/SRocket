@@ -1,6 +1,6 @@
 * Getting started
 	* [Introduction](/)
-	* <a href="/apidoc/index.html">API Docs</a>
+	* <a href="https://fetzenrndy.github.io/SRocket/apidoc/index.html">API Docs</a>
 	* [Quick start](quickstart.md)
 
 * Guide

@@ -1,7 +1,7 @@
 * Getting started
 	* [Introduction](/)
-    * [Quick start](quickstart.md)
-	* <a href="/apidoc/index.html">API-DOCS</a>
+	* [Quick start](quickstart.md)
+	* [API DOCS](/apidoc/index.html)
 
 * Guide
 

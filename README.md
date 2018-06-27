@@ -1,8 +1,8 @@
 <h1 align="center">SRocket Framework</h1>
 
-<div align="center">Socket + 🚀 </div>
+<div align="center">Socket + 🚀</div>
 <div align="center">
-  <strong>SRocket is a Socket.IO Framework for Typescript</strong>
+	<strong>SRocket is a Socket.IO Framework for Typescript</strong>
 </div>
 
 <br />
@@ -20,6 +20,11 @@
     <a href="https://github.com/FetzenRndy/srocket">
       Source
     </a>
+	<div style="margin-top: 15px">
+		<a href="https://travis-ci.org/FetzenRndy/SRocket">
+			<img src="https://travis-ci.org/FetzenRndy/SRocket.svg?branch=master">
+		</a>
+	</div>
   </h3>
 </div>
 

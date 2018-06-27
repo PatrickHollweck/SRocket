@@ -11,6 +11,12 @@
 	<a href="https://nodei.co/npm/srocket/"><img src="https://nodei.co/npm/srocket.png"></a>
 </div>
 
+<div align="center" style="margin-top: 15px">
+	<a href="https://travis-ci.org/FetzenRndy/SRocket">
+		<img src="https://travis-ci.org/FetzenRndy/SRocket.svg?branch=master">
+	</a>
+</div>
+
 <div align="center">
   <h3>
     <a href="https://fetzenrndy.github.io/SRocket/#/">
@@ -20,11 +26,6 @@
     <a href="https://github.com/FetzenRndy/srocket">
       Source
     </a>
-	<div style="margin-top: 15px">
-		<a href="https://travis-ci.org/FetzenRndy/SRocket">
-			<img src="https://travis-ci.org/FetzenRndy/SRocket.svg?branch=master">
-		</a>
-	</div>
   </h3>
 </div>
 

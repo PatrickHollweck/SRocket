@@ -1,7 +1,7 @@
 // tslint:disable-next-line:no-reference
 /// <reference path="./typings/index.d.ts" />
 
-import * as sio from "socket.io";
+import * as socketIO from "socket.io";
 import * as sioWildcard from "socketio-wildcard";
 
 import { getModuleConfigDecorator } from "./decorator/ModuleConfig";
@@ -21,7 +21,7 @@ export class SRocket {
 		this.config = new Config();
 		this.config.port = port;
 		// TODO: Add ability to access config back
-		this.ioServer = sio.listen(port);
+		this.ioServer = socketIO(port);
 		this.router = new Router(this.ioServer);
 
 		container.bind(SRocket).toConstantValue(this);
@@ -58,6 +58,8 @@ export class SRocket {
 
 		// TODO: Extract
 		this.ioServer.on("connection", socket => {
+			console.log(socket);
+
 			socket.on("*", async packet => {
 				await this.router.route(packet, socket);
 			});

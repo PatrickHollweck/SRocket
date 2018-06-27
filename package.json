@@ -34,7 +34,7 @@
 		"@types/debug": "0.0.30",
 		"@types/jest": "23.1.2",
 		"@types/lodash": "4.14.110",
-		"@types/node": "10.3.6",
+		"@types/node": "10.3.5",
 		"@types/readline-sync": "1.4.3",
 		"@types/semver": "5.5.0",
 		"@types/socket.io": "1.4.36",

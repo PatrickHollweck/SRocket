@@ -138,9 +138,13 @@
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.3.tgz#3dca0e3f33b200fc7d1139c0cd96c1268cadfd9d"
 
-"@types/node@*", "@types/node@10.3.6":
+"@types/node@*":
   version "10.3.6"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.3.6.tgz#ea8aab9439b59f40d19ec5f13b44642344872b11"
+
+"@types/node@10.3.5":
+  version "10.3.5"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.3.5.tgz#8423cdf6e6fb83433e489900d7600d3b61c8260c"
 
 "@types/readline-sync@1.4.3":
   version "1.4.3"
@@ -163,22 +167,15 @@
     "@types/glob" "*"
     "@types/node" "*"
 
-"@types/socket.io-client@*", "@types/socket.io-client@1.4.32":
+"@types/socket.io-client@1.4.32":
   version "1.4.32"
   resolved "https://registry.yarnpkg.com/@types/socket.io-client/-/socket.io-client-1.4.32.tgz#988a65a0386c274b1c22a55377fab6a30789ac14"
 
-"@types/socket.io@*", "@types/socket.io@1.4.36":
+"@types/socket.io@1.4.36":
   version "1.4.36"
   resolved "https://registry.yarnpkg.com/@types/socket.io/-/socket.io-1.4.36.tgz#9d7d175d602110a72223c7938932d8d947c429fa"
   dependencies:
     "@types/node" "*"
-
-"@types/socketio-wildcard@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@types/socketio-wildcard/-/socketio-wildcard-2.0.1.tgz#008ae4fdffc3335a179f233f5bb6448770e9cfda"
-  dependencies:
-    "@types/socket.io" "*"
-    "@types/socket.io-client" "*"
 
 "@types/validator@9.4.1":
   version "9.4.1"

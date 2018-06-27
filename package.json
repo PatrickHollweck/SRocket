@@ -3,7 +3,7 @@
 	"version": "1.4.0",
 	"scripts": {
 		"test": "jest --config=jest.json",
-		"test:watch": "npm run jest -- --watch",
+		"test:watch": "jest --config=jest.json --watch",
 		"docs:build": "typedoc --out ./docs/apidoc",
 		"docs:serve": "docsify serve ./docs",
 		"prettier": "prettier --write ./**/*.ts",

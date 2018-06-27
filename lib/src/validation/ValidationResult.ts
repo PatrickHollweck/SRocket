@@ -4,7 +4,7 @@ export class ValidationResult<T = any> {
 	public errors: Error[];
 	public status: ValidationStatus;
 
-	constructor(public result: T | null, errors?: Error[]) {
+	constructor(public result: T | null, errors?: Error[], status?: ValidationStatus) {
 		this.errors = errors || [];
 		this.status = status || this.errors.length > 0 ? ValidationStatus.Failed : ValidationStatus.Succeeded;
 	}

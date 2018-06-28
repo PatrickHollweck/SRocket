@@ -1,11 +1,10 @@
 import { Request, Response, SocketRoute } from "../../../../lib/src/";
-import { Controller, Route } from "../../../../lib/src/router";
+import { Controller, Route } from "../../../../lib/src/deprecated/index";
 import { jsV } from "../../../../lib/src/validation";
 
 export class UserController extends Controller {
 	public $onConnect(socket: SocketIO.Socket) {
 		console.log("NAMESPACE - Socket connected... ", socket.id);
-		socket.disconnect();
 	}
 
 	public $onDisconnect(socket: SocketIO.Socket) {

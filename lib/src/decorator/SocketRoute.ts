@@ -1,4 +1,4 @@
-import { UserRouteConfig, RouteConfig } from "../router/RouteConfig";
+import { UserRouteConfig, RouteConfig } from "../router/deprecated/RouteConfig";
 import "reflect-metadata";
 
 export const routeMetadataKey = Symbol("routeDecoratorKey");

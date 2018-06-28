@@ -1,9 +1,11 @@
 import * as ClassValidator from "class-validator";
 import * as jsValidator from "validator";
 
-import { AbsentPropertyError, ValidationError } from "../errors";
 import { ValidationResult } from "./ValidationResult";
 import { ValidationContext } from "./ValidationContext";
+
+import { ValidationError } from "../errors/ValidationError";
+import { AbsentPropertyError } from "../errors/AbsentPropertyError";
 
 export const tsV = ClassValidator;
 export const jsV = jsValidator;

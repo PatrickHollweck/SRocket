@@ -1,5 +1,5 @@
 import { StatusCodes } from "./StatusCode";
-import { InternalRoute } from "../router/InternalRoute";
+import { InternalRoute } from "../router/deprecated/InternalRoute";
 
 /// <reference path="./../typings/socket.io.d.ts" />
 

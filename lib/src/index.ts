@@ -12,6 +12,16 @@ export { Request } from "./io/Request";
 export { Response } from "./io/Response";
 export { StatusCodes } from "./io/StatusCode";
 
+// Logging Exports
+
+export { Logger } from "./logging/Logger";
+export { ConsoleLogger } from "./logging/ConsoleLogger";
+
 // DI Exports
 
 export { container, inject } from "./di/SRocketContainer";
+
+// Error Exports
+
+export { ValidationError } from "./errors/ValidationError";
+export { AbsentPropertyError } from "./errors/AbsentPropertyError";

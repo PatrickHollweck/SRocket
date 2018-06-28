@@ -28,9 +28,10 @@
 		"socket.io-client": "2.1.1",
 		"socketio-wildcard": "2.0.0",
 		"typescript": "2.9.2",
-		"validator": "10.4.0"
+		"joi": "13.4.0"
 	},
 	"devDependencies": {
+		"@types/joi": "13.3.0",
 		"@types/debug": "0.0.30",
 		"@types/jest": "23.1.2",
 		"@types/lodash": "4.14.110",
@@ -39,7 +40,6 @@
 		"@types/semver": "5.5.0",
 		"@types/socket.io": "1.4.36",
 		"@types/socket.io-client": "1.4.32",
-		"@types/validator": "9.4.1",
 		"chalk": "2.4.1",
 		"docsify": "4.6.10",
 		"docsify-cli": "4.2.1",

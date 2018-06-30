@@ -2,7 +2,7 @@ import { Route } from "../router/Route";
 import { StatusCodes } from "./StatusCode";
 import { InternalRoute } from "../router/InternalRoute";
 
-export class Response<T = any> {
+export class SResponse<T = any> {
 	protected ack: SocketIO.Ack;
 	protected data?: T;
 	protected route: InternalRoute<Route>;

@@ -4,7 +4,7 @@ import { Router } from "../../lib/src/router/Router";
 import { container } from "../../lib/src";
 import { SocketRoute } from "../../lib/src/decorator/SocketRoute";
 import { Route, ObjectRoute } from "../../lib/src/router/Route";
-import { RouteMetadataStore } from "../../lib/src/router/metadata/RouteMetadataStore";
+import { RouteMetadataStore, Controller } from "../../lib/src/router/metadata/RouteMetadataStore";
 
 import * as socketIO from "socket.io";
 
@@ -13,7 +13,15 @@ const router = new Router(server);
 
 const store = new RouteMetadataStore();
 
-class DebugController {
+class DebugController extends Controller {
+	$onConnect(socket: SocketIO.Socket) {
+		console.log(socket.id, "connected!");
+	}
+
+	$onDisconnect(socket: SocketIO.Socket) {
+		console.log(socket.id, "disconnected!");
+	}
+
 	@SocketRoute()
 	functional() {
 		console.log("Functional route called!");

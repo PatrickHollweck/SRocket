@@ -12,8 +12,8 @@ export { tsV, ClassValidator } from "./validation/validators/ClassValidator";
 
 // IO Exports
 
-export { Request } from "./io/Request";
-export { Response } from "./io/Response";
+export { SRequest } from "./io/SRequest";
+export { SResponse } from "./io/SResponse";
 export { StatusCodes } from "./io/StatusCode";
 
 // Logging Exports

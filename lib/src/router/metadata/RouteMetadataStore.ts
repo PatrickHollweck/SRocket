@@ -1,25 +1,37 @@
-import { Route } from "../Route";
+import { Route, RouteReturn, ControllerMetaRoute } from "../Route";
 import { Newable } from "../../structures/Newable";
 import { rightPad } from "../../utility/pads";
 import { Metadata } from "../../utility/Metadata";
 import { ConsoleLogger } from "../..";
 import { SOCKET_ROUTE_METADATA_KEY } from "../../decorator/SocketRoute";
 import { RouteConfig, UserRouteConfig } from "../RouteConfig";
-import { InternalRoute, FunctionalInternalRoute, ClassInternalRoute, ObjectInternalRoute } from "../../router/InternalRoute";
+import {
+	InternalRoute,
+	FunctionalInternalRoute,
+	ClassInternalRoute,
+	ObjectInternalRoute,
+	ControllerMetaInternalRoute
+} from "../../router/InternalRoute";
 
 export enum RouteType {
-	classBased = "class",
-	objectBased = "object",
-	functionBased = "functional"
+	ClassBased = "class",
+	ObjectBased = "object",
+	FunctionBased = "functional"
 }
 
 export class ControllerMetadata {
-	public routes: RouteMetadata[];
+	public messageRoutes: RouteMetadata[];
+	public connectHandlers: ControllerMetaInternalRoute[];
+	public disconnectHandlers: ControllerMetaInternalRoute[];
+
 	public namespace: string;
 
 	constructor() {
 		this.namespace = "/";
-		this.routes = [];
+
+		this.messageRoutes = [];
+		this.connectHandlers = [];
+		this.disconnectHandlers = [];
 	}
 }
 
@@ -33,7 +45,10 @@ export class RouteMetadata {
 	}
 }
 
-export class Controller {}
+export abstract class Controller {
+	$onConnect?(socket): RouteReturn;
+	$onDisconnect?(socket): RouteReturn;
+}
 
 export class RouteMetadataStore {
 	public controllers: ControllerMetadata[];
@@ -51,7 +66,10 @@ export class RouteMetadataStore {
 		const controllerMetadata = new ControllerMetadata();
 		const instance = new controller();
 
-		const properties = [...Object.getOwnPropertyNames(instance), ...Object.getOwnPropertyNames(controller.prototype)];
+		const properties = [
+			...Object.getOwnPropertyNames(instance),
+			...Object.getOwnPropertyNames(controller.prototype)
+		];
 
 		for (const property of properties) {
 			if (RouteMetadataStore.hasValidRouteMetadata(instance, property)) {
@@ -65,6 +83,18 @@ export class RouteMetadataStore {
 			}
 		}
 
+		if (instance.$onConnect) {
+			controllerMetadata.connectHandlers.push(
+				new ControllerMetaInternalRoute(instance.$onConnect, { path: "CONNECT" })
+			);
+		}
+
+		if (instance.$onDisconnect) {
+			controllerMetadata.disconnectHandlers.push(
+				new ControllerMetaInternalRoute(instance.$onDisconnect, { path: "DISCONNECT" })
+			);
+		}
+
 		this.controllers.push(controllerMetadata);
 	}
 
@@ -75,13 +105,13 @@ export class RouteMetadataStore {
 
 		let internalRoute: InternalRoute<Route>;
 		switch (routeType) {
-			case RouteType.classBased:
+			case RouteType.ClassBased:
 				internalRoute = new ClassInternalRoute(route as any, config);
 				break;
-			case RouteType.functionBased:
+			case RouteType.FunctionBased:
 				internalRoute = new FunctionalInternalRoute(route as any, config);
 				break;
-			case RouteType.objectBased:
+			case RouteType.ObjectBased:
 				internalRoute = new ObjectInternalRoute(route as any, config);
 				break;
 			default:
@@ -89,7 +119,7 @@ export class RouteMetadataStore {
 		}
 
 		const routeMetadata = new RouteMetadata(internalRoute, config);
-		controllerMetadata.routes.push(routeMetadata);
+		controllerMetadata.messageRoutes.push(routeMetadata);
 	}
 
 	protected static getRouteMetadata(target: any, property?: string): RouteConfig {
@@ -116,15 +146,17 @@ export class RouteMetadataStore {
 		if (property) target = target[property];
 
 		if (typeof target === "object") {
-			return RouteType.objectBased;
+			return RouteType.ObjectBased;
 		} else if (typeof target === "function") {
 			if (target.prototype && typeof target.prototype.on === "function") {
-				return RouteType.classBased;
+				return RouteType.ClassBased;
 			} else {
-				return RouteType.functionBased;
+				return RouteType.FunctionBased;
 			}
 		} else {
-			throw new Error("Tried to register something as a Route that is nor a object nor a function or a class/object with a 'on' function!");
+			throw new Error(
+				"Tried to register something as a Route that is nor a object nor a function or a class/object with a 'on' function!"
+			);
 		}
 	}
 }

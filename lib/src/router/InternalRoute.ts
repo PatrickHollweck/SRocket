@@ -1,4 +1,5 @@
 import { Route, RouteReturn, ObjectRoute, FunctionalRoute } from "./metadata/RouteMetadataStore";
+import { Newable } from "../structures/Newable";
 
 export abstract class InternalRoute<T extends Route> {
 	protected handler: T;
@@ -13,6 +14,16 @@ export abstract class InternalRoute<T extends Route> {
 export class ObjectInternalRoute extends InternalRoute<ObjectRoute> {
 	constructor(handler: ObjectRoute) {
 		super(handler);
+	}
+
+	async callOn() {
+		await this.handler.on();
+	}
+}
+
+export class ClassInternalRoute extends InternalRoute<ObjectRoute> {
+	constructor(handler: Newable<ObjectRoute>) {
+		super(new handler());
 	}
 
 	async callOn() {

@@ -3,7 +3,9 @@ import { Metadata } from "../../utility/Metadata";
 import { RouteConfig } from "../RouteConfig";
 import { ConsoleLogger } from "../..";
 import { SOCKET_ROUTE_METADATA_KEY } from "../../decorator/SocketRoute";
-import { InternalRoute, FunctionalInternalRoute } from "../../router/InternalRoute";
+import { InternalRoute, FunctionalInternalRoute, ClassInternalRoute, ObjectInternalRoute } from "../../router/InternalRoute";
+
+import * as rightPad from "right-pad";
 
 export type RouteReturn = Promise<void> | void;
 
@@ -24,6 +26,12 @@ export class RouteMetadata {
 		this.handler = handler;
 		this.name = name;
 	}
+}
+
+export enum RouteType {
+	classBased = "class",
+	objectBased = "object",
+	functionBased = "functional"
 }
 
 export class ControllerMetadata {
@@ -66,10 +74,25 @@ export class RouteMetadataStore {
 	}
 
 	public buildRoute(controllerMetadata: ControllerMetadata, route: Route, routeName: string) {
-		this.logger.info(`\tRegistering Route: ${routeName}`);
+		const routeType = RouteMetadataStore.findRouteType(route);
 
-		// TODO: We assume here all routes are functional...
-		const internalRoute = new FunctionalInternalRoute(route as any);
+		this.logger.info(`\t${rightPad(routeType, 10)} : ${routeName}`);
+
+		let internalRoute: InternalRoute<Route>;
+		switch (routeType) {
+			case RouteType.classBased:
+				internalRoute = new ClassInternalRoute(route as any);
+				break;
+			case RouteType.functionBased:
+				internalRoute = new FunctionalInternalRoute(route as any);
+				break;
+			case RouteType.objectBased:
+				internalRoute = new ObjectInternalRoute(route as any);
+				break;
+			default:
+				throw new Error("Tried to register unknown Route type!");
+		}
+
 		const routeMetadata = new RouteMetadata(internalRoute, routeName);
 
 		controllerMetadata.routes.push(routeMetadata);
@@ -92,6 +115,22 @@ export class RouteMetadataStore {
 			return true;
 		} catch (error) {
 			return false;
+		}
+	}
+
+	protected static findRouteType(target: any, property?: string): RouteType {
+		if (property) target = target[property];
+
+		if (typeof target === "object") {
+			return RouteType.objectBased;
+		} else if (typeof target === "function") {
+			if (target.prototype && typeof target.prototype.on === "function") {
+				return RouteType.classBased;
+			} else {
+				return RouteType.functionBased;
+			}
+		} else {
+			throw new Error("Tried to register something as a Route that is nor a object nor a function or a class/object with a 'on' function!");
 		}
 	}
 }

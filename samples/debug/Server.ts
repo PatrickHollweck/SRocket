@@ -3,7 +3,8 @@ process.env["DEBUG"] = "srocket:*";
 import { Router } from "../../lib/src/router/Router";
 import { container } from "../../lib/src";
 import { SocketRoute } from "../../lib/src/decorator/SocketRoute";
-import { RouteMetadataStore, Route, ObjectRoute } from "../../lib/src/router/metadata/RouteMetadataStore";
+import { Route, ObjectRoute } from "../../lib/src/router/Route";
+import { RouteMetadataStore } from "../../lib/src/router/metadata/RouteMetadataStore";
 
 import * as socketIO from "socket.io";
 

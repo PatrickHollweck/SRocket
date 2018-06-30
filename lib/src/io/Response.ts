@@ -1,8 +1,6 @@
+import { Route } from "../router/Route";
 import { StatusCodes } from "./StatusCode";
 import { InternalRoute } from "../router/InternalRoute";
-import { Route } from "../router/metadata/RouteMetadataStore";
-
-/// <reference path="./../typings/socket.io.d.ts" />
 
 export class Response<T = any> {
 	protected ack: SocketIO.Ack;
@@ -106,9 +104,7 @@ export class Response<T = any> {
 
 	protected getEventRoute() {
 		if (!this.emitEventName) {
-			// TODO: FIX when router is reimplemented
-			return "";
-			// return this.route.config.path;
+			return this.route.config.path;
 		} else {
 			return this.emitEventName;
 		}

@@ -1,5 +1,5 @@
 import { container } from "..";
-import { RouteMetadataStore, ControllerMetadata, RouteMetadata, Route } from "./metadata/RouteMetadataStore";
+import { RouteMetadataStore, ControllerMetadata, RouteMetadata } from "./metadata/RouteMetadataStore";
 
 export class Router {
 	protected ioServer: SocketIO.Server;
@@ -18,7 +18,7 @@ export class Router {
 
 		namespace.on("connect", socket => {
 			controller.routes.forEach(route => {
-				socket.on(route.name, async () => await this.executeRoute(socket, route));
+				socket.on(route.config.path, async () => await this.executeRoute(socket, route));
 			});
 		});
 	}

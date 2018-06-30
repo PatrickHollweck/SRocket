@@ -1,32 +1,11 @@
+import { Route } from "../Route";
 import { Newable } from "../../structures/Newable";
+import { rightPad } from "../../utility/pads";
 import { Metadata } from "../../utility/Metadata";
-import { RouteConfig } from "../RouteConfig";
 import { ConsoleLogger } from "../..";
 import { SOCKET_ROUTE_METADATA_KEY } from "../../decorator/SocketRoute";
+import { RouteConfig, UserRouteConfig } from "../RouteConfig";
 import { InternalRoute, FunctionalInternalRoute, ClassInternalRoute, ObjectInternalRoute } from "../../router/InternalRoute";
-
-import * as rightPad from "right-pad";
-
-export type RouteReturn = Promise<void> | void;
-
-export interface ObjectRoute {
-	on(): RouteReturn;
-	onError(e: Error): RouteReturn;
-}
-
-export type FunctionalRoute = () => Promise<void> | void;
-
-export type Route = ObjectRoute | FunctionalRoute;
-
-export class RouteMetadata {
-	public handler: InternalRoute<Route>;
-	public name: string;
-
-	constructor(handler: InternalRoute<Route>, name: string) {
-		this.handler = handler;
-		this.name = name;
-	}
-}
 
 export enum RouteType {
 	classBased = "class",
@@ -41,6 +20,16 @@ export class ControllerMetadata {
 	constructor() {
 		this.namespace = "/";
 		this.routes = [];
+	}
+}
+
+export class RouteMetadata {
+	public handler: InternalRoute<Route>;
+	public config: RouteConfig;
+
+	constructor(handler: InternalRoute<Route>, config: RouteConfig) {
+		this.handler = handler;
+		this.config = config;
 	}
 }
 
@@ -66,35 +55,40 @@ export class RouteMetadataStore {
 
 		for (const property of properties) {
 			if (RouteMetadataStore.hasValidRouteMetadata(instance, property)) {
-				this.buildRoute(controllerMetadata, instance[property], property);
+				const userConfig: UserRouteConfig = RouteMetadataStore.getRouteMetadata(instance, property);
+
+				const config: RouteConfig = {
+					path: userConfig.path || property
+				};
+
+				this.buildRoute(controllerMetadata, instance[property], config);
 			}
 		}
 
 		this.controllers.push(controllerMetadata);
 	}
 
-	public buildRoute(controllerMetadata: ControllerMetadata, route: Route, routeName: string) {
+	public buildRoute(controllerMetadata: ControllerMetadata, route: Route, config: RouteConfig) {
 		const routeType = RouteMetadataStore.findRouteType(route);
 
-		this.logger.info(`\t${rightPad(routeType, 10)} : ${routeName}`);
+		this.logger.info(`\t${rightPad(routeType, 10)} : ${config.path}`);
 
 		let internalRoute: InternalRoute<Route>;
 		switch (routeType) {
 			case RouteType.classBased:
-				internalRoute = new ClassInternalRoute(route as any);
+				internalRoute = new ClassInternalRoute(route as any, config);
 				break;
 			case RouteType.functionBased:
-				internalRoute = new FunctionalInternalRoute(route as any);
+				internalRoute = new FunctionalInternalRoute(route as any, config);
 				break;
 			case RouteType.objectBased:
-				internalRoute = new ObjectInternalRoute(route as any);
+				internalRoute = new ObjectInternalRoute(route as any, config);
 				break;
 			default:
 				throw new Error("Tried to register unknown Route type!");
 		}
 
-		const routeMetadata = new RouteMetadata(internalRoute, routeName);
-
+		const routeMetadata = new RouteMetadata(internalRoute, config);
 		controllerMetadata.routes.push(routeMetadata);
 	}
 
@@ -103,7 +97,7 @@ export class RouteMetadataStore {
 			? Metadata.getPropertyDecorator(SOCKET_ROUTE_METADATA_KEY, target, property)
 			: Metadata.getClassDecorator(SOCKET_ROUTE_METADATA_KEY, target);
 
-		if (!metadata) throw new Error("Tried to register a class Route with no decorator");
+		if (!metadata) throw new Error("Tried to register a route with no decorator");
 
 		return metadata;
 	}

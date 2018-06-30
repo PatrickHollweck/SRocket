@@ -1,7 +1,7 @@
 export interface RouteConfig {
-	name: string;
+	path: string;
 }
 
 export interface UserRouteConfig {
-	name?: string;
+	path?: string;
 }

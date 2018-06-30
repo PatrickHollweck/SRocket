@@ -14,11 +14,18 @@ export abstract class InternalRoute<T extends Route> {
 	}
 
 	public abstract callOn(req: SRequest, res: SResponse): RouteReturn;
+	public abstract callError(e: Error, req: SRequest, res: SResponse): RouteReturn;
 }
 
 export class ObjectInternalRoute extends InternalRoute<ObjectRoute> {
 	constructor(handler: ObjectRoute, config: RouteConfig) {
 		super(handler, config);
+	}
+
+	async callError(e, req, res) {
+		if (this.handler.onError) {
+			this.handler.onError(e, req, res);
+		}
 	}
 
 	async callOn(req: SRequest, res: SResponse) {
@@ -31,6 +38,12 @@ export class ClassInternalRoute extends InternalRoute<ObjectRoute> {
 		super(new handler(), config);
 	}
 
+	async callError(e, req, res) {
+		if (this.handler.onError) {
+			this.handler.onError(e, req, res);
+		}
+	}
+
 	async callOn(req: SRequest, res: SResponse) {
 		await this.handler.on(req, res);
 	}
@@ -41,6 +54,8 @@ export class FunctionalInternalRoute extends InternalRoute<FunctionalRoute> {
 		super(handler, config);
 	}
 
+	async callError(e, req, res) {}
+
 	async callOn(req: SRequest, res: SResponse) {
 		await this.handler(req, res);
 	}
@@ -50,6 +65,8 @@ export class ControllerMetaInternalRoute extends InternalRoute<ControllerMetaRou
 	constructor(handler: ControllerMetaRoute, config: RouteConfig) {
 		super(handler, config);
 	}
+
+	async callError(e, req, res) {}
 
 	async callOn(request: SRequest) {
 		this.handler(request.socket);

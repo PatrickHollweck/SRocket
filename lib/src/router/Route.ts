@@ -6,7 +6,7 @@ export type Route = ObjectRoute | FunctionalRoute | ControllerMetaRoute;
 
 export interface ObjectRoute {
 	on(req: SRequest, res: SResponse): RouteReturn;
-	onError?(e: Error): RouteReturn;
+	onError?(e: Error, req: SRequest, res: SResponse): RouteReturn;
 }
 
 export type FunctionalRoute = (req: SRequest, res: SResponse) => RouteReturn;

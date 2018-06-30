@@ -7,11 +7,7 @@ import { Route, ObjectRoute } from "../../lib/src/router/Route";
 import { RouteMetadataStore, Controller } from "../../lib/src/router/metadata/RouteMetadataStore";
 
 import * as socketIO from "socket.io";
-
-const server = socketIO(5555);
-const router = new Router(server);
-
-const store = new RouteMetadataStore();
+import { SRocket } from "../../lib/src/start/SRocket";
 
 class DebugController extends Controller {
 	$onConnect(socket: SocketIO.Socket) {
@@ -25,7 +21,6 @@ class DebugController extends Controller {
 	@SocketRoute()
 	functional(req: SRequest, res: SResponse) {
 		console.log("Functional route called!", req.data);
-		res.invokeAck();
 	}
 
 	@SocketRoute()
@@ -49,10 +44,8 @@ class DebugController extends Controller {
 	};
 }
 
-store.buildController(DebugController);
-
-container.bind(RouteMetadataStore).toConstantValue(store);
-
-router.registerRoutes();
+SRocket.fromPort(5555)
+	.controllers(DebugController)
+	.listen();
 
 console.log("Server started!");

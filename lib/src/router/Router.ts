@@ -4,9 +4,13 @@ import { SRequest } from "../io/SRequest";
 import { SResponse } from "../io/SResponse";
 
 export class Router {
-	protected ioServer: SocketIO.Server;
+	protected readonly ioServer: SocketIO.Server;
 
 	constructor(ioServer: SocketIO.Server) {
+		if (!ioServer) {
+			throw new Error("Router initialized with a undefined socket server!");
+		}
+
 		this.ioServer = ioServer;
 	}
 
@@ -48,6 +52,15 @@ export class Router {
 		const request = new SRequest(requestData, socket);
 		const response = new SResponse(socket, route.handler, this.ioServer, ack);
 
-		await route.handler.callOn(request, response);
+		this.invokeMiddleware(request, response);
+
+		// TODO: Some option to not catch errors and let them crash the app. @SocketRoute and SRocket startup ?
+		try {
+			await route.handler.callOn(request, response);
+		} catch (e) {
+			await route.handler.callError(e, request, response);
+		}
 	}
+
+	protected async invokeMiddleware(request: SRequest, response: SResponse) {}
 }

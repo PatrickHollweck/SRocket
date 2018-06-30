@@ -1,6 +1,7 @@
 import "reflect-metadata";
-import { Container as InversifyContainer } from "inversify";
+
 import getDecorators from "inversify-inject-decorators";
+import { Container as InversifyContainer } from "inversify";
 
 export class AbstractContainer {
 	public readonly instance: InversifyContainer;

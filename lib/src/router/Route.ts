@@ -5,6 +5,6 @@ export interface ObjectRoute {
 	onError?(e: Error): RouteReturn;
 }
 
-export type FunctionalRoute = () => Promise<void> | void;
+export type FunctionalRoute = () => RouteReturn;
 
 export type Route = ObjectRoute | FunctionalRoute;

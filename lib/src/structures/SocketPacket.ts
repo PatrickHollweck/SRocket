@@ -1,5 +1,5 @@
 export class SocketPacket {
-	constructor(public readonly data: Array<any>) {}
+	constructor(public readonly data: any[]) {}
 
 	public static fromSocketIOPacket(sioPacket: SocketIO.Packet) {
 		return new SocketPacket(sioPacket);

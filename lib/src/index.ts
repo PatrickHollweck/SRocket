@@ -1,6 +1,6 @@
 // DI Exports
 
-export { container, inject } from "./DI/SRocketContainer";
+export { container, inject } from "./di/SRocketContainer";
 
 // Validation Exports
 

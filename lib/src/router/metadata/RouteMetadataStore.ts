@@ -84,12 +84,16 @@ export class RouteMetadataStore {
 		}
 
 		if (instance.$onConnect) {
+			this.logger.info("\tA Connect Handler!");
+
 			controllerMetadata.connectHandlers.push(
 				new ControllerMetaInternalRoute(instance.$onConnect, { path: "CONNECT" })
 			);
 		}
 
 		if (instance.$onDisconnect) {
+			this.logger.info("\tA Disconnect Handler!");
+
 			controllerMetadata.disconnectHandlers.push(
 				new ControllerMetaInternalRoute(instance.$onDisconnect, { path: "DISCONNECT" })
 			);

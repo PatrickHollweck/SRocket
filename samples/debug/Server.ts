@@ -1,7 +1,7 @@
 process.env["DEBUG"] = "srocket:*";
 
 import { Router } from "../../lib/src/router/Router";
-import { container } from "../../lib/src";
+import { container, SRequest, SResponse } from "../../lib/src";
 import { SocketRoute } from "../../lib/src/decorator/SocketRoute";
 import { Route, ObjectRoute } from "../../lib/src/router/Route";
 import { RouteMetadataStore, Controller } from "../../lib/src/router/metadata/RouteMetadataStore";
@@ -23,8 +23,9 @@ class DebugController extends Controller {
 	}
 
 	@SocketRoute()
-	functional() {
-		console.log("Functional route called!");
+	functional(req: SRequest, res: SResponse) {
+		console.log("Functional route called!", req.data);
+		res.invokeAck();
 	}
 
 	@SocketRoute()

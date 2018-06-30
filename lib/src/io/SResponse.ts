@@ -1,9 +1,12 @@
 import { Route } from "../router/Route";
 import { StatusCodes } from "./StatusCode";
 import { InternalRoute } from "../router/InternalRoute";
+import { ConsoleLogger } from "../logging/ConsoleLogger";
 
 export class SResponse<T = any> {
-	protected ack: SocketIO.Ack;
+	protected static logger = new ConsoleLogger("SResponse");
+
+	protected ack?: SocketIO.Ack;
 	protected data?: T;
 	protected route: InternalRoute<Route>;
 	protected socket: SocketIO.Socket;
@@ -16,7 +19,7 @@ export class SResponse<T = any> {
 		this.socket = socket;
 		this.server = server;
 
-		this.ack = ack || (() => {});
+		this.ack = ack;
 		this.payloadMessage = "";
 		this.statusCode = 200;
 		this.route = route;
@@ -67,7 +70,11 @@ export class SResponse<T = any> {
 	// -- Sender functions
 
 	public invokeAck() {
-		this.ack(this.getData());
+		if (this.ack) {
+			this.ack(this.getData());
+		} else {
+			SResponse.logger.info("Tried to invoke a ack, even tho none was sent!");
+		}
 	}
 
 	public toSender() {

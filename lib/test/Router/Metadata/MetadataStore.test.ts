@@ -29,7 +29,7 @@ describe("The Metadata Store", () => {
 		expect(store.controllers[0]).toBeDefined();
 		expect(store.controllers[0].messageRoutes[0]).toBeDefined();
 
-		// await store.controllers[0].messageRoutes[0].handler.callOn(
+		// await store.controllers[0].messagejRoutes[0].handler.callOn(
 		// 	new SRequest({}, ),
 		// 	new SResponse()
 		// );

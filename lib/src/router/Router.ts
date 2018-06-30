@@ -17,7 +17,10 @@ export class Router {
 
 	protected registerController(controller: ControllerMetadata) {
 		const namespace = this.ioServer.of(controller.namespace);
+		this.handleConnection(namespace, controller);
+	}
 
+	protected handleConnection(namespace: SocketIO.Namespace, controller: ControllerMetadata) {
 		namespace.on("connect", socket => {
 			controller.connectHandlers.forEach(handler => {
 				handler.callOn(new SRequest({}, socket));

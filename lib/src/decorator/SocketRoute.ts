@@ -1,16 +1,14 @@
-import { UserRouteConfig, RouteConfig } from "../router/deprecated/RouteConfig";
 import "reflect-metadata";
+import { RouteConfig, UserRouteConfig } from "../router/RouteConfig";
 
-export const routeMetadataKey = Symbol("routeDecoratorKey");
+export const SOCKET_ROUTE_METADATA_KEY = Symbol("SocketRouteMetadataKey");
 
-export function SocketRoute(config: UserRouteConfig = {}): Function {
-	return (target: Function, property: string) => {
-		const actualConfig: RouteConfig = {
-			path: config.path || property,
-			data: config.data,
-			model: config.model
+export function SocketRoute(config: UserRouteConfig = {}): MethodDecorator {
+	return (target: Object, propertyKey: string | symbol) => {
+		const realConfig: RouteConfig = {
+			name: config.name || ""
 		};
 
-		Reflect.defineMetadata(routeMetadataKey, actualConfig, target, property);
+		Reflect.defineMetadata(SOCKET_ROUTE_METADATA_KEY, realConfig, target, propertyKey);
 	};
 }

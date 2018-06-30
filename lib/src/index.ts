@@ -1,3 +1,7 @@
+// DI Exports
+
+export { container, inject } from "./DI/SRocketContainer";
+
 // Validation Exports
 
 export { SchemaValidator } from "./validation/validators/SchemaValidator";
@@ -16,10 +20,6 @@ export { StatusCodes } from "./io/StatusCode";
 
 export { Logger } from "./logging/Logger";
 export { ConsoleLogger } from "./logging/ConsoleLogger";
-
-// DI Exports
-
-export { container, inject } from "./di/SRocketContainer";
 
 // Error Exports
 

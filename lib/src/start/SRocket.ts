@@ -7,13 +7,19 @@ import { RouteMetadataStore, Controller } from "../router/metadata/RouteMetadata
 
 import * as socketIO from "socket.io";
 
+import { Autoloader, AutoloadResult, IAutoloader } from "autoloader-ts";
+
 export class SRocket {
-	protected readonly ioServer: SocketIO.Server;
+	public readonly ioServer: SocketIO.Server;
+
 	protected readonly router: Router;
+	protected readonly startupChain: Function[];
 
 	private constructor(ioServer: SocketIO.Server) {
 		container.bind(AppConfig).toConstantValue(new AppConfig());
 		container.bind(RouteMetadataStore).toConstantValue(new RouteMetadataStore());
+
+		this.startupChain = [];
 
 		this.ioServer = ioServer;
 		this.router = new Router(this.ioServer);
@@ -28,19 +34,43 @@ export class SRocket {
 	}
 
 	public addGlobalMiddleware(...middleware: Middleware[]) {
-		container.get(AppConfig).globalMiddleware.push(...middleware);
+		this.startupChain.push(() => {
+			container.get(AppConfig).globalMiddleware.push(...middleware);
+		});
+
+		return this;
+	}
+
+	public autoloadControllers(fn: (autoloader: IAutoloader) => Promise<void>) {
+		this.startupChain.push(async () => {
+			const autoloader = await Autoloader.dynamicImport();
+			await fn(autoloader);
+
+			this.controllers(...autoloader.getResult().exports);
+		});
+
 		return this;
 	}
 
 	public controllers(...controllers: Newable<Controller>[]) {
-		for (const controller of controllers) {
-			container.get(RouteMetadataStore).buildController(controller);
-		}
+		this.startupChain.push(() => {
+			for (const controller of controllers) {
+				container.get(RouteMetadataStore).buildController(controller);
+			}
+		});
 
 		return this;
 	}
 
-	public listen() {
+	public async listen(callback?: Function) {
+		for (const fn of this.startupChain) {
+			await fn();
+		}
+
 		this.router.registerRoutes();
+
+		if (callback) {
+			callback();
+		}
 	}
 }

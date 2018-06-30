@@ -1,19 +1,20 @@
 import { StatusCodes } from "./StatusCode";
-import { InternalRoute } from "../router/deprecated/InternalRoute";
+import { InternalRoute } from "../router/InternalRoute";
+import { Route } from "../router/metadata/RouteMetadataStore";
 
 /// <reference path="./../typings/socket.io.d.ts" />
 
 export class Response<T = any> {
 	protected ack: SocketIO.Ack;
 	protected data?: T;
-	protected route: InternalRoute;
+	protected route: InternalRoute<Route>;
 	protected socket: SocketIO.Socket;
 	protected server: SocketIO.Server;
 	protected statusCode: number;
 	protected emitEventName: string;
 	protected payloadMessage: string;
 
-	constructor(socket: SocketIO.Socket, route: InternalRoute, server: SocketIO.Server, ack?: SocketIO.Ack) {
+	constructor(socket: SocketIO.Socket, route: InternalRoute<Route>, server: SocketIO.Server, ack?: SocketIO.Ack) {
 		this.socket = socket;
 		this.server = server;
 
@@ -67,7 +68,7 @@ export class Response<T = any> {
 
 	// -- Sender functions
 
-	public invokeAck(data?: T) {
+	public invokeAck() {
 		this.ack(this.getData());
 	}
 
@@ -97,7 +98,7 @@ export class Response<T = any> {
 
 	// -- Misc Getters.
 
-	public getSocket() {
+	public getSocket(): SocketIO.Socket {
 		return this.socket;
 	}
 
@@ -105,7 +106,9 @@ export class Response<T = any> {
 
 	protected getEventRoute() {
 		if (!this.emitEventName) {
-			return this.route.config.path;
+			// TODO: FIX when router is reimplemented
+			return "";
+			// return this.route.config.path;
 		} else {
 			return this.emitEventName;
 		}

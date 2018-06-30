@@ -31,7 +31,7 @@ export enum StatusCodes {
 	MethodNotAllowed = 405,
 	NotAccepable = 406,
 	RequestTimeout = 408,
-	Conflice = 409,
+	Conflict = 409,
 	Gone = 410,
 	LengthRequired = 411,
 	PreconditionFailed = 412,

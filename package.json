@@ -20,20 +20,20 @@
 	"main": "./index.js",
 	"types": "./index.d.ts",
 	"dependencies": {
+		"autoloader-ts": "^2.0.0",
 		"class-validator": "0.8.5",
 		"inversify": "4.13.0",
 		"inversify-inject-decorators": "^3.1.0",
+		"joi": "13.4.0",
 		"reflect-metadata": "0.1.12",
 		"socket.io": "2.1.1",
 		"socket.io-client": "2.1.1",
-		"socketio-wildcard": "2.0.0",
-		"typescript": "2.9.2",
-		"joi": "13.4.0"
+		"typescript": "2.9.2"
 	},
 	"devDependencies": {
-		"@types/joi": "13.3.0",
 		"@types/debug": "0.0.30",
 		"@types/jest": "23.1.2",
+		"@types/joi": "13.3.0",
 		"@types/lodash": "4.14.110",
 		"@types/node": "10.3.5",
 		"@types/readline-sync": "1.4.3",

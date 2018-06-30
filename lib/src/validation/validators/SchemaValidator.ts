@@ -1,6 +1,6 @@
 import * as Joi from "joi";
 
-import { Validator } from "..";
+import { Validator } from "./Validator";
 import { ValidationResult } from "../ValidationResult";
 
 export class SchemaValidator implements Validator {

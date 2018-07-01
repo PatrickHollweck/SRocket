@@ -411,9 +411,9 @@ atob@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.1.tgz#ae2d5a729477f289d60dd7f96a6314a22dd6c22a"
 
-autoloader-ts@2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/autoloader-ts/-/autoloader-ts-2.2.0.tgz#4db9db198c3b8ab32a4aee205211cc41f86863ba"
+autoloader-ts@2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/autoloader-ts/-/autoloader-ts-2.2.1.tgz#f0b75084aee5c2f7dee21dc5c8d05da8a5733485"
   dependencies:
     fast-glob "^2.2.2"
     fs-extra "^6.0.1"

@@ -1,13 +1,13 @@
 import { Router } from "../router/Router";
 import { Newable } from "../structures/Newable";
+import { Container } from "inversify";
 import { container } from "../di/SRocketContainer";
 import { AppConfig } from "../config/AppConfig";
 import { Middleware } from "../middleware/Middleware";
 import { RouteMetadataStore, Controller } from "../router/metadata/RouteMetadataStore";
+import { Autoloader, AutoloadResult, IAutoloader } from "autoloader-ts";
 
 import * as socketIO from "socket.io";
-
-import { Autoloader, AutoloadResult, IAutoloader } from "autoloader-ts";
 
 export class SRocket {
 	public readonly ioServer: SocketIO.Server;
@@ -39,6 +39,12 @@ export class SRocket {
 		});
 
 		return this;
+	}
+
+	public configureContainer(fn: (container: Container) => void) {
+		this.startupChain.push(() => {
+			fn(container);
+		});
 	}
 
 	public autoloadControllers(fn: (autoloader: IAutoloader) => Promise<void>) {

@@ -20,7 +20,7 @@
 	"main": "./index.js",
 	"types": "./index.d.ts",
 	"dependencies": {
-		"autoloader-ts": "2.2.0",
+		"autoloader-ts": "2.2.1",
 		"class-validator": "0.8.5",
 		"inversify": "4.13.0",
 		"inversify-inject-decorators": "^3.1.0",

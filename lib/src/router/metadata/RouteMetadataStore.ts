@@ -123,8 +123,8 @@ export class RouteMetadataStore {
 		controllerMetadata.messageRoutes.push(routeMetadata);
 	}
 
-	protected static getRouteMetadata(target: any, property?: string): RouteConfig {
-		const metadata: RouteConfig = property
+	protected static getRouteMetadata(target: any, property?: string): UserRouteConfig {
+		const metadata = property
 			? Metadata.getPropertyDecorator(SOCKET_ROUTE_METADATA_KEY, target, property)
 			: Metadata.getClassDecorator(SOCKET_ROUTE_METADATA_KEY, target);
 

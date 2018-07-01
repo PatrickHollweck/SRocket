@@ -8,5 +8,5 @@ export interface RouteConfig {
 
 export interface UserRouteConfig {
 	path?: string;
-	middleware?: Newable<Middleware[]>;
+	middleware?: Newable<Middleware>[];
 }

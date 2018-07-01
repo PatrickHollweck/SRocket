@@ -79,4 +79,8 @@ export class SRocket {
 			callback();
 		}
 	}
+
+	public close() {
+		this.ioServer.close();
+	}
 }

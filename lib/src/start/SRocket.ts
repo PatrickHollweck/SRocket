@@ -2,8 +2,8 @@ import { Router } from "../router/Router";
 import { Newable } from "../structures/Newable";
 import { Container } from "inversify";
 import { container } from "../di/SRocketContainer";
-import { AppConfig } from "../config/AppConfig";
 import { Middleware } from "../middleware/Middleware";
+import { ExecutionContext } from "../config/ExecutionContext";
 import { RouteMetadataStore, Controller } from "../router/metadata/RouteMetadataStore";
 import { Autoloader, AutoloadResult, IAutoloader } from "autoloader-ts";
 
@@ -16,7 +16,7 @@ export class SRocket {
 	protected readonly startupChain: Function[];
 
 	private constructor(ioServer: SocketIO.Server) {
-		container.bind(AppConfig).toConstantValue(new AppConfig());
+		container.bind(ExecutionContext).toConstantValue(new ExecutionContext());
 		container.bind(RouteMetadataStore).toConstantValue(new RouteMetadataStore());
 
 		this.startupChain = [];
@@ -33,9 +33,9 @@ export class SRocket {
 		return new SRocket(socketIO(port, config));
 	}
 
-	public addGlobalMiddleware(...middleware: Middleware[]) {
+	public addGlobalMiddleware(...middleware: Newable<Middleware>[]) {
 		this.startupChain.push(() => {
-			container.get(AppConfig).globalMiddleware.push(...middleware);
+			container.get(ExecutionContext).globalMiddleware.push(...middleware);
 		});
 
 		return this;

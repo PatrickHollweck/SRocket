@@ -62,8 +62,11 @@ export class FunctionalInternalRoute extends InternalRoute<FunctionalRoute> {
 }
 
 export class ControllerMetaInternalRoute extends InternalRoute<ControllerMetaRoute> {
-	constructor(handler: ControllerMetaRoute, config: RouteConfig) {
-		super(handler, config);
+	constructor(handler: ControllerMetaRoute) {
+		super(handler, {
+			path: "",
+			middleware: []
+		});
 	}
 
 	async callError(e, req, res) {}

@@ -76,7 +76,8 @@ export class RouteMetadataStore {
 				const userConfig: UserRouteConfig = RouteMetadataStore.getRouteMetadata(instance, property);
 
 				const config: RouteConfig = {
-					path: userConfig.path || property
+					path: userConfig.path || property,
+					middleware: userConfig.middleware || []
 				};
 
 				this.buildRoute(controllerMetadata, instance[property], config);
@@ -86,17 +87,13 @@ export class RouteMetadataStore {
 		if (instance.$onConnect) {
 			this.logger.info("\tA Connect Handler!");
 
-			controllerMetadata.connectHandlers.push(
-				new ControllerMetaInternalRoute(instance.$onConnect, { path: "CONNECT" })
-			);
+			controllerMetadata.connectHandlers.push(new ControllerMetaInternalRoute(instance.$onConnect));
 		}
 
 		if (instance.$onDisconnect) {
 			this.logger.info("\tA Disconnect Handler!");
 
-			controllerMetadata.disconnectHandlers.push(
-				new ControllerMetaInternalRoute(instance.$onDisconnect, { path: "DISCONNECT" })
-			);
+			controllerMetadata.disconnectHandlers.push(new ControllerMetaInternalRoute(instance.$onDisconnect));
 		}
 
 		this.controllers.push(controllerMetadata);

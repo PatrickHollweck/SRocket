@@ -3,10 +3,12 @@ import { StatusCodes } from "./StatusCode";
 import { InternalRoute } from "../router/InternalRoute";
 import { ConsoleLogger } from "../logging/ConsoleLogger";
 
+export type SocketIOAck = (...args: any[]) => void;
+
 export class SResponse<T = any> {
 	protected static logger = new ConsoleLogger("SResponse");
 
-	protected ack?: SocketIO.Ack;
+	protected ack?: SocketIOAck;
 	protected data?: T;
 	protected route: InternalRoute<Route>;
 	protected socket: SocketIO.Socket;
@@ -15,7 +17,7 @@ export class SResponse<T = any> {
 	protected emitEventName: string;
 	protected payloadMessage: string;
 
-	constructor(socket: SocketIO.Socket, route: InternalRoute<Route>, server: SocketIO.Server, ack?: SocketIO.Ack) {
+	constructor(socket: SocketIO.Socket, route: InternalRoute<Route>, server: SocketIO.Server, ack?: SocketIOAck) {
 		this.socket = socket;
 		this.server = server;
 

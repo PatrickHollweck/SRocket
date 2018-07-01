@@ -25,7 +25,7 @@ Features:
 		☐ Can implement a Client-Server interface.
 
 	Middlewares: 
-		☐ Implement. @critical
+		☐ Figure out in what order they shall be executed
 		☐ Request pipleline or Event based ?
 	
 	Acks:

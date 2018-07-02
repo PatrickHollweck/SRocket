@@ -77,34 +77,18 @@ export class RouteMetadataStore {
 
 		for (const property of properties) {
 			if (RouteMetadataStore.hasValidRouteMetadata(instance, property)) {
-				const userConfig: UserRouteConfig = RouteMetadataStore.getRouteMetadata(instance, property);
-
-				const config: RouteConfig = {
-					path: userConfig.path || property,
-					middleware: userConfig.middleware || []
-				};
-
-				this.buildRoute(controllerMetadata, instance[property], config);
+				this.buildRoute(
+					controllerMetadata,
+					instance[property],
+					RouteMetadataStore.buildRouteConfigFromDecorator(instance, property)
+				);
 			}
 		}
 
-		if (instance.$onConnect) {
-			this.logger.info("\tA Connect Handler!");
-			controllerMetadata.connectHandlers.push(new ControllerMetaInternalRoute(instance.$onConnect));
-		}
+		this.getControllerMetaRoutes(instance, controllerMetadata);
+		RouteMetadataStore.buildControllerConfigFromDecorator(controller, controllerMetadata);
 
-		if (instance.$onDisconnect) {
-			this.logger.info("\tA Disconnect Handler!");
-			controllerMetadata.disconnectHandlers.push(new ControllerMetaInternalRoute(instance.$onDisconnect));
-		}
-
-		const userControllerConfig: UserControllerConfig = RouteMetadataStore.getControllerMetadata(controller);
-
-		controllerMetadata.config = {
-			middleware: userControllerConfig.middleware || []
-		};
-
-		this.controllers.push(controllerMetadata);
+		this.addController(controllerMetadata);
 	}
 
 	public buildRoute(controllerMetadata: ControllerMetadata, route: Route, config: RouteConfig) {
@@ -131,30 +115,57 @@ export class RouteMetadataStore {
 		controllerMetadata.messageRoutes.push(routeMetadata);
 	}
 
-	protected static getControllerMetadata(target: any) {
-		const metadata = Metadata.getClassDecorator(SOCKET_CONTROLLER_METADATA_KEY, target);
+	protected addController(metadata: ControllerMetadata) {
+		this.controllers.push(metadata);
+	}
 
-		if (!metadata) throw new Error("Tried to register a controller with no @SocketController decorator");
+	protected getControllerMetaRoutes(controller: Controller, metadata: ControllerMetadata) {
+		if (controller.$onConnect) {
+			this.logger.info("\tA Connect Handler!");
+			metadata.connectHandlers.push(new ControllerMetaInternalRoute(controller.$onConnect));
+		}
+
+		if (controller.$onDisconnect) {
+			this.logger.info("\tA Disconnect Handler!");
+			metadata.disconnectHandlers.push(new ControllerMetaInternalRoute(controller.$onDisconnect));
+		}
+	}
+
+	protected static buildControllerConfigFromDecorator(controller: Newable<Controller>, metadata: ControllerMetadata) {
+		const userControllerConfig: UserControllerConfig = RouteMetadataStore.getControllerMetadata(controller);
+
+		if (!userControllerConfig) return;
+
+		metadata.config = {
+			middleware: userControllerConfig.middleware || []
+		};
+	}
+
+	protected static buildRouteConfigFromDecorator(controller: Controller, property: string): RouteConfig {
+		const userConfig: UserRouteConfig = RouteMetadataStore.getRouteMetadata(controller, property);
+
+		return {
+			path: userConfig.path || property,
+			middleware: userConfig.middleware || []
+		};
+	}
+
+	protected static getControllerMetadata(target: Newable<Controller>) {
+		const metadata = Metadata.getClassDecorator(SOCKET_CONTROLLER_METADATA_KEY, target);
 		return metadata;
 	}
 
-	protected static getRouteMetadata(target: any, property?: string): UserRouteConfig {
+	protected static getRouteMetadata(target: any, property?: string) {
 		const metadata = property
 			? Metadata.getPropertyDecorator(SOCKET_ROUTE_METADATA_KEY, target, property)
 			: Metadata.getClassDecorator(SOCKET_ROUTE_METADATA_KEY, target);
 
-		if (!metadata) throw new Error("Tried to register a route with no @SocketRoute decorator");
 		return metadata;
 	}
 
 	protected static hasValidRouteMetadata(target: any, property?: string) {
-		// TODO: Poor mans implementation
-		try {
-			RouteMetadataStore.getRouteMetadata(target, property);
-			return true;
-		} catch (error) {
-			return false;
-		}
+		const metadata = RouteMetadataStore.getRouteMetadata(target, property);
+		return metadata !== null && metadata !== undefined;
 	}
 
 	protected static findRouteType(target: any, property?: string): RouteType {

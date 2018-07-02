@@ -1,7 +1,22 @@
 import { Controller } from "../../../lib/src/router/metadata/RouteMetadataStore";
+import { Middleware } from "../../../lib/src/middleware/Middleware";
 import { SocketRoute } from "../../../lib/src/decorator/SocketRoute";
 import { ObjectRoute, Route } from "../../../lib/src/router/Route";
 import { SRequest, SResponse } from "../../../lib/src";
+
+class SomeRouteMiddleware extends Middleware {
+	call(request, response, route, next) {
+		console.log("SomeRouteMiddleware ran!");
+		next();
+	}
+}
+
+class SomeControllerMiddleware extends Middleware {
+	call(request, response, route, next) {
+		console.log("SomeControllerMiddleware ran!");
+		next();
+	}
+}
 
 export class DebugController extends Controller {
 	$onConnect(socket: SocketIO.Socket) {
@@ -12,7 +27,9 @@ export class DebugController extends Controller {
 		console.log(socket.id, "disconnected!");
 	}
 
-	@SocketRoute()
+	@SocketRoute({
+		middleware: [SomeRouteMiddleware]
+	})
 	functional(req: SRequest, res: SResponse) {
 		console.log("Functional route called!", req.data);
 	}

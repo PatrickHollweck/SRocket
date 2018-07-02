@@ -7,7 +7,7 @@
 		"docs:build": "typedoc --out ./docs/apidoc",
 		"docs:serve": "docsify serve ./docs",
 		"prettier": "prettier --write ./**/*.ts",
-		"start": "nodemon --exec ts-node ./samples/Base/Server.ts",
+		"start": "nodemon --exec ts-node ./samples/debug/Server.ts",
 		"release": "node ./scripts/deploy.js",
 		"precommit": "lint-staged"
 	},

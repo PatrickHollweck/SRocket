@@ -30,7 +30,7 @@ export class SRocket {
 	}
 
 	static fromPort(port: number, config?: SocketIO.ServerOptions) {
-		return new SRocket(socketIO(port, config));
+		return new SRocket(socketIO.listen(port, config));
 	}
 
 	public addGlobalMiddleware(...middleware: Newable<Middleware>[]) {
@@ -68,7 +68,7 @@ export class SRocket {
 		return this;
 	}
 
-	public async listen(callback?: Function) {
+	public async listen(callback?: (app: SRocket) => void) {
 		for (const fn of this.startupChain) {
 			await fn();
 		}
@@ -76,8 +76,10 @@ export class SRocket {
 		this.router.registerRoutes();
 
 		if (callback) {
-			callback();
+			callback(this);
 		}
+
+		return this;
 	}
 
 	public close() {

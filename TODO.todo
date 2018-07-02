@@ -19,9 +19,8 @@ Features:
 		☐ Added via module config field.
 
 	Controllers:
+		☐ NESTED Routes @critical
 		☐ Can have a seperate namespace than the parent module.
-		☐ Make the $onConnected and $onDisconnected event work!
-		☐ Decorator ?
 		☐ Can implement a Client-Server interface.
 
 	Middlewares: 

@@ -32,7 +32,8 @@ describe("The Metadata Store", () => {
 	}
 
 	@SocketController({
-		prefix: "admin"
+		prefix: "admin",
+		namespace: "admin"
 	})
 	class AdminController extends Controller {
 		@SocketRoute()
@@ -72,5 +73,9 @@ describe("The Metadata Store", () => {
 
 	it("should perfix all routes in a prefixed controller", () => {
 		expect(adminController.messageRoutes[0].config.path).toEqual("admin:signin");
+	});
+
+	it("should assign the correct namspace specified in the @SocketController decorator", () => {
+		expect(adminController.config.namespace).toEqual("admin");
 	});
 });

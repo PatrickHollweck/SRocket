@@ -20,7 +20,7 @@ export class Router {
 	}
 
 	protected registerController(controller: ControllerMetadata) {
-		const namespace = this.ioServer.of(controller.namespace);
+		const namespace = this.ioServer.of(controller.config.namespace);
 		this.handleConnection(namespace, controller);
 	}
 

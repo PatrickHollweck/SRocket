@@ -30,11 +30,7 @@ export class ControllerMetadata {
 
 	public config: ControllerConfig;
 
-	public namespace: string;
-
 	constructor() {
-		this.namespace = "/";
-
 		this.messageRoutes = [];
 		this.connectHandlers = [];
 		this.disconnectHandlers = [];
@@ -84,13 +80,13 @@ export class RouteMetadataStore {
 		const controllerMetadata = new ControllerMetadata();
 		const instance = new controller();
 
+		RouteMetadataStore.buildControllerConfigFromDecorator(controller, controllerMetadata);
+		this.getControllerMetaRoutes(instance, controllerMetadata);
+
 		const properties = [
 			...Object.getOwnPropertyNames(instance),
 			...Object.getOwnPropertyNames(controller.prototype)
 		];
-
-		this.getControllerMetaRoutes(instance, controllerMetadata);
-		RouteMetadataStore.buildControllerConfigFromDecorator(controller, controllerMetadata);
 
 		for (const property of properties) {
 			if (RouteMetadataStore.hasValidRouteMetadata(instance, property)) {
@@ -154,6 +150,7 @@ export class RouteMetadataStore {
 
 		metadata.config = {
 			prefix: userControllerConfig.prefix || "",
+			namespace: userControllerConfig.namespace || "/",
 			middleware: userControllerConfig.middleware || []
 		};
 	}

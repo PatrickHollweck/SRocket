@@ -9,12 +9,8 @@ export class Router {
 	protected readonly ioServer: SocketIO.Server;
 	protected readonly context: ExecutionContext;
 
-	constructor(ioServer: SocketIO.Server) {
-		if (!ioServer) {
-			throw new Error("Router initialized with a undefined socket server!");
-		}
-
-		this.ioServer = ioServer;
+	constructor() {
+		this.ioServer = container.get("ioServer");
 		this.context = container.get(ExecutionContext);
 	}
 

@@ -10,19 +10,18 @@ import { Autoloader, AutoloadResult, IAutoloader } from "autoloader-ts";
 import * as socketIO from "socket.io";
 
 export class SRocket {
-	public readonly ioServer: SocketIO.Server;
+	public readonly container: Container;
 
-	protected readonly router: Router;
 	protected readonly startupChain: Function[];
 
 	private constructor(ioServer: SocketIO.Server) {
+		this.startupChain = [];
+		this.container = container;
+
+		container.bind("ioServer").toConstantValue(ioServer);
 		container.bind(ExecutionContext).toConstantValue(new ExecutionContext());
 		container.bind(RouteMetadataStore).toConstantValue(new RouteMetadataStore());
-
-		this.startupChain = [];
-
-		this.ioServer = ioServer;
-		this.router = new Router(this.ioServer);
+		container.bind(Router).toConstantValue(new Router());
 	}
 
 	static fromIO(server: SocketIO.Server) {
@@ -31,6 +30,10 @@ export class SRocket {
 
 	static fromPort(port: number, config?: SocketIO.ServerOptions) {
 		return new SRocket(socketIO.listen(port, config));
+	}
+
+	public setSeparationConvention(separator: string) {
+		container.get(ExecutionContext).separationConvention = separator;
 	}
 
 	public addGlobalMiddleware(...middleware: Newable<Middleware>[]) {
@@ -73,7 +76,7 @@ export class SRocket {
 			await fn();
 		}
 
-		this.router.registerRoutes();
+		container.get(Router).registerRoutes();
 
 		if (callback) {
 			callback(this);
@@ -83,6 +86,8 @@ export class SRocket {
 	}
 
 	public close() {
-		this.ioServer.close();
+		container.get<SocketIO.Server>("ioServer").close();
+		// TODO: The container really needs to be instance based...
+		container.unbindAll();
 	}
 }

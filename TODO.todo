@@ -1,34 +1,29 @@
 Features:
-	☐ Finish up middleware support.
 	☐ Better defaults for error handling.
 	☐ Handle rooms better.
-	☐ Add validation pipeline
 
-	Modules:
-		✔ Exposes a socket.io namespace for every module. @done (5/6/2018, 1:39:29 PM)
-		☐ Routes are actually namespaces to that instance. @critical 
-		☐ Imports / Exports other modules -> ApplicationModule -> AppStart
+	ErrorHandling:
+		☐ Let user choose if they want error handling -> Set default in ExecContext and conditional toogle in decorator
 
 	Client-Server Interfaces:
 		☐ Implement
 		☐ Hubs ?
 		☐ Custom client.
-		
+
 	Components / Services:
+		☐ Make container instance based.
 		☐ Expose via DI container
 		☐ Added via module config field.
 
 	Controllers:
 		☐ NESTED Routes @critical
-		☐ Can have a seperate namespace than the parent module.
 		☐ Can implement a Client-Server interface.
 
 	Middlewares: 
 		☐ Figure out in what order they shall be executed
-		☐ Request pipleline or Event based ?
-	
+
 	Acks:
-		✔ Support acks. @done (5/13/2018, 2:51:30 PM)
+		☐ Add response.hasAck() method
 
 	Routes:
 		Validation:
@@ -37,26 +32,20 @@ Features:
 				☐ Inline -> req.context.validation
 				☐ Validation middleware.
 				☐ Decorator based.
+		☐ Add jsV schema validator back.
+		☐ Add validation middlewares -> IMiddlewarable ? @critical 
 		☐ Route result: IActionResult -> Asp.net like
 		☐ Request and Response objects ? Or one context like object.
 		☐ Parameter like injections ?
-
-	AppEntry:
-		☐ Async instantiation.
-		☐ Solve the original config problem -> Port in SRocket.make()
-
+	
 	Proposals:
+		☐ Modules
 		☐ Models.
 
 Docs:
+	☐ REWRITE FOR 2.0! @high 
 	☐ Acks
-	☐ Write validation docs.
 	☐ Write a section for recomended configs -> tsconfig - tslint...
 
 Implementation Details:
 	☐ Integrate socket.io middlewares ?
-	☐ Decouple Routing system from the actuall socket server
-
-Test:
-	☐ Fix existing tests.
-	☐ Add more tests :)

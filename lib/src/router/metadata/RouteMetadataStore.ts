@@ -3,8 +3,9 @@ import { Newable } from "../../structures/Newable";
 import { rightPad } from "../../utility/pads";
 import { Metadata } from "../../utility/Metadata";
 import { ConsoleLogger } from "../..";
+import { ControllerConfig, UserControllerConfig } from "../types/ControllerConfig";
 import { SOCKET_ROUTE_METADATA_KEY } from "../../decorator/SocketRoute";
-import { RouteConfig, UserRouteConfig } from "../RouteConfig";
+import { RouteConfig, UserRouteConfig } from "../types/RouteConfig";
 import {
 	InternalRoute,
 	FunctionalInternalRoute,
@@ -12,6 +13,7 @@ import {
 	ObjectInternalRoute,
 	ControllerMetaInternalRoute
 } from "../../router/InternalRoute";
+import { SOCKET_CONTROLLER_METADATA_KEY } from "../../decorator/SocketController";
 
 export enum RouteType {
 	ClassBased = "class",
@@ -23,6 +25,8 @@ export class ControllerMetadata {
 	public messageRoutes: RouteMetadata[];
 	public connectHandlers: ControllerMetaInternalRoute[];
 	public disconnectHandlers: ControllerMetaInternalRoute[];
+
+	public config: ControllerConfig;
 
 	public namespace: string;
 
@@ -86,15 +90,19 @@ export class RouteMetadataStore {
 
 		if (instance.$onConnect) {
 			this.logger.info("\tA Connect Handler!");
-
 			controllerMetadata.connectHandlers.push(new ControllerMetaInternalRoute(instance.$onConnect));
 		}
 
 		if (instance.$onDisconnect) {
 			this.logger.info("\tA Disconnect Handler!");
-
 			controllerMetadata.disconnectHandlers.push(new ControllerMetaInternalRoute(instance.$onDisconnect));
 		}
+
+		const userControllerConfig: UserControllerConfig = RouteMetadataStore.getControllerMetadata(controller);
+
+		controllerMetadata.config = {
+			middleware: userControllerConfig.middleware || []
+		};
 
 		this.controllers.push(controllerMetadata);
 	}
@@ -123,13 +131,19 @@ export class RouteMetadataStore {
 		controllerMetadata.messageRoutes.push(routeMetadata);
 	}
 
+	protected static getControllerMetadata(target: any) {
+		const metadata = Metadata.getClassDecorator(SOCKET_CONTROLLER_METADATA_KEY, target);
+
+		if (!metadata) throw new Error("Tried to register a controller with no @SocketController decorator");
+		return metadata;
+	}
+
 	protected static getRouteMetadata(target: any, property?: string): UserRouteConfig {
 		const metadata = property
 			? Metadata.getPropertyDecorator(SOCKET_ROUTE_METADATA_KEY, target, property)
 			: Metadata.getClassDecorator(SOCKET_ROUTE_METADATA_KEY, target);
 
-		if (!metadata) throw new Error("Tried to register a route with no decorator");
-
+		if (!metadata) throw new Error("Tried to register a route with no @SocketRoute decorator");
 		return metadata;
 	}
 

@@ -1,7 +1,7 @@
 import { Newable } from "../structures/Newable";
 import { SRequest } from "../io/SRequest";
 import { SResponse } from "../io/SResponse";
-import { RouteConfig } from "./RouteConfig";
+import { RouteConfig } from "./types/RouteConfig";
 import { Route, RouteReturn, ObjectRoute, FunctionalRoute, ControllerMetaRoute } from "./Route";
 
 export abstract class InternalRoute<T extends Route> {

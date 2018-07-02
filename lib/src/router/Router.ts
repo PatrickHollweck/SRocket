@@ -1,5 +1,5 @@
 import { container } from "..";
-import { RouteMetadataStore, ControllerMetadata, RouteMetadata } from "./metadata/RouteMetadataStore";
+import { RouteMetadataStore, ControllerMetadata, RouteMetadata, Controller } from "./metadata/RouteMetadataStore";
 import { SRequest } from "../io/SRequest";
 import { SResponse } from "../io/SResponse";
 import { ExecutionContext } from "../config/ExecutionContext";
@@ -43,20 +43,25 @@ export class Router {
 			controller.messageRoutes.forEach(route => {
 				socket.on(
 					route.config.path,
-					async (...requestData: any[]) => await this.invokeRoute(socket, route, requestData)
+					async (...requestData: any[]) => await this.invokeRoute(socket, route, controller, requestData)
 				);
 			});
 		});
 	}
 
-	protected async invokeRoute(socket: SocketIO.Socket, route: RouteMetadata, requestData: any[]) {
+	protected async invokeRoute(
+		socket: SocketIO.Socket,
+		route: RouteMetadata,
+		controller: ControllerMetadata,
+		requestData: any[]
+	) {
 		const lastRequestArg = requestData[requestData.length - 1];
 		const ack = typeof lastRequestArg === "function" ? lastRequestArg : null;
 
 		const request = new SRequest(requestData, socket);
 		const response = new SResponse(socket, route.handler, this.ioServer, ack);
 
-		await this.invokeMiddleware(request, response, route);
+		await this.invokeMiddleware(request, response, route, controller);
 
 		// TODO: Some option to not catch errors and let them crash the app. @SocketRoute and SRocket startup ?
 		try {
@@ -66,8 +71,13 @@ export class Router {
 		}
 	}
 
-	protected async invokeMiddleware(request: SRequest, response: SResponse, route: RouteMetadata) {
-		const middlewares = [...this.context.globalMiddleware, ...route.config.middleware];
+	protected async invokeMiddleware(
+		request: SRequest,
+		response: SResponse,
+		route: RouteMetadata,
+		controller: ControllerMetadata
+	) {
+		const middlewares = this.getMiddlewares(route, controller);
 
 		for (const [index, middleware] of middlewares.entries()) {
 			let called = false;
@@ -82,5 +92,9 @@ export class Router {
 				break;
 			}
 		}
+	}
+
+	protected getMiddlewares(route: RouteMetadata, controller: ControllerMetadata) {
+		return [...this.context.globalMiddleware, ...controller.config.middleware, ...route.config.middleware];
 	}
 }

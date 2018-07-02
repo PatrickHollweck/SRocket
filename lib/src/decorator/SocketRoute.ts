@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { RouteConfig, UserRouteConfig } from "../router/RouteConfig";
+import { UserRouteConfig } from "../router/types/RouteConfig";
 
 export const SOCKET_ROUTE_METADATA_KEY = Symbol("SocketRouteMetadataKey");
 

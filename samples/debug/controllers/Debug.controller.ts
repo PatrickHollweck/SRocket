@@ -3,6 +3,7 @@ import { Middleware } from "../../../lib/src/middleware/Middleware";
 import { SocketRoute } from "../../../lib/src/decorator/SocketRoute";
 import { ObjectRoute, Route } from "../../../lib/src/router/Route";
 import { SRequest, SResponse } from "../../../lib/src";
+import { SocketController } from "../../../lib/src/decorator/SocketController";
 
 class SomeRouteMiddleware extends Middleware {
 	call(request, response, route, next) {
@@ -18,6 +19,9 @@ class SomeControllerMiddleware extends Middleware {
 	}
 }
 
+@SocketController({
+	middleware: [SomeControllerMiddleware]
+})
 export class DebugController extends Controller {
 	$onConnect(socket: SocketIO.Socket) {
 		console.log(socket.id, "connected!");

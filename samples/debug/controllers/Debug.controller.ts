@@ -20,6 +20,7 @@ class SomeControllerMiddleware extends Middleware {
 }
 
 @SocketController({
+	prefix: "debug",
 	middleware: [SomeControllerMiddleware]
 })
 export class DebugController extends Controller {

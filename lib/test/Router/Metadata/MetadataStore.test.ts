@@ -1,6 +1,6 @@
 import { SRequest } from "../../../src/io/SRequest";
 import { SResponse } from "../../../src/io/SResponse";
-import { RouteMetadataStore, Controller } from "../../../src/router/metadata/RouteMetadataStore";
+import { RouteMetadataStore, Controller, ControllerMetadata } from "../../../src/router/metadata/RouteMetadataStore";
 import { SocketRoute, SOCKET_ROUTE_METADATA_KEY } from "../../../src/decorator/SocketRoute";
 import { SocketController } from "../../../src/decorator/SocketController";
 import { SRocket } from "../../../src/start/SRocket";
@@ -10,6 +10,9 @@ describe("The Metadata Store", () => {
 	let app: SRocket;
 	let store: RouteMetadataStore;
 	let loginMock: jest.Mock;
+
+	let userController: ControllerMetadata;
+	let adminController: ControllerMetadata;
 
 	@SocketController()
 	class UserController extends Controller {
@@ -21,17 +24,32 @@ describe("The Metadata Store", () => {
 		login() {
 			loginMock();
 		}
+
+		@SocketRoute({
+			path: "registerUser"
+		})
+		register() {}
+	}
+
+	@SocketController({
+		prefix: "admin"
+	})
+	class AdminController extends Controller {
+		@SocketRoute()
+		signin() {}
 	}
 
 	beforeEach(async () => {
 		loginMock = jest.fn();
 
 		app = await TestSRocket.bootstrap(5555)
-			.controllers(UserController)
+			.controllers(UserController, AdminController)
 			.listen();
 
 		store = app.container.get(RouteMetadataStore);
-		store.buildController(UserController);
+
+		userController = store.controllers[0];
+		adminController = store.controllers[1];
 	});
 
 	afterEach(() => {
@@ -39,12 +57,20 @@ describe("The Metadata Store", () => {
 	});
 
 	it("should setup controllers so that they can be called", async () => {
-		expect(store.controllers[0]).toBeDefined();
-		expect(store.controllers[0].messageRoutes[0]).toBeDefined();
+		expect(userController).toBeDefined();
+		expect(userController.messageRoutes[0]).toBeDefined();
 	});
 
 	it("should register the connect and disconnt events", () => {
-		expect(store.controllers[0].connectHandlers.length).toEqual(1);
-		expect(store.controllers[0].disconnectHandlers.length).toEqual(1);
+		expect(userController.connectHandlers.length).toEqual(1);
+		expect(userController.disconnectHandlers.length).toEqual(1);
+	});
+
+	it("should handle route name overrides", () => {
+		expect(userController.messageRoutes[1].config.path).toEqual("registerUser");
+	});
+
+	it("should perfix all routes in a prefixed controller", () => {
+		expect(adminController.messageRoutes[0].config.path).toEqual("admin:signin");
 	});
 });

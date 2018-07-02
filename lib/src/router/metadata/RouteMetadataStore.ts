@@ -14,6 +14,8 @@ import {
 	ControllerMetaInternalRoute
 } from "../../router/InternalRoute";
 import { SOCKET_CONTROLLER_METADATA_KEY } from "../../decorator/SocketController";
+import { container } from "../../di/SRocketContainer";
+import { ExecutionContext } from "../../config/ExecutionContext";
 
 export enum RouteType {
 	ClassBased = "class",
@@ -36,6 +38,18 @@ export class ControllerMetadata {
 		this.messageRoutes = [];
 		this.connectHandlers = [];
 		this.disconnectHandlers = [];
+	}
+
+	public addConnectHandler(handler: ControllerMetaInternalRoute) {
+		this.connectHandlers.push(handler);
+	}
+
+	public addDisconnectHandler(handler: ControllerMetaInternalRoute) {
+		this.disconnectHandlers.push(handler);
+	}
+
+	public addMessageRoute(route: RouteMetadata) {
+		this.messageRoutes.push(route);
 	}
 }
 
@@ -75,6 +89,9 @@ export class RouteMetadataStore {
 			...Object.getOwnPropertyNames(controller.prototype)
 		];
 
+		this.getControllerMetaRoutes(instance, controllerMetadata);
+		RouteMetadataStore.buildControllerConfigFromDecorator(controller, controllerMetadata);
+
 		for (const property of properties) {
 			if (RouteMetadataStore.hasValidRouteMetadata(instance, property)) {
 				this.buildRoute(
@@ -84,9 +101,6 @@ export class RouteMetadataStore {
 				);
 			}
 		}
-
-		this.getControllerMetaRoutes(instance, controllerMetadata);
-		RouteMetadataStore.buildControllerConfigFromDecorator(controller, controllerMetadata);
 
 		this.addController(controllerMetadata);
 	}
@@ -111,8 +125,10 @@ export class RouteMetadataStore {
 				throw new Error("Tried to register unknown Route type!");
 		}
 
+		config.path = RouteMetadataStore.getRouteName([controllerMetadata.config.prefix], config.path);
+
 		const routeMetadata = new RouteMetadata(internalRoute, config);
-		controllerMetadata.messageRoutes.push(routeMetadata);
+		controllerMetadata.addMessageRoute(routeMetadata);
 	}
 
 	protected addController(metadata: ControllerMetadata) {
@@ -122,12 +138,12 @@ export class RouteMetadataStore {
 	protected getControllerMetaRoutes(controller: Controller, metadata: ControllerMetadata) {
 		if (controller.$onConnect) {
 			this.logger.info("\tA Connect Handler!");
-			metadata.connectHandlers.push(new ControllerMetaInternalRoute(controller.$onConnect));
+			metadata.addConnectHandler(new ControllerMetaInternalRoute(controller.$onConnect));
 		}
 
 		if (controller.$onDisconnect) {
 			this.logger.info("\tA Disconnect Handler!");
-			metadata.disconnectHandlers.push(new ControllerMetaInternalRoute(controller.$onDisconnect));
+			metadata.addDisconnectHandler(new ControllerMetaInternalRoute(controller.$onDisconnect));
 		}
 	}
 
@@ -137,6 +153,7 @@ export class RouteMetadataStore {
 		if (!userControllerConfig) return;
 
 		metadata.config = {
+			prefix: userControllerConfig.prefix || "",
 			middleware: userControllerConfig.middleware || []
 		};
 	}
@@ -148,6 +165,23 @@ export class RouteMetadataStore {
 			path: userConfig.path || property,
 			middleware: userConfig.middleware || []
 		};
+	}
+
+	protected static getRouteName(prefixes: string[], routeName: string) {
+		const notEmptyPrefixes = prefixes.filter(prefix => prefix !== "");
+
+		if (notEmptyPrefixes.length === 0) {
+			return routeName;
+		}
+
+		const separator = container.get(ExecutionContext).separationConvention;
+		let result = "";
+
+		for (const prefix of notEmptyPrefixes) {
+			result += `${prefix}${separator}`;
+		}
+
+		return (result += routeName);
 	}
 
 	protected static getControllerMetadata(target: Newable<Controller>) {

@@ -9,8 +9,8 @@ import { SRequest, SResponse } from "../../lib/src";
 import { Controller, RouteMetadata } from "../../lib/src/router/metadata/RouteMetadataStore";
 
 class LoggingMiddleware extends Middleware {
-	call(request: SRequest, response: SResponse, route: RouteMetadata, next: Function) {
-		console.log(`Request to : ${route.config.path} -> ${JSON.stringify(request.data)}`);
+	invoke(request: SRequest, response: SResponse, route: RouteMetadata, next: Function) {
+		console.log(`LOGGER: Request to : ${route.config.path} -> ${JSON.stringify(request.data)}`);
 		next();
 	}
 }
@@ -26,7 +26,9 @@ export class UserController extends Controller {
 	}
 
 	@SocketRoute()
-	functional(request: SRequest, response: SResponse) {}
+	functional(request: SRequest, response: SResponse) {
+		console.log("functional Handler!");
+	}
 
 	@SocketRoute({
 		path: "userRegister"

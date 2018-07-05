@@ -1,9 +1,10 @@
-import { container } from "..";
-import { RouteMetadataStore, ControllerMetadata, RouteMetadata, Controller } from "./metadata/RouteMetadataStore";
+import { Newable } from "../structures/Newable";
 import { SRequest } from "../io/SRequest";
+import { container } from "..";
 import { SResponse } from "../io/SResponse";
-import { ExecutionContext } from "../config/ExecutionContext";
 import { Middleware } from "../middleware/Middleware";
+import { ExecutionContext } from "../config/ExecutionContext";
+import { RouteMetadataStore, ControllerMetadata, RouteMetadata, Controller } from "./metadata/RouteMetadataStore";
 
 export class Router {
 	protected readonly ioServer: SocketIO.Server;
@@ -57,7 +58,13 @@ export class Router {
 		const request = new SRequest(requestData, socket);
 		const response = new SResponse(socket, route.handler, this.ioServer, ack);
 
-		await this.invokeMiddleware(request, response, route, controller);
+		const shouldInvokeRoute = await this.invokeMiddleware(request, response, route, controller);
+
+		console.log(shouldInvokeRoute);
+
+		if (!shouldInvokeRoute) {
+			return;
+		}
 
 		// TODO: Some option to not catch errors and let them crash the app. @SocketRoute and SRocket startup ?
 		try {
@@ -73,7 +80,7 @@ export class Router {
 		route: RouteMetadata,
 		controller: ControllerMetadata
 	) {
-		const middlewares = this.getMiddlewares(route, controller);
+		const middlewares = this.getMiddlewares(route, controller) as Newable<Middleware>[];
 
 		for (const [index, middleware] of middlewares.entries()) {
 			let called = false;
@@ -82,12 +89,14 @@ export class Router {
 				called = true;
 			};
 
-			await new middleware().call(request, response, route, next);
+			await new middleware().invoke(request, response, route, next);
 
 			if (!called) {
-				break;
+				return false;
 			}
 		}
+
+		return true;
 	}
 
 	protected getMiddlewares(route: RouteMetadata, controller: ControllerMetadata) {

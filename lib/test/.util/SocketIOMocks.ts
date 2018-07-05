@@ -157,10 +157,11 @@ export class SocketIOServerMock implements SocketIO.Server {
 
 	close(fn?: (() => void) | undefined): void {}
 
-	on(event: "connection", listener: (socket: SocketIO.Socket) => void): SocketIO.Namespace;
-	on(event: "connect", listener: (socket: SocketIO.Socket) => void): SocketIO.Namespace;
+	on(event: "connect" | "connection", listener: (socket: SocketIO.Socket) => void): SocketIO.Namespace;
 	on(event: string, listener: Function): SocketIO.Namespace;
-	on(event: any, listener: any) {}
+	on(event: any, listener: any) {
+		return this;
+	}
 
 	to(room: string): SocketIO.Namespace {
 		return new SocketIONamespaceMock();

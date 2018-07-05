@@ -1,5 +1,5 @@
-import { Newable } from "../structures/Newable";
-import { Middleware } from "../middleware/Middleware";
+import { Newable } from "../../structures/Newable";
+import { Middleware } from "../../middleware/Middleware";
 
 export interface RouteConfig {
 	path: string;

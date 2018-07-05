@@ -1,5 +1,3 @@
-import { SocketPacket } from "../structures/SocketPacket";
-
 export class SRequest<T = any> {
 	public socket: SocketIO.Socket;
 	public data: T;

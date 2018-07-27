@@ -21,13 +21,13 @@ export class ValidationResult<T = any> {
 		return this.errors[0].message || "";
 	}
 
-	public ifSucceeded(fn: Function) {
+	public ifSucceeded(fn: VoidFunction) {
 		if (this.didSucceed()) {
 			fn();
 		}
 	}
 
-	public ifFailed(fn: Function) {
+	public ifFailed(fn: VoidFunction) {
 		if (this.didFail()) {
 			fn();
 		}

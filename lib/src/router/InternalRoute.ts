@@ -54,7 +54,9 @@ export class FunctionalInternalRoute extends InternalRoute<FunctionalRoute> {
 		super(handler, config);
 	}
 
-	async callError(e, req, res) {}
+	async callError(e, req, res) {
+		/* - */
+	}
 
 	async callOn(req: SRequest, res: SResponse) {
 		await this.handler(req, res);
@@ -64,12 +66,14 @@ export class FunctionalInternalRoute extends InternalRoute<FunctionalRoute> {
 export class ControllerMetaInternalRoute extends InternalRoute<ControllerMetaRoute> {
 	constructor(handler: ControllerMetaRoute) {
 		super(handler, {
-			path: "",
-			middleware: []
+			middleware: [],
+			path: ""
 		});
 	}
 
-	async callError(e, req, res) {}
+	async callError(e, req, res) {
+		/* - */
+	}
 
 	async callOn(request: SRequest) {
 		this.handler(request.socket);

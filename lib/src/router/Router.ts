@@ -1,10 +1,8 @@
-import { Newable } from "../structures/Newable";
-import { SRequest } from "../io/SRequest";
-import { container } from "..";
-import { SResponse } from "../io/SResponse";
-import { Middleware } from "../middleware/Middleware";
+import { RouteMetadataStore, ControllerMetadata, RouteMetadata } from "./metadata/RouteMetadataStore";
 import { ExecutionContext } from "../config/ExecutionContext";
-import { RouteMetadataStore, ControllerMetadata, RouteMetadata, Controller } from "./metadata/RouteMetadataStore";
+import { SResponse } from "../io/SResponse";
+import { container } from "..";
+import { SRequest } from "../io/SRequest";
 
 export class Router {
 	protected readonly ioServer: SocketIO.Server;
@@ -60,8 +58,6 @@ export class Router {
 
 		const shouldInvokeRoute = await this.invokeMiddleware(request, response, route, controller);
 
-		console.log(shouldInvokeRoute);
-
 		if (!shouldInvokeRoute) {
 			return;
 		}
@@ -80,9 +76,7 @@ export class Router {
 		route: RouteMetadata,
 		controller: ControllerMetadata
 	) {
-		const middlewares = this.getMiddlewares(route, controller) as Newable<Middleware>[];
-
-		for (const [index, middleware] of middlewares.entries()) {
+		for (const middleware of this.getMiddlewares(route, controller)) {
 			let called = false;
 
 			const next = () => {

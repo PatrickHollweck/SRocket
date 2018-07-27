@@ -3,7 +3,7 @@ process.env["DEBUG"] = "srocket:*";
 
 /*
  * Before you start!
- * 
+ *
  * Make sure you know the basics of: Typescript, Node and Socket.io
  */
 

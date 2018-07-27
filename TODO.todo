@@ -27,6 +27,7 @@ Features:
 
 	Routes:
 		Validation:
+			☐ Do not include packages for validation methods! @critical 
 			Options:
 				☐ ModelState -> Asp.net like -> Models.
 				☐ Inline -> req.context.validation

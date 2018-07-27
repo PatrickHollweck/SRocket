@@ -4,10 +4,10 @@ import { SchemaValidator } from "../../src/validation/validators/SchemaValidator
 
 describe("The SchemaValidator", () => {
 	const schema: Joi.Schema = Joi.object().keys({
+		age: Joi.number(),
 		username: Joi.string()
 			.min(3)
-			.max(99),
-		age: Joi.number()
+			.max(99)
 	});
 
 	it("should fail when the data is invalid", async () => {

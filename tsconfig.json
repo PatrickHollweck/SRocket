@@ -29,5 +29,5 @@
 		"experimentalDecorators": true,
 		"types": ["node", "jest", "lodash", "socket.io"]
 	},
-	"exclude": ["node_modules", "testing", "dist", "vendor", "public", "build", "config", "**/*.spec.ts"]
+	"exclude": ["node_modules", "testing", "dist", "vendor", "public", "build", "config", "**/*.spec.ts", "samples"]
 }

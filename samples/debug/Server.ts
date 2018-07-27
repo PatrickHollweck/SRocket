@@ -25,26 +25,26 @@ export class UserController extends Controller {
 		console.log("A socket disconnected...", socket.id);
 	}
 
-	@SocketRoute()
-	functional(request: SRequest, response: SResponse) {
-		console.log("functional Handler!");
-	}
-
 	@SocketRoute({
 		path: "userRegister"
 	})
 	objectR: ObjectRoute = {
-		on(request, response) {
+		on() {
 			console.log("Handling register...");
 
 			throw new Error(
 				"OPPSI WOOPSI, It semz lik thr was a errwa! Our codez monkeyz are working vewy hawd to fix dis!"
 			);
 		},
-		onError(error, request, response) {
+		onError() {
 			console.log("No problem I got you... :)");
 		}
 	};
+
+	@SocketRoute()
+	functional(request: SRequest, response: SResponse) {
+		console.log("functional Handler!");
+	}
 }
 
 SRocket.fromPort(5555)

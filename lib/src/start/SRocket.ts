@@ -12,7 +12,7 @@ import * as socketIO from "socket.io";
 export class SRocket {
 	public readonly container: Container;
 
-	protected readonly startupChain: Function[];
+	protected readonly startupChain: VoidFunction[];
 
 	private constructor(ioServer: SocketIO.Server) {
 		this.startupChain = [];
@@ -24,11 +24,11 @@ export class SRocket {
 		container.bind(Router).toConstantValue(new Router());
 	}
 
-	static fromIO(server: SocketIO.Server) {
+	public static fromIO(server: SocketIO.Server) {
 		return new SRocket(server);
 	}
 
-	static fromPort(port: number, config?: SocketIO.ServerOptions) {
+	public static fromPort(port: number, config?: SocketIO.ServerOptions) {
 		return new SRocket(socketIO.listen(port, config));
 	}
 

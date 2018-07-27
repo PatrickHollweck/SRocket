@@ -1,7 +1,7 @@
 import { Newable } from "../structures/Newable";
 
 export function ModelProp(): PropertyDecorator {
-	return (target: Object, propertyKey: any): void => {
+	return (target: object, propertyKey: any): void => {
 		const props = target.hasOwnProperty("__props__")
 			? (target as any)["__props__"]
 			: ((target as any)["__props__"] = []);

@@ -1,7 +1,8 @@
 import "reflect-metadata";
 
 import getDecorators from "inversify-inject-decorators";
-import { Container as InversifyContainer } from "inversify";
+import { Container as InversifyContainer, interfaces } from "inversify";
+import { Newable } from "../structures/Newable";
 
 export class AbstractContainer {
 	public readonly instance: InversifyContainer;
@@ -10,7 +11,9 @@ export class AbstractContainer {
 		this.instance = new InversifyContainer();
 	}
 
-	public makeDecorator(): Function {
+	public makeDecorator(): (
+		serviceIdentifier: string | symbol | Newable<any> | interfaces.Abstract<any>
+	) => (proto: any, key: string) => void {
 		return getDecorators(this.instance).lazyInject;
 	}
 }

@@ -8,7 +8,7 @@
 		"docs:serve": "docsify serve ./docs",
 		"format": "prettier --write ./**/*.ts",
 		"lint": "tslint --project .",
-		"review": "npm run prettier && npm run lint",
+		"review": "npm run format && npm run lint",
 		"start": "nodemon --exec ts-node ./samples/debug/Server.ts",
 		"release": "node ./scripts/deploy.js"
 	},

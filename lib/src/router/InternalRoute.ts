@@ -22,7 +22,7 @@ export class ObjectInternalRoute extends InternalRoute<ObjectRoute> {
 		super(handler, config);
 	}
 
-	async callError(e, req, res) {
+	async callError(e: Error, req: SRequest, res: SResponse) {
 		if (this.handler.onError) {
 			this.handler.onError(e, req, res);
 		}
@@ -38,7 +38,7 @@ export class ClassInternalRoute extends InternalRoute<ObjectRoute> {
 		super(new handler(), config);
 	}
 
-	async callError(e, req, res) {
+	async callError(e: Error, req: SRequest, res: SResponse) {
 		if (this.handler.onError) {
 			this.handler.onError(e, req, res);
 		}
@@ -54,7 +54,7 @@ export class FunctionalInternalRoute extends InternalRoute<FunctionalRoute> {
 		super(handler, config);
 	}
 
-	async callError(e, req, res) {
+	async callError(e: Error, req: SRequest, res: SResponse) {
 		/* - */
 	}
 
@@ -71,7 +71,7 @@ export class ControllerMetaInternalRoute extends InternalRoute<ControllerMetaRou
 		});
 	}
 
-	async callError(e, req, res) {
+	async callError(e: Error, req: SRequest, res: SResponse) {
 		/* - */
 	}
 

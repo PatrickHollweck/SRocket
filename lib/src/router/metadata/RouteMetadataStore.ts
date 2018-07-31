@@ -61,8 +61,8 @@ export class RouteMetadata {
 }
 
 export abstract class Controller {
-	$onConnect?(socket): RouteReturn;
-	$onDisconnect?(socket): RouteReturn;
+	$onConnect?(socket: SocketIO.Socket): RouteReturn;
+	$onDisconnect?(socket: SocketIO.Socket): RouteReturn;
 }
 
 export class RouteMetadataStore {
@@ -91,9 +91,10 @@ export class RouteMetadataStore {
 
 		for (const property of properties) {
 			if (RouteMetadataStore.hasValidRouteMetadata(instance, property)) {
+				const indexableInstance = instance as typeof instance & { [index: string]: any };
 				this.buildRoute(
 					controllerMetadata,
-					instance[property],
+					indexableInstance[property],
 					RouteMetadataStore.buildRouteConfigFromDecorator(instance, property)
 				);
 			}

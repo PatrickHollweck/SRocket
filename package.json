@@ -9,7 +9,7 @@
 		"format": "prettier --write ./**/*.ts",
 		"lint": "tslint --project .",
 		"review": "npm run format && npm run lint",
-		"start": "nodemon --exec ts-node ./samples/debug/Server.ts",
+		"start": "nodemon --exec ts-node ./lib/test/manual/Server.ts",
 		"release": "node ./scripts/deploy.js"
 	},
 	"main": "./index.js",

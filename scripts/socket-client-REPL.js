@@ -7,6 +7,7 @@ var repl = require("repl");
 */
 
 const commands = [];
+
 function defineCommand(name, help, fn) {
 	commands.push({
 		name,
@@ -66,7 +67,7 @@ console.log("\nWelcome to the SROCKET client repl... Type 'help()' for help, rem
 const r = repl.start("SRocket -> ");
 
 // Setup repl before setting up the commands
-r.context.s = require("socket.io-client")("http://localhost:1340");
+r.context.s = require("socket.io-client")("http://localhost:5555");
 
 // Setup commands
 for (const command of commands) {

@@ -11,7 +11,9 @@ export class ClassValidator implements Validator {
 		const result = await ClassValidatorLib.validate(target);
 
 		if (result.length !== 0) {
-			return new ValidationResult(target, [new ValidationError(ClassValidator.getFirstErrorMessage(result))]);
+			return new ValidationResult(target, [
+				new ValidationError(ClassValidator.getFirstErrorMessage(result))
+			]);
 		} else {
 			return new ValidationResult(target);
 		}

@@ -6,7 +6,8 @@ export class ValidationResult<T = any> {
 
 	constructor(public result: T | null, errors?: Error[], status?: ValidationStatus) {
 		this.errors = errors || [];
-		this.status = status || this.errors.length > 0 ? ValidationStatus.Failed : ValidationStatus.Succeeded;
+		this.status =
+			status || this.errors.length > 0 ? ValidationStatus.Failed : ValidationStatus.Succeeded;
 	}
 
 	public didFail(): boolean {

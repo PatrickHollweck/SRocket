@@ -1,6 +1,8 @@
 {
-	"extends": "tslint:recommended",
 	"defaultSeverity": "error",
+	"extends": [
+		"tslint:recommended"
+	],
 	"rules": {
 		// --- Disabled below = Does not work currently!
 		"class-name": false,
@@ -20,5 +22,5 @@
 		"indent": {
 			"options": "tabs"
 		}
-	}
+	},
 }

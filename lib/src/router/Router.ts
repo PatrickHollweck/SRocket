@@ -1,4 +1,8 @@
-import { RouteMetadataStore, ControllerMetadata, RouteMetadata } from "./metadata/RouteMetadataStore";
+import {
+	RouteMetadataStore,
+	ControllerMetadata,
+	RouteMetadata
+} from "./metadata/RouteMetadataStore";
 import { ExecutionContext } from "../config/ExecutionContext";
 import { SResponse } from "../io/SResponse";
 import { container } from "..";
@@ -38,7 +42,8 @@ export class Router {
 			controller.messageRoutes.forEach(route => {
 				socket.on(
 					route.config.path,
-					async (...requestData: any[]) => await this.invokeRoute(socket, route, controller, requestData)
+					async (...requestData: any[]) =>
+						await this.invokeRoute(socket, route, controller, requestData)
 				);
 			});
 		});
@@ -94,6 +99,10 @@ export class Router {
 	}
 
 	protected getMiddlewares(route: RouteMetadata, controller: ControllerMetadata) {
-		return [...this.context.globalMiddleware, ...controller.config.middleware, ...route.config.middleware];
+		return [
+			...this.context.globalMiddleware,
+			...controller.config.middleware,
+			...route.config.middleware
+		];
 	}
 }

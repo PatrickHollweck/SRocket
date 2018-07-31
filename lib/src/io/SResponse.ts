@@ -17,7 +17,12 @@ export class SResponse<T = any> {
 	protected emitEventName: string;
 	protected payloadMessage: string;
 
-	constructor(socket: SocketIO.Socket, route: InternalRoute<Route>, server: SocketIO.Server, ack?: SocketIOAck) {
+	constructor(
+		socket: SocketIO.Socket,
+		route: InternalRoute<Route>,
+		server: SocketIO.Server,
+		ack?: SocketIOAck
+	) {
 		this.socket = socket;
 		this.server = server;
 

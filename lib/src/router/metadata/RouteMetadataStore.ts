@@ -1,11 +1,15 @@
-import { Route, RouteReturn, ControllerMetaRoute } from "../Route";
-import { Newable } from "../../structures/Newable";
+import { ControllerConfig, UserControllerConfig } from "../types/ControllerConfig";
+import { SOCKET_CONTROLLER_METADATA_KEY } from "../../decorator/SocketController";
+import { RouteConfig, UserRouteConfig } from "../types/RouteConfig";
+import { SOCKET_ROUTE_METADATA_KEY } from "../../decorator/SocketRoute";
+import { Route, RouteReturn } from "../Route";
+import { ExecutionContext } from "../../config/ExecutionContext";
+import { ConsoleLogger } from "../..";
+import { container } from "../../di/SRocketContainer";
 import { rightPad } from "../../utility/pads";
 import { Metadata } from "../../utility/Metadata";
-import { ConsoleLogger } from "../..";
-import { ControllerConfig, UserControllerConfig } from "../types/ControllerConfig";
-import { SOCKET_ROUTE_METADATA_KEY } from "../../decorator/SocketRoute";
-import { RouteConfig, UserRouteConfig } from "../types/RouteConfig";
+import { Newable } from "../../structures/Newable";
+
 import {
 	InternalRoute,
 	FunctionalInternalRoute,
@@ -13,9 +17,6 @@ import {
 	ObjectInternalRoute,
 	ControllerMetaInternalRoute
 } from "../../router/InternalRoute";
-import { SOCKET_CONTROLLER_METADATA_KEY } from "../../decorator/SocketController";
-import { container } from "../../di/SRocketContainer";
-import { ExecutionContext } from "../../config/ExecutionContext";
 
 export enum RouteType {
 	ClassBased = "class",
@@ -121,7 +122,10 @@ export class RouteMetadataStore {
 				throw new Error("Tried to register unknown Route type!");
 		}
 
-		config.path = RouteMetadataStore.getRouteName([controllerMetadata.config.prefix], config.path);
+		config.path = RouteMetadataStore.getRouteName(
+			[controllerMetadata.config.prefix],
+			config.path
+		);
 
 		const routeMetadata = new RouteMetadata(internalRoute, config);
 		controllerMetadata.addMessageRoute(routeMetadata);
@@ -139,12 +143,19 @@ export class RouteMetadataStore {
 
 		if (controller.$onDisconnect) {
 			this.logger.info("\tA Disconnect Handler!");
-			metadata.addDisconnectHandler(new ControllerMetaInternalRoute(controller.$onDisconnect));
+			metadata.addDisconnectHandler(
+				new ControllerMetaInternalRoute(controller.$onDisconnect)
+			);
 		}
 	}
 
-	protected static buildControllerConfigFromDecorator(controller: Newable<Controller>, metadata: ControllerMetadata) {
-		const userControllerConfig: UserControllerConfig = RouteMetadataStore.getControllerMetadata(controller);
+	protected static buildControllerConfigFromDecorator(
+		controller: Newable<Controller>,
+		metadata: ControllerMetadata
+	) {
+		const userControllerConfig: UserControllerConfig = RouteMetadataStore.getControllerMetadata(
+			controller
+		);
 
 		if (!userControllerConfig) return;
 
@@ -155,8 +166,14 @@ export class RouteMetadataStore {
 		};
 	}
 
-	protected static buildRouteConfigFromDecorator(controller: Controller, property: string): RouteConfig {
-		const userConfig: UserRouteConfig = RouteMetadataStore.getRouteMetadata(controller, property);
+	protected static buildRouteConfigFromDecorator(
+		controller: Controller,
+		property: string
+	): RouteConfig {
+		const userConfig: UserRouteConfig = RouteMetadataStore.getRouteMetadata(
+			controller,
+			property
+		);
 
 		return {
 			path: userConfig.path || property,

@@ -6,7 +6,7 @@
 		"test:watch": "jest --config=jest.json --watch",
 		"docs:build": "typedoc --out ./docs/apidoc",
 		"docs:serve": "docsify serve ./docs",
-		"prettier": "prettier --write ./**/*.ts",
+		"format": "prettier --write ./**/*.ts",
 		"lint": "tslint --project .",
 		"review": "npm run prettier && npm run lint",
 		"start": "nodemon --exec ts-node ./samples/debug/Server.ts",

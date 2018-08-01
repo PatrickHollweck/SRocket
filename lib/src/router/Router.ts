@@ -61,6 +61,7 @@ export class Router {
 		const request = new SRequest(requestData, socket);
 		const response = new SResponse(socket, route.handler, this.ioServer, ack);
 
+		// TODO: Make it so that the route handler itself is only a "middleware"
 		const shouldInvokeRoute = await this.invokeMiddleware(request, response, route, controller);
 
 		if (!shouldInvokeRoute) {

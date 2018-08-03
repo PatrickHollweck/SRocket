@@ -26,6 +26,9 @@ export { SRocket } from "./start/SRocket";
 // Router Exports
 
 export { Controller } from "./router/Controller";
+export { RouteMetadata } from "./router/metadata/RouteMetadata";
+
+export * from "./router/Route";
 
 // Decorator Exports
 

@@ -26,16 +26,14 @@ Features:
 	Routes:
 		☐ What should the behaviour be on errors ? @OnError decorator ? Middleware ?
 
-	Routes:
-		Validation:
-			☐ Do not include packages for validation methods! @critical 
-			Options:
-				☐ ModelState -> Asp.net like -> Models.
-				☐ Inline -> req.context.validation
-				☐ Validation middleware.
-				☐ Decorator based.
+	Validation:
+		☐ Do not include packages for validation methods! @critical 
+		Options:
+			☐ ModelState -> Asp.net like -> Models.
+			☐ Inline -> req.context.validation
+			☐ Validation middleware.
+			☐ Decorator based.
 		☐ Add jsV schema validator back.
-		☐ Add validation middlewares -> IMiddlewarable ? @critical 
 		☐ Route result: IActionResult -> Asp.net like
 		☐ Request and Response objects ? Or one context like object.
 		☐ Parameter like injections ?
@@ -43,6 +41,9 @@ Features:
 	Proposals:
 		☐ Modules
 		☐ Models.
+
+	Builtins:
+		☐ Room managment ?
 
 Docs:
 	☐ REWRITE FOR 2.0! @high 

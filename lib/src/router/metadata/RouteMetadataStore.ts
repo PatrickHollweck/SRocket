@@ -50,11 +50,19 @@ export class ControllerMetadata {
 	}
 }
 
+export interface RouteDefinition {
+	controller: Controller;
+	route: Route;
+	property: string;
+}
+
 export class RouteMetadata {
 	public handler: InternalRoute<Route>;
 	public config: RouteConfig;
+	public definition: RouteDefinition;
 
-	constructor(handler: InternalRoute<Route>, config: RouteConfig) {
+	constructor(handler: InternalRoute<Route>, definition: RouteDefinition, config: RouteConfig) {
+		this.definition = definition;
 		this.handler = handler;
 		this.config = config;
 	}
@@ -95,7 +103,9 @@ export class RouteMetadataStore {
 				this.buildRoute(
 					controllerMetadata,
 					indexableInstance[property],
-					RouteMetadataStore.buildRouteConfigFromDecorator(instance, property)
+					RouteMetadataStore.buildRouteConfigFromDecorator(instance, property),
+					instance,
+					property
 				);
 			}
 		}
@@ -103,7 +113,13 @@ export class RouteMetadataStore {
 		this.addController(controllerMetadata);
 	}
 
-	public buildRoute(controllerMetadata: ControllerMetadata, route: Route, config: RouteConfig) {
+	public buildRoute(
+		controllerMetadata: ControllerMetadata,
+		route: Route,
+		config: RouteConfig,
+		controller: Controller,
+		property: string
+	) {
 		const routeType = RouteMetadataStore.findRouteType(route);
 
 		this.logger.info(`\t${rightPad(routeType, 10)} : ${config.path}`);
@@ -128,7 +144,12 @@ export class RouteMetadataStore {
 			config.path
 		);
 
-		const routeMetadata = new RouteMetadata(internalRoute, config);
+		const routeMetadata = new RouteMetadata(
+			internalRoute,
+			{ route, property, controller },
+			config
+		);
+
 		controllerMetadata.addMessageRoute(routeMetadata);
 	}
 

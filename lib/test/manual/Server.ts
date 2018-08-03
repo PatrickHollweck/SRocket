@@ -8,6 +8,12 @@ import { SocketController } from "../../../lib/src/decorator/SocketController";
 import { SRequest, SResponse } from "../../../lib/src";
 import { Controller, RouteMetadata } from "../../../lib/src/router/metadata/RouteMetadataStore";
 
+import {
+	joi,
+	Validate,
+	JoiValidationMiddleware
+} from "../../../addons/middleware-validation-joi/JoiValidationMiddleware";
+
 class LoggingMiddleware extends Middleware {
 	invoke(request: SRequest, response: SResponse, route: RouteMetadata, next: VoidFunction) {
 		console.log(`LOGGER: Request to : ${route.config.path} -> ${JSON.stringify(request.data)}`);
@@ -15,14 +21,9 @@ class LoggingMiddleware extends Middleware {
 	}
 }
 
-class AuthMiddleware extends Middleware {
-	invoke(request: SRequest, response: SResponse, route: RouteMetadata, next: VoidFunction) {
-		console.log("AUTH on: ", request.socket.id);
-		next();
-	}
-}
-
-@SocketController({})
+@SocketController({
+	beforeMiddleware: [JoiValidationMiddleware]
+})
 export class UserController extends Controller {
 	$onConnect(socket: SocketIO.Socket) {
 		console.log("A socket connected...", socket.id);
@@ -49,8 +50,16 @@ export class UserController extends Controller {
 	};
 
 	@SocketRoute()
+	@Validate(
+		joi.array().items(
+			joi.object().keys({
+				name: joi.string()
+			}),
+			joi.func().required()
+		)
+	)
 	functional(request: SRequest, response: SResponse) {
-		console.log("functional Handler!");
+		console.log("functional Handler!", request.data[0].name);
 	}
 }
 

@@ -16,14 +16,11 @@ Features:
 		☐ Added via module config field.
 
 	Controllers:
-		☐ NESTED Routes @critical
-		☐ Can implement a Client-Server interface.
+		☐ NESTED Routes @low
+		☐ Can implement a Client-Server interface. -> Generics ?
 
-	Middlewares: 
-		☐ Figure out in what order they shall be executed
-
-	Acks:
-		☐ Add response.hasAck() method
+	Middleware:
+		☐ Stick with curren approach ? Or let middleware set "before", or "after" property and priority?
 
 	Routes:
 		Validation:

@@ -3,13 +3,14 @@
 	"version": "1.4.0",
 	"types": "./index.d.ts",
 	"dependencies": {
-		"inversify": "4.13.0",
-		"inversify-inject-decorators": "^3.1.0",
+		"@types/joi": "^13.4.0",
+		"@types/socket.io": "1.4.36",
 		"joi": "13.5.2",
 		"reflect-metadata": "0.1.12",
-		"socket.io": "2.1.1",
-		"socket.io-client": "2.1.1",
 		"typescript": "3.0.1"
+	},
+	"peerDependencies": {
+		"srocket": "*"
 	},
 	"engines": {
 		"node": ">=6.0.0"

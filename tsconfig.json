@@ -11,5 +11,5 @@
 		"experimentalDecorators": true,
 		"emitDecoratorMetadata": true,
 	},
-	"exclude": ["node_modules", "dist", "vendor", "public", "build", "config"]
+	"exclude": ["node_modules", "dist", "vendor", "public", "build", "config", "test"]
 }

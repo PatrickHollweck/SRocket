@@ -1,10 +1,13 @@
 import "reflect-metadata";
 
-import { SRequest, SResponse } from "../../lib/src";
-import { ValidationResult } from "../../lib/src/validation/ValidationResult";
-import { RouteMetadata } from "../../lib/src/router/metadata/RouteMetadata";
-import { Middleware } from "../../lib/src/middleware/Middleware";
-import { Validator } from "../../lib/src/validation/Validator";
+import {
+	Validator,
+	SRequest,
+	SResponse,
+	ValidationResult,
+	RouteMetadata,
+	Middleware
+} from "srocket";
 
 import * as Joi from "joi";
 

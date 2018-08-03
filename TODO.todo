@@ -1,9 +1,7 @@
 Features:
-	☐ Better defaults for error handling.
-	☐ Handle rooms better.
-
 	ErrorHandling:
 		☐ Let user choose if they want error handling -> Set default in ExecContext and conditional toogle in decorator
+		☐ What should the behaviour be on errors ? @OnError decorator ? Middleware ?
 
 	Client-Server Interfaces:
 		☐ Implement
@@ -20,11 +18,7 @@ Features:
 		☐ Can implement a Client-Server interface. -> Generics ?
 
 	Middleware:
-		☐ Stick with curren approach ? Or let middleware set "before", or "after" property and priority?
-		☐ What should the behaviour be when errors occour ?
-	
-	Routes:
-		☐ What should the behaviour be on errors ? @OnError decorator ? Middleware ?
+		☐ Stick with current approach ? Or let middleware set "before", or "after" property and priority?
 
 	Validation:
 		☐ Do not include packages for validation methods! @critical 

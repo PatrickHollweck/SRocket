@@ -35,6 +35,7 @@ export class SRocket {
 
 	public setSeparationConvention(separator: string) {
 		container.get(ExecutionContext).separationConvention = separator;
+		return this;
 	}
 
 	public addGlobalMiddleware(before: Newable<Middleware>[], after: Newable<Middleware>[]) {

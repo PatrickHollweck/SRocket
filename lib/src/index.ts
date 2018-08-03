@@ -23,6 +23,10 @@ export { ConsoleLogger } from "./logging/ConsoleLogger";
 
 export { SRocket } from "./start/SRocket";
 
+// Router Exports
+
+export { Controller } from "./router/Controller";
+
 // Decorator Exports
 
 export { SocketController } from "./decorator/SocketController";

@@ -6,6 +6,7 @@ export interface UserControllerConfig {
 	namespace?: string;
 	beforeMiddleware?: Newable<Middleware>[];
 	afterMiddleware?: Newable<Middleware>[];
+	[index: string]: any;
 }
 
 export interface ControllerConfig {
@@ -13,4 +14,5 @@ export interface ControllerConfig {
 	namespace: string;
 	beforeMiddleware: Newable<Middleware>[];
 	afterMiddleware: Newable<Middleware>[];
+	[index: string]: any;
 }

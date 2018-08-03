@@ -5,10 +5,12 @@ export interface RouteConfig {
 	path: string;
 	beforeMiddleware: Newable<Middleware>[];
 	afterMiddleware: Newable<Middleware>[];
+	[index: string]: any;
 }
 
 export interface UserRouteConfig {
 	path?: string;
 	beforeMiddleware?: Newable<Middleware>[];
 	afterMiddleware?: Newable<Middleware>[];
+	[index: string]: any;
 }

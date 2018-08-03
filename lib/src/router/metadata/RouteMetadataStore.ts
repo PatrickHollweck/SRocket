@@ -164,7 +164,15 @@ export class RouteMetadataStore {
 			prefix: userControllerConfig.prefix || "",
 			namespace: userControllerConfig.namespace || "/",
 			beforeMiddleware: userControllerConfig.beforeMiddleware || [],
-			afterMiddleware: userControllerConfig.afterMiddleware || []
+			afterMiddleware: userControllerConfig.afterMiddleware || [],
+			/**
+			 * We need to spread the rest of the properties of the user supplied config
+			 * to make plugins/middleware config easier. The userControllerConfig has a
+			 * indexer added so that middleware authors can add their own config.
+			 *
+			 * To give them access to that information, we add those "misc" props here.
+			 */
+			...userControllerConfig
 		};
 	}
 
@@ -180,7 +188,15 @@ export class RouteMetadataStore {
 		return {
 			path: userConfig.path || property,
 			beforeMiddleware: userConfig.beforeMiddleware || [],
-			afterMiddleware: userConfig.afterMiddleware || []
+			afterMiddleware: userConfig.afterMiddleware || [],
+			/**
+			 * We need to spread the rest of the properties of the user supplied config
+			 * to make plugins/middleware config easier. The userConfig has a
+			 * indexer added so that middleware authors can add their own config.
+			 *
+			 * To give them access to that information, we add those "misc" props here.
+			 */
+			...userConfig
 		};
 	}
 

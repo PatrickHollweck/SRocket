@@ -3,10 +3,12 @@ import { Middleware } from "../../middleware/Middleware";
 
 export interface RouteConfig {
 	path: string;
-	middleware: Newable<Middleware>[];
+	beforeMiddleware: Newable<Middleware>[];
+	afterMiddleware: Newable<Middleware>[];
 }
 
 export interface UserRouteConfig {
 	path?: string;
-	middleware?: Newable<Middleware>[];
+	beforeMiddleware?: Newable<Middleware>[];
+	afterMiddleware?: Newable<Middleware>[];
 }

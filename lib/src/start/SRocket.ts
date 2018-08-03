@@ -36,9 +36,11 @@ export class SRocket {
 		container.get(ExecutionContext).separationConvention = separator;
 	}
 
-	public addGlobalMiddleware(...middleware: Newable<Middleware>[]) {
+	public addGlobalMiddleware(before: Newable<Middleware>[], after: Newable<Middleware>[]) {
 		this.startupChain.push(() => {
-			container.get(ExecutionContext).globalMiddleware.push(...middleware);
+			const context = container.get(ExecutionContext);
+			context.beforeGlobalMiddleware.push(...before);
+			context.afterGlobalMiddleware.push(...after);
 		});
 
 		return this;

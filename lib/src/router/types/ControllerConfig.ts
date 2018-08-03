@@ -4,11 +4,13 @@ import { Newable } from "../../structures/Newable";
 export interface UserControllerConfig {
 	prefix?: string;
 	namespace?: string;
-	middleware?: Newable<Middleware>[];
+	beforeMiddleware?: Newable<Middleware>[];
+	afterMiddleware?: Newable<Middleware>[];
 }
 
 export interface ControllerConfig {
 	prefix: string;
 	namespace: string;
-	middleware: Newable<Middleware>[];
+	beforeMiddleware: Newable<Middleware>[];
+	afterMiddleware: Newable<Middleware>[];
 }

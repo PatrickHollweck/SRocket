@@ -3,9 +3,12 @@ import { Middleware } from "../middleware/Middleware";
 
 export class ExecutionContext {
 	public separationConvention: string = ":";
-	public globalMiddleware: Newable<Middleware>[];
+
+	public beforeGlobalMiddleware: Newable<Middleware>[];
+	public afterGlobalMiddleware: Newable<Middleware>[];
 
 	constructor() {
-		this.globalMiddleware = [];
+		this.beforeGlobalMiddleware = [];
+		this.afterGlobalMiddleware = [];
 	}
 }

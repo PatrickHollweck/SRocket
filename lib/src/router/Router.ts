@@ -1,12 +1,15 @@
+import { ExecutionContext } from "../config/ExecutionContext";
+import { Middleware } from "../middleware/Middleware";
+import { SResponse } from "../io/SResponse";
+import { container } from "..";
+import { SRequest } from "../io/SRequest";
+import { Newable } from "../structures/Newable";
+
 import {
 	RouteMetadataStore,
 	ControllerMetadata,
 	RouteMetadata
 } from "./metadata/RouteMetadataStore";
-import { ExecutionContext } from "../config/ExecutionContext";
-import { SResponse } from "../io/SResponse";
-import { container } from "..";
-import { SRequest } from "../io/SRequest";
 
 export class Router {
 	protected readonly ioServer: SocketIO.Server;
@@ -62,7 +65,12 @@ export class Router {
 		const response = new SResponse(socket, route.handler, this.ioServer, ack);
 
 		// TODO: Make it so that the route handler itself is only a "middleware"
-		const shouldInvokeRoute = await this.invokeMiddleware(request, response, route, controller);
+		const shouldInvokeRoute = await this.invokeMiddleware(
+			request,
+			response,
+			route,
+			this.getBeforeMiddleware(route, controller)
+		);
 
 		if (!shouldInvokeRoute) {
 			return;
@@ -74,15 +82,18 @@ export class Router {
 		} catch (e) {
 			await route.handler.callError(e, request, response);
 		}
+
+		await this.invokeMiddleware(request, response, route, route.config.afterMiddleware);
 	}
 
 	protected async invokeMiddleware(
 		request: SRequest,
 		response: SResponse,
 		route: RouteMetadata,
-		controller: ControllerMetadata
+		// TODO: Also allow for instance middleware -> Allows for more flexibility since config at callsite.
+		middlewares: Newable<Middleware>[]
 	) {
-		for (const middleware of this.getMiddlewares(route, controller)) {
+		for (const middleware of middlewares) {
 			let called = false;
 
 			const next = () => {
@@ -99,11 +110,21 @@ export class Router {
 		return true;
 	}
 
-	protected getMiddlewares(route: RouteMetadata, controller: ControllerMetadata) {
+	protected getBeforeMiddleware(route: RouteMetadata, controller: ControllerMetadata) {
+		// TODO: We are still fixing the order of middleware invokation here.
 		return [
-			...this.context.globalMiddleware,
-			...controller.config.middleware,
-			...route.config.middleware
+			...this.context.beforeGlobalMiddleware,
+			...controller.config.beforeMiddleware,
+			...route.config.beforeMiddleware
+		];
+	}
+
+	protected getAfterMiddlewares(route: RouteMetadata, controller: ControllerMetadata) {
+		// TODO: We are still fixing the order of middleware invokation here.
+		return [
+			...this.context.afterGlobalMiddleware,
+			...controller.config.afterMiddleware,
+			...route.handler.config.afterMiddleware
 		];
 	}
 }

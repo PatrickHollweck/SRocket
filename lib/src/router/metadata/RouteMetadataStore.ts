@@ -163,7 +163,8 @@ export class RouteMetadataStore {
 		metadata.config = {
 			prefix: userControllerConfig.prefix || "",
 			namespace: userControllerConfig.namespace || "/",
-			middleware: userControllerConfig.middleware || []
+			beforeMiddleware: userControllerConfig.beforeMiddleware || [],
+			afterMiddleware: userControllerConfig.afterMiddleware || []
 		};
 	}
 
@@ -178,7 +179,8 @@ export class RouteMetadataStore {
 
 		return {
 			path: userConfig.path || property,
-			middleware: userConfig.middleware || []
+			beforeMiddleware: userConfig.beforeMiddleware || [],
+			afterMiddleware: userConfig.afterMiddleware || []
 		};
 	}
 

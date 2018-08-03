@@ -15,7 +15,14 @@ class LoggingMiddleware extends Middleware {
 	}
 }
 
-@SocketController()
+class AuthMiddleware extends Middleware {
+	invoke(request: SRequest, response: SResponse, route: RouteMetadata, next: Function) {
+		console.log("AUTH on: ", request.socket.id);
+		next();
+	}
+}
+
+@SocketController({})
 export class UserController extends Controller {
 	$onConnect(socket: SocketIO.Socket) {
 		console.log("A socket connected...", socket.id);
@@ -49,7 +56,7 @@ export class UserController extends Controller {
 
 SRocket.fromPort(5555)
 	.controllers(UserController)
-	.addGlobalMiddleware(LoggingMiddleware)
+	.addGlobalMiddleware([LoggingMiddleware], [])
 	.listen(() => {
 		console.log("Server started!");
 	});

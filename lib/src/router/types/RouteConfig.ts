@@ -1,16 +1,15 @@
-import { Newable } from "../../structures/Newable";
-import { Middleware } from "../../middleware/Middleware";
+import { MiddlewareList } from "../../middleware/Middleware";
 
 export interface RouteConfig {
 	path: string;
-	beforeMiddleware: Newable<Middleware>[];
-	afterMiddleware: Newable<Middleware>[];
+	beforeMiddleware: MiddlewareList;
+	afterMiddleware: MiddlewareList;
 	[index: string]: any;
 }
 
 export interface UserRouteConfig {
 	path?: string;
-	beforeMiddleware?: Newable<Middleware>[];
-	afterMiddleware?: Newable<Middleware>[];
+	beforeMiddleware?: MiddlewareList;
+	afterMiddleware?: MiddlewareList;
 	[index: string]: any;
 }

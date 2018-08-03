@@ -91,7 +91,7 @@ export class Router {
 		response: SResponse,
 		route: RouteMetadata,
 		// TODO: Also allow for instance middleware -> Allows for more flexibility since config at callsite.
-		middlewares: Newable<Middleware>[]
+		middlewares: (Newable<Middleware> | Middleware)[]
 	) {
 		for (const middleware of middlewares) {
 			let called = false;
@@ -100,7 +100,11 @@ export class Router {
 				called = true;
 			};
 
-			await new middleware().invoke(request, response, route, next);
+			if (typeof middleware === "function") {
+				await new middleware().invoke(request, response, route, next);
+			} else {
+				middleware.invoke(request, response, route, next);
+			}
 
 			if (!called) {
 				return false;

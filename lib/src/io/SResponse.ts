@@ -74,13 +74,19 @@ export class SResponse<T = any> {
 		this.message(error.message).toSender();
 	}
 
+	// -- Util
+
+	public hasAck() {
+		return !!this.ack;
+	}
+
 	// -- Sender functions
 
 	public invokeAck() {
 		if (this.ack) {
 			this.ack(this.getData());
 		} else {
-			SResponse.logger.info("Tried to invoke a ack, even tho none was sent!");
+			SResponse.logger.info("Tried to invoke a ack, even thought none was sent!");
 		}
 	}
 

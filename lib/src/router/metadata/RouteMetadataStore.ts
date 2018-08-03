@@ -16,26 +16,29 @@ import { Route } from "../Route";
 
 import {
 	InternalRoute,
+	ControllerMetaInternalRoute,
 	FunctionalInternalRoute,
-	ClassInternalRoute,
 	ObjectInternalRoute,
-	ControllerMetaInternalRoute
+	ClassInternalRoute
 } from "../InternalRoute";
 
-export enum RouteType {
+enum RouteType {
 	ClassBased = "class",
 	ObjectBased = "object",
 	FunctionBased = "functional"
 }
 
 export class RouteMetadataStore {
-	public controllers: ControllerMetadata[];
-
+	protected controllers: ControllerMetadata[];
 	protected logger: ConsoleLogger;
 
 	constructor() {
 		this.controllers = [];
 		this.logger = new ConsoleLogger("Route-Store");
+	}
+
+	public getControllers() {
+		return this.controllers;
 	}
 
 	public buildController(controller: Newable<Controller>) {
@@ -128,8 +131,6 @@ export class RouteMetadataStore {
 			controller
 		);
 
-		if (!userControllerConfig) return;
-
 		metadata.config = {
 			// "" is the default prefix
 			prefix: userControllerConfig.prefix || "",
@@ -190,16 +191,13 @@ export class RouteMetadataStore {
 	}
 
 	protected static getControllerMetadata(target: Newable<Controller>) {
-		const metadata = Metadata.getClassDecorator(SOCKET_CONTROLLER_METADATA_KEY, target);
-		return metadata;
+		return Metadata.getClassDecorator(SOCKET_CONTROLLER_METADATA_KEY, target);
 	}
 
 	protected static getRouteMetadata(target: any, property?: string) {
-		const metadata = property
+		return property
 			? Metadata.getPropertyDecorator(SOCKET_ROUTE_METADATA_KEY, target, property)
 			: Metadata.getClassDecorator(SOCKET_ROUTE_METADATA_KEY, target);
-
-		return metadata;
 	}
 
 	protected static hasValidRouteMetadata(target: any, property?: string) {

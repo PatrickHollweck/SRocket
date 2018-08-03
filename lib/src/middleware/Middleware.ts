@@ -1,6 +1,6 @@
-import { SRequest } from "../io/SRequest";
-import { SResponse } from "../io/SResponse";
 import { RouteMetadata } from "../router/metadata/RouteMetadata";
+import { SResponse } from "../io/SResponse";
+import { SRequest } from "../io/SRequest";
 import { Newable } from "../structures/Newable";
 
 export type MiddlewareList = (Newable<Middleware> | Middleware)[];

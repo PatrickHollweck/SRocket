@@ -20,7 +20,7 @@ export class Router {
 
 	public registerRoutes() {
 		const store = container.get(RouteMetadataStore);
-		store.controllers.forEach(controller => this.registerController(controller));
+		store.getControllers().forEach(controller => this.registerController(controller));
 	}
 
 	protected registerController(controller: ControllerMetadata) {
@@ -62,7 +62,6 @@ export class Router {
 		const request = new SRequest(requestData, socket);
 		const response = new SResponse(socket, route.handler, this.ioServer, ack);
 
-		// TODO: Make it so that the route handler itself is only a "middleware"
 		const shouldInvokeRoute = await this.invokeMiddleware(
 			request,
 			response,
@@ -81,14 +80,18 @@ export class Router {
 			await route.handler.callError(e, request, response);
 		}
 
-		await this.invokeMiddleware(request, response, route, route.config.afterMiddleware);
+		await this.invokeMiddleware(
+			request,
+			response,
+			route,
+			this.getAfterMiddlewares(route, controller)
+		);
 	}
 
 	protected async invokeMiddleware(
 		request: SRequest,
 		response: SResponse,
 		route: RouteMetadata,
-		// TODO: Also allow for instance middleware -> Allows for more flexibility since config at callsite.
 		middlewares: (Newable<Middleware> | Middleware)[]
 	) {
 		for (const middleware of middlewares) {
@@ -113,7 +116,6 @@ export class Router {
 	}
 
 	protected getBeforeMiddleware(route: RouteMetadata, controller: ControllerMetadata) {
-		// TODO: We are still fixing the order of middleware invokation here.
 		return [
 			...this.context.beforeGlobalMiddleware,
 			...controller.config.beforeMiddleware,
@@ -122,7 +124,6 @@ export class Router {
 	}
 
 	protected getAfterMiddlewares(route: RouteMetadata, controller: ControllerMetadata) {
-		// TODO: We are still fixing the order of middleware invokation here.
 		return [
 			...this.context.afterGlobalMiddleware,
 			...controller.config.afterMiddleware,

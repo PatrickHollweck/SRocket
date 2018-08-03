@@ -17,8 +17,3 @@ export { StatusCodes } from "./io/StatusCode";
 
 export { Logger } from "./logging/Logger";
 export { ConsoleLogger } from "./logging/ConsoleLogger";
-
-// Error Exports
-
-export { ValidationError } from "./errors/ValidationError";
-export { AbsentPropertyError } from "./errors/AbsentPropertyError";

@@ -1,70 +1,70 @@
 {
-	"name": "srocket",
-	"version": "1.4.0",
-	"scripts": {
-		"test": "jest --config=jest.json",
-		"test:watch": "jest --config=jest.json --watch",
-		"docs:build": "typedoc --out ./docs/apidoc",
-		"docs:serve": "docsify serve ./docs",
-		"format": "prettier --write ./**/*.ts",
-		"lint": "tslint --project .",
-		"review": "npm run format && npm run lint && tsc",
-		"start": "nodemon --exec ts-node ./lib/test/manual/Server.ts",
-		"release": "node ./scripts/deploy.js"
-	},
-	"main": "./index.js",
-	"types": "./index.d.ts",
-	"dependencies": {
-		"autoloader-ts": "2.2.1",
-		"class-validator": "0.9.1",
-		"inversify": "4.13.0",
-		"inversify-inject-decorators": "^3.1.0",
-		"reflect-metadata": "0.1.12",
-		"socket.io": "2.1.1",
-		"socket.io-client": "2.1.1",
-		"typescript": "3.0.1"
-	},
-	"devDependencies": {
-		"@types/debug": "0.0.30",
-		"@types/jest": "23.3.1",
-		"@types/node": "10.5.5",
-		"@types/readline-sync": "1.4.3",
-		"@types/semver": "5.5.0",
-		"@types/socket.io": "1.4.36",
-		"@types/socket.io-client": "1.4.32",
-		"chalk": "2.4.1",
-		"docsify": "4.7.0",
-		"docsify-cli": "4.2.1",
-		"jest": "23.4.2",
-		"prettier": "1.14.0",
-		"readline-sync": "1.4.9",
-		"semver": "5.5.0",
-		"shelljs": "0.8.2",
-		"ts-jest": "23.1.2",
-		"ts-node": "7.0.0",
-		"tsconfig-paths": "3.4.2",
-		"typedoc": "^0.11.1"
-	},
-	"engines": {
-		"node": ">=6.0.0"
-	},
-	"description": "A opinionated typesafe socket.io framework",
-	"author": "Patrick Hollweck <patrick-hollweck@gmx.de>",
-	"homepage": "https://fetzenrndy.github.io/SRocket/#/",
-	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/FetzenRndy/SRocket/issues",
-		"email": "patrick-hollweck@gmx.de"
-	},
-	"repository": {
-		"type": "GitHub",
-		"url": "https://github.com/FetzenRndy/SRocket"
-	},
-	"keywords": [
-		"socket.io",
-		"srocket",
-		"realtime",
-		"typescript",
-		"framework"
-	]
+    "name": "srocket",
+    "version": "2.0.0",
+    "scripts": {
+        "test": "jest --config=jest.json",
+        "test:watch": "jest --config=jest.json --watch",
+        "docs:build": "typedoc --out ./docs/apidoc",
+        "docs:serve": "docsify serve ./docs",
+        "format": "prettier --write ./**/*.ts",
+        "lint": "tslint --project .",
+        "review": "npm run format && npm run lint && tsc",
+        "start": "nodemon --exec ts-node ./lib/test/manual/Server.ts",
+        "release": "node ./scripts/deploy.js"
+    },
+    "main": "./index.js",
+    "types": "./index.d.ts",
+    "dependencies": {
+        "autoloader-ts": "2.2.1",
+        "class-validator": "0.9.1",
+        "inversify": "4.13.0",
+        "inversify-inject-decorators": "^3.1.0",
+        "reflect-metadata": "0.1.12",
+        "socket.io": "2.1.1",
+        "socket.io-client": "2.1.1",
+        "typescript": "3.0.1"
+    },
+    "devDependencies": {
+        "@types/debug": "0.0.30",
+        "@types/jest": "23.3.1",
+        "@types/node": "10.5.5",
+        "@types/readline-sync": "1.4.3",
+        "@types/semver": "5.5.0",
+        "@types/socket.io": "1.4.36",
+        "@types/socket.io-client": "1.4.32",
+        "chalk": "2.4.1",
+        "docsify": "4.7.0",
+        "docsify-cli": "4.2.1",
+        "jest": "23.4.2",
+        "prettier": "1.14.0",
+        "readline-sync": "1.4.9",
+        "semver": "5.5.0",
+        "shelljs": "0.8.2",
+        "ts-jest": "23.1.2",
+        "ts-node": "7.0.0",
+        "tsconfig-paths": "3.4.2",
+        "typedoc": "^0.11.1"
+    },
+    "engines": {
+        "node": ">=6.0.0"
+    },
+    "description": "A opinionated typesafe socket.io framework",
+    "author": "Patrick Hollweck <patrick-hollweck@gmx.de>",
+    "homepage": "https://fetzenrndy.github.io/SRocket/#/",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/FetzenRndy/SRocket/issues",
+        "email": "patrick-hollweck@gmx.de"
+    },
+    "repository": {
+        "type": "GitHub",
+        "url": "https://github.com/FetzenRndy/SRocket"
+    },
+    "keywords": [
+        "socket.io",
+        "srocket",
+        "realtime",
+        "typescript",
+        "framework"
+    ]
 }

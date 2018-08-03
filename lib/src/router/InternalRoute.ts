@@ -66,7 +66,8 @@ export class FunctionalInternalRoute extends InternalRoute<FunctionalRoute> {
 export class ControllerMetaInternalRoute extends InternalRoute<ControllerMetaRoute> {
 	constructor(handler: ControllerMetaRoute) {
 		super(handler, {
-			middleware: [],
+			beforeMiddleware: [],
+			afterMiddleware: [],
 			path: ""
 		});
 	}

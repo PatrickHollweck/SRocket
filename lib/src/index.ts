@@ -6,7 +6,6 @@ export { container, inject } from "./di/SRocketContainer";
 
 export { ValidationResult } from "./validation/ValidationResult";
 export { ValidationStatus } from "./validation/ValidationStatus";
-export { ValidationContext } from "./validation/ValidationContext";
 
 // IO Exports
 

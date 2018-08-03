@@ -4,7 +4,7 @@ import { SRequest, SResponse } from "../../lib/src";
 import { ValidationResult } from "../../lib/src/validation/ValidationResult";
 import { RouteMetadata } from "../../lib/src/router/metadata/RouteMetadataStore";
 import { Middleware } from "../../lib/src/middleware/Middleware";
-import { Validator } from "../../lib/src/validation/validators/Validator";
+import { Validator } from "../../lib/src/validation/Validator";
 
 import * as Joi from "joi";
 

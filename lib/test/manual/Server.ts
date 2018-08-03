@@ -1,12 +1,12 @@
 process.env["DEBUG"] = "srocket:*";
 
-import { SRocket } from "../../../lib/src/start/SRocket";
-import { Middleware } from "../../../lib/src/middleware/Middleware";
-import { SocketRoute } from "../../../lib/src/decorator/SocketRoute";
-import { ObjectRoute } from "../../../lib/src/router/Route";
-import { SocketController } from "../../../lib/src/decorator/SocketController";
-import { SRequest, SResponse } from "../../../lib/src";
-import { Controller, RouteMetadata } from "../../../lib/src/router/metadata/RouteMetadataStore";
+import { SRocket } from "../../src/start/SRocket";
+import { Middleware } from "../../src/middleware/Middleware";
+import { SocketRoute } from "../../src/decorator/SocketRoute";
+import { ObjectRoute } from "../../src/router/Route";
+import { SocketController } from "../../src/decorator/SocketController";
+import { SRequest, SResponse } from "../../src";
+import { Controller, RouteMetadata } from "../../src/router/metadata/RouteMetadataStore";
 
 import {
 	joi,

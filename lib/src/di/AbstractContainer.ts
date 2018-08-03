@@ -1,4 +1,4 @@
-import "reflect-metadata";
+import "../../../addons/middleware-validation-joi/node_modules/reflect-metadata";
 
 import getDecorators from "inversify-inject-decorators";
 import { Container as InversifyContainer, interfaces } from "inversify";

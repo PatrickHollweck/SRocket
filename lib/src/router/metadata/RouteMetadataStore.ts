@@ -16,7 +16,7 @@ import {
 	ClassInternalRoute,
 	ObjectInternalRoute,
 	ControllerMetaInternalRoute
-} from "../../router/InternalRoute";
+} from "../InternalRoute";
 
 export enum RouteType {
 	ClassBased = "class",

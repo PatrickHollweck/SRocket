@@ -1,8 +1,9 @@
-import "../../../addons/middleware-validation-joi/node_modules/reflect-metadata";
+import "reflect-metadata";
 
-import getDecorators from "inversify-inject-decorators";
 import { Container as InversifyContainer, interfaces } from "inversify";
 import { Newable } from "../structures/Newable";
+
+import getDecorators from "inversify-inject-decorators";
 
 export class AbstractContainer {
 	public readonly instance: InversifyContainer;

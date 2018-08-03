@@ -87,23 +87,23 @@
 								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_lib_src_router_router_.router.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
-						<section class="tsd-index-section ">
+						<section class="tsd-index-section tsd-is-private-protected">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="_lib_src_router_router_.router.html#logger" class="tsd-kind-icon">logger</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_lib_src_router_router_.router.html#routecontainer" class="tsd-kind-icon">route<wbr>Container</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="_lib_src_router_router_.router.html#server" class="tsd-kind-icon">server</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="_lib_src_router_router_.router.html#context" class="tsd-kind-icon">context</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="_lib_src_router_router_.router.html#ioserver" class="tsd-kind-icon">io<wbr>Server</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="_lib_src_router_router_.router.html#getaftermiddlewares" class="tsd-kind-icon">get<wbr>After<wbr>Middlewares</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="_lib_src_router_router_.router.html#getbeforemiddleware" class="tsd-kind-icon">get<wbr>Before<wbr>Middleware</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="_lib_src_router_router_.router.html#handleconnection" class="tsd-kind-icon">handle<wbr>Connection</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="_lib_src_router_router_.router.html#invokemiddleware" class="tsd-kind-icon">invoke<wbr>Middleware</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="_lib_src_router_router_.router.html#invokeroute" class="tsd-kind-icon">invoke<wbr>Route</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_lib_src_router_router_.router.html#route" class="tsd-kind-icon">route</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="_lib_src_router_router_.router.html#triggerinternalerror" class="tsd-kind-icon">trigger<wbr>Internal<wbr>Error</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="_lib_src_router_router_.router.html#triggervalidationerror" class="tsd-kind-icon">trigger<wbr>Validation<wbr>Error</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-static"><a href="_lib_src_router_router_.router.html#validatewithmodel" class="tsd-kind-icon">validate<wbr>With<wbr>Model</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-static"><a href="_lib_src_router_router_.router.html#validatewithrules" class="tsd-kind-icon">validate<wbr>With<wbr>Rules</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="_lib_src_router_router_.router.html#registercontroller" class="tsd-kind-icon">register<wbr>Controller</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_lib_src_router_router_.router.html#registerroutes" class="tsd-kind-icon">register<wbr>Routes</a></li>
 							</ul>
 						</section>
 					</div>
@@ -115,55 +115,39 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Router<span class="tsd-signature-symbol">(</span>server<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Server</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_lib_src_router_router_.router.html" class="tsd-signature-type">Router</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Router<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_lib_src_router_router_.router.html" class="tsd-signature-type">Router</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FetzenRndy/SRocket/blob/db1f1e3/lib/src/router/Router.ts#L18">lib/src/router/Router.ts:18</a></li>
+									<li>Defined in <a href="https://github.com/FetzenRndy/SRocket/blob/b06eafb/lib/src/router/Router.ts#L14">lib/src/router/Router.ts:14</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>server: <span class="tsd-signature-type">Server</span></h5>
-								</li>
-							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_lib_src_router_router_.router.html" class="tsd-signature-type">Router</a></h4>
 						</li>
 					</ul>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group ">
+			<section class="tsd-panel-group tsd-member-group tsd-is-private-protected">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected">
-					<a name="logger" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagProtected">Protected</span> logger</h3>
-					<div class="tsd-signature tsd-kind-icon">logger<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_lib_src_logging_logger_.logger.html" class="tsd-signature-type">Logger</a></div>
+					<a name="context" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> context</h3>
+					<div class="tsd-signature tsd-kind-icon">context<span class="tsd-signature-symbol">:</span> <a href="_lib_src_config_executioncontext_.executioncontext.html" class="tsd-signature-type">ExecutionContext</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/FetzenRndy/SRocket/blob/db1f1e3/lib/src/router/Router.ts#L18">lib/src/router/Router.ts:18</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="routecontainer" class="tsd-anchor"></a>
-					<h3>route<wbr>Container</h3>
-					<div class="tsd-signature tsd-kind-icon">route<wbr>Container<span class="tsd-signature-symbol">:</span> <a href="_lib_src_router_routecollection_.routecollection.html" class="tsd-signature-type">RouteCollection</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/FetzenRndy/SRocket/blob/db1f1e3/lib/src/router/Router.ts#L17">lib/src/router/Router.ts:17</a></li>
+							<li>Defined in <a href="https://github.com/FetzenRndy/SRocket/blob/b06eafb/lib/src/router/Router.ts#L14">lib/src/router/Router.ts:14</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected">
-					<a name="server" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagProtected">Protected</span> server</h3>
-					<div class="tsd-signature tsd-kind-icon">server<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Server</span></div>
+					<a name="ioserver" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> io<wbr>Server</h3>
+					<div class="tsd-signature tsd-kind-icon">io<wbr>Server<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Server</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/FetzenRndy/SRocket/blob/db1f1e3/lib/src/router/Router.ts#L20">lib/src/router/Router.ts:20</a></li>
+							<li>Defined in <a href="https://github.com/FetzenRndy/SRocket/blob/b06eafb/lib/src/router/Router.ts#L13">lib/src/router/Router.ts:13</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -171,173 +155,184 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected">
-					<a name="invokeroute" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagProtected">Protected</span> invoke<wbr>Route</h3>
+					<a name="getaftermiddlewares" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> get<wbr>After<wbr>Middlewares</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
-						<li class="tsd-signature tsd-kind-icon">invoke<wbr>Route<span class="tsd-signature-symbol">(</span>route<span class="tsd-signature-symbol">: </span><a href="../interfaces/_lib_src_router_internalroute_.internalroute.html" class="tsd-signature-type">InternalRoute</a>, socket<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Socket</span>, packet<span class="tsd-signature-symbol">: </span><a href="_lib_src_structures_socketpacket_.socketpacket.html" class="tsd-signature-type">SocketPacket</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>After<wbr>Middlewares<span class="tsd-signature-symbol">(</span>route<span class="tsd-signature-symbol">: </span><a href="_lib_src_router_metadata_routemetadata_.routemetadata.html" class="tsd-signature-type">RouteMetadata</a>, controller<span class="tsd-signature-symbol">: </span><a href="_lib_src_router_metadata_controllermetadata_.controllermetadata.html" class="tsd-signature-type">ControllerMetadata</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><a href="_lib_src_middleware_middleware_.middleware.html" class="tsd-signature-type">Middleware</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FetzenRndy/SRocket/blob/db1f1e3/lib/src/router/Router.ts#L48">lib/src/router/Router.ts:48</a></li>
+									<li>Defined in <a href="https://github.com/FetzenRndy/SRocket/blob/b06eafb/lib/src/router/Router.ts#L126">lib/src/router/Router.ts:126</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>route: <a href="../interfaces/_lib_src_router_internalroute_.internalroute.html" class="tsd-signature-type">InternalRoute</a></h5>
+									<h5>route: <a href="_lib_src_router_metadata_routemetadata_.routemetadata.html" class="tsd-signature-type">RouteMetadata</a></h5>
 								</li>
+								<li>
+									<h5>controller: <a href="_lib_src_router_metadata_controllermetadata_.controllermetadata.html" class="tsd-signature-type">ControllerMetadata</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span><a href="_lib_src_middleware_middleware_.middleware.html" class="tsd-signature-type">Middleware</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+					<a name="getbeforemiddleware" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> get<wbr>Before<wbr>Middleware</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Before<wbr>Middleware<span class="tsd-signature-symbol">(</span>route<span class="tsd-signature-symbol">: </span><a href="_lib_src_router_metadata_routemetadata_.routemetadata.html" class="tsd-signature-type">RouteMetadata</a>, controller<span class="tsd-signature-symbol">: </span><a href="_lib_src_router_metadata_controllermetadata_.controllermetadata.html" class="tsd-signature-type">ControllerMetadata</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><a href="_lib_src_middleware_middleware_.middleware.html" class="tsd-signature-type">Middleware</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/FetzenRndy/SRocket/blob/b06eafb/lib/src/router/Router.ts#L118">lib/src/router/Router.ts:118</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>route: <a href="_lib_src_router_metadata_routemetadata_.routemetadata.html" class="tsd-signature-type">RouteMetadata</a></h5>
+								</li>
+								<li>
+									<h5>controller: <a href="_lib_src_router_metadata_controllermetadata_.controllermetadata.html" class="tsd-signature-type">ControllerMetadata</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span><a href="_lib_src_middleware_middleware_.middleware.html" class="tsd-signature-type">Middleware</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+					<a name="handleconnection" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> handle<wbr>Connection</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+						<li class="tsd-signature tsd-kind-icon">handle<wbr>Connection<span class="tsd-signature-symbol">(</span>namespace<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Namespace</span>, controller<span class="tsd-signature-symbol">: </span><a href="_lib_src_router_metadata_controllermetadata_.controllermetadata.html" class="tsd-signature-type">ControllerMetadata</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/FetzenRndy/SRocket/blob/b06eafb/lib/src/router/Router.ts#L31">lib/src/router/Router.ts:31</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>namespace: <span class="tsd-signature-type">Namespace</span></h5>
+								</li>
+								<li>
+									<h5>controller: <a href="_lib_src_router_metadata_controllermetadata_.controllermetadata.html" class="tsd-signature-type">ControllerMetadata</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+					<a name="invokemiddleware" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> invoke<wbr>Middleware</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+						<li class="tsd-signature tsd-kind-icon">invoke<wbr>Middleware<span class="tsd-signature-symbol">(</span>request<span class="tsd-signature-symbol">: </span><a href="_lib_src_io_srequest_.srequest.html" class="tsd-signature-type">SRequest</a>, response<span class="tsd-signature-symbol">: </span><a href="_lib_src_io_sresponse_.sresponse.html" class="tsd-signature-type">SResponse</a>, route<span class="tsd-signature-symbol">: </span><a href="_lib_src_router_metadata_routemetadata_.routemetadata.html" class="tsd-signature-type">RouteMetadata</a>, middlewares<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><a href="_lib_src_middleware_middleware_.middleware.html" class="tsd-signature-type">Middleware</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/FetzenRndy/SRocket/blob/b06eafb/lib/src/router/Router.ts#L91">lib/src/router/Router.ts:91</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>request: <a href="_lib_src_io_srequest_.srequest.html" class="tsd-signature-type">SRequest</a></h5>
+								</li>
+								<li>
+									<h5>response: <a href="_lib_src_io_sresponse_.sresponse.html" class="tsd-signature-type">SResponse</a></h5>
+								</li>
+								<li>
+									<h5>route: <a href="_lib_src_router_metadata_routemetadata_.routemetadata.html" class="tsd-signature-type">RouteMetadata</a></h5>
+								</li>
+								<li>
+									<h5>middlewares: <span class="tsd-signature-symbol">(</span><a href="_lib_src_middleware_middleware_.middleware.html" class="tsd-signature-type">Middleware</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+					<a name="invokeroute" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> invoke<wbr>Route</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+						<li class="tsd-signature tsd-kind-icon">invoke<wbr>Route<span class="tsd-signature-symbol">(</span>socket<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Socket</span>, route<span class="tsd-signature-symbol">: </span><a href="_lib_src_router_metadata_routemetadata_.routemetadata.html" class="tsd-signature-type">RouteMetadata</a>, controller<span class="tsd-signature-symbol">: </span><a href="_lib_src_router_metadata_controllermetadata_.controllermetadata.html" class="tsd-signature-type">ControllerMetadata</a>, requestData<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/FetzenRndy/SRocket/blob/b06eafb/lib/src/router/Router.ts#L53">lib/src/router/Router.ts:53</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
 								<li>
 									<h5>socket: <span class="tsd-signature-type">Socket</span></h5>
 								</li>
 								<li>
-									<h5>packet: <a href="_lib_src_structures_socketpacket_.socketpacket.html" class="tsd-signature-type">SocketPacket</a></h5>
+									<h5>route: <a href="_lib_src_router_metadata_routemetadata_.routemetadata.html" class="tsd-signature-type">RouteMetadata</a></h5>
+								</li>
+								<li>
+									<h5>controller: <a href="_lib_src_router_metadata_controllermetadata_.controllermetadata.html" class="tsd-signature-type">ControllerMetadata</a></h5>
+								</li>
+								<li>
+									<h5>requestData: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+					<a name="registercontroller" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> register<wbr>Controller</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+						<li class="tsd-signature tsd-kind-icon">register<wbr>Controller<span class="tsd-signature-symbol">(</span>controller<span class="tsd-signature-symbol">: </span><a href="_lib_src_router_metadata_controllermetadata_.controllermetadata.html" class="tsd-signature-type">ControllerMetadata</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/FetzenRndy/SRocket/blob/b06eafb/lib/src/router/Router.ts#L26">lib/src/router/Router.ts:26</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>controller: <a href="_lib_src_router_metadata_controllermetadata_.controllermetadata.html" class="tsd-signature-type">ControllerMetadata</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="route" class="tsd-anchor"></a>
-					<h3>route</h3>
+					<a name="registerroutes" class="tsd-anchor"></a>
+					<h3>register<wbr>Routes</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">route<span class="tsd-signature-symbol">(</span>packet<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Packet</span>, socket<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Socket</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">register<wbr>Routes<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FetzenRndy/SRocket/blob/db1f1e3/lib/src/router/Router.ts#L25">lib/src/router/Router.ts:25</a></li>
+									<li>Defined in <a href="https://github.com/FetzenRndy/SRocket/blob/b06eafb/lib/src/router/Router.ts#L21">lib/src/router/Router.ts:21</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>packet: <span class="tsd-signature-type">Packet</span></h5>
-								</li>
-								<li>
-									<h5>socket: <span class="tsd-signature-type">Socket</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected">
-					<a name="triggerinternalerror" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagProtected">Protected</span> trigger<wbr>Internal<wbr>Error</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
-						<li class="tsd-signature tsd-kind-icon">trigger<wbr>Internal<wbr>Error<span class="tsd-signature-symbol">(</span>route<span class="tsd-signature-symbol">: </span><a href="../interfaces/_lib_src_router_internalroute_.internalroute.html" class="tsd-signature-type">InternalRoute</a>, error<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span>, request<span class="tsd-signature-symbol">: </span><a href="_lib_src_io_request_.request.html" class="tsd-signature-type">Request</a>, response<span class="tsd-signature-symbol">: </span><a href="_lib_src_io_response_.response.html" class="tsd-signature-type">Response</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/FetzenRndy/SRocket/blob/db1f1e3/lib/src/router/Router.ts#L44">lib/src/router/Router.ts:44</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>route: <a href="../interfaces/_lib_src_router_internalroute_.internalroute.html" class="tsd-signature-type">InternalRoute</a></h5>
-								</li>
-								<li>
-									<h5>error: <span class="tsd-signature-type">Error</span></h5>
-								</li>
-								<li>
-									<h5>request: <a href="_lib_src_io_request_.request.html" class="tsd-signature-type">Request</a></h5>
-								</li>
-								<li>
-									<h5>response: <a href="_lib_src_io_response_.response.html" class="tsd-signature-type">Response</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected">
-					<a name="triggervalidationerror" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagProtected">Protected</span> trigger<wbr>Validation<wbr>Error</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
-						<li class="tsd-signature tsd-kind-icon">trigger<wbr>Validation<wbr>Error<span class="tsd-signature-symbol">(</span>route<span class="tsd-signature-symbol">: </span><a href="../interfaces/_lib_src_router_internalroute_.internalroute.html" class="tsd-signature-type">InternalRoute</a>, error<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span>, request<span class="tsd-signature-symbol">: </span><a href="_lib_src_io_request_.request.html" class="tsd-signature-type">Request</a>, response<span class="tsd-signature-symbol">: </span><a href="_lib_src_io_response_.response.html" class="tsd-signature-type">Response</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/FetzenRndy/SRocket/blob/db1f1e3/lib/src/router/Router.ts#L36">lib/src/router/Router.ts:36</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>route: <a href="../interfaces/_lib_src_router_internalroute_.internalroute.html" class="tsd-signature-type">InternalRoute</a></h5>
-								</li>
-								<li>
-									<h5>error: <span class="tsd-signature-type">Error</span></h5>
-								</li>
-								<li>
-									<h5>request: <a href="_lib_src_io_request_.request.html" class="tsd-signature-type">Request</a></h5>
-								</li>
-								<li>
-									<h5>response: <a href="_lib_src_io_response_.response.html" class="tsd-signature-type">Response</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-static">
-					<a name="validatewithmodel" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> <span class="tsd-flag ts-flagProtected">Protected</span> validate<wbr>With<wbr>Model</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">validate<wbr>With<wbr>Model<span class="tsd-signature-symbol">(</span>model<span class="tsd-signature-symbol">: </span><a href="../modules/_lib_src_structures_newable_.html#newable" class="tsd-signature-type">Newable</a><span class="tsd-signature-symbol">&lt;</span><a href="_lib_src_model_model_.model.html" class="tsd-signature-type">Model</a><span class="tsd-signature-symbol">&gt;</span>, packet<span class="tsd-signature-symbol">: </span><a href="_lib_src_structures_socketpacket_.socketpacket.html" class="tsd-signature-type">SocketPacket</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="_lib_src_validation_validationresult_.validationresult.html" class="tsd-signature-type">ValidationResult</a><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/FetzenRndy/SRocket/blob/db1f1e3/lib/src/router/Router.ts#L78">lib/src/router/Router.ts:78</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>model: <a href="../modules/_lib_src_structures_newable_.html#newable" class="tsd-signature-type">Newable</a><span class="tsd-signature-symbol">&lt;</span><a href="_lib_src_model_model_.model.html" class="tsd-signature-type">Model</a><span class="tsd-signature-symbol">&gt;</span></h5>
-								</li>
-								<li>
-									<h5>packet: <a href="_lib_src_structures_socketpacket_.socketpacket.html" class="tsd-signature-type">SocketPacket</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="_lib_src_validation_validationresult_.validationresult.html" class="tsd-signature-type">ValidationResult</a><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-static">
-					<a name="validatewithrules" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> <span class="tsd-flag ts-flagProtected">Protected</span> validate<wbr>With<wbr>Rules</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">validate<wbr>With<wbr>Rules<span class="tsd-signature-symbol">(</span>schema<span class="tsd-signature-symbol">: </span><a href="../modules/_lib_src_validation_validator_.html#ruleschema" class="tsd-signature-type">RuleSchema</a>, packet<span class="tsd-signature-symbol">: </span><a href="_lib_src_structures_socketpacket_.socketpacket.html" class="tsd-signature-type">SocketPacket</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="_lib_src_validation_validationresult_.validationresult.html" class="tsd-signature-type">ValidationResult</a><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/FetzenRndy/SRocket/blob/db1f1e3/lib/src/router/Router.ts#L98">lib/src/router/Router.ts:98</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>schema: <a href="../modules/_lib_src_validation_validator_.html#ruleschema" class="tsd-signature-type">RuleSchema</a></h5>
-								</li>
-								<li>
-									<h5>packet: <a href="_lib_src_structures_socketpacket_.socketpacket.html" class="tsd-signature-type">SocketPacket</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="_lib_src_validation_validationresult_.validationresult.html" class="tsd-signature-type">ValidationResult</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -365,31 +360,31 @@
 								<a href="_lib_src_router_router_.router.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
-								<a href="_lib_src_router_router_.router.html#logger" class="tsd-kind-icon">logger</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_lib_src_router_router_.router.html#routecontainer" class="tsd-kind-icon">route<wbr>Container</a>
+								<a href="_lib_src_router_router_.router.html#context" class="tsd-kind-icon">context</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
-								<a href="_lib_src_router_router_.router.html#server" class="tsd-kind-icon">server</a>
+								<a href="_lib_src_router_router_.router.html#ioserver" class="tsd-kind-icon">io<wbr>Server</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+								<a href="_lib_src_router_router_.router.html#getaftermiddlewares" class="tsd-kind-icon">get<wbr>After<wbr>Middlewares</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+								<a href="_lib_src_router_router_.router.html#getbeforemiddleware" class="tsd-kind-icon">get<wbr>Before<wbr>Middleware</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+								<a href="_lib_src_router_router_.router.html#handleconnection" class="tsd-kind-icon">handle<wbr>Connection</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+								<a href="_lib_src_router_router_.router.html#invokemiddleware" class="tsd-kind-icon">invoke<wbr>Middleware</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
 								<a href="_lib_src_router_router_.router.html#invokeroute" class="tsd-kind-icon">invoke<wbr>Route</a>
 							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+								<a href="_lib_src_router_router_.router.html#registercontroller" class="tsd-kind-icon">register<wbr>Controller</a>
+							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_lib_src_router_router_.router.html#route" class="tsd-kind-icon">route</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
-								<a href="_lib_src_router_router_.router.html#triggerinternalerror" class="tsd-kind-icon">trigger<wbr>Internal<wbr>Error</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
-								<a href="_lib_src_router_router_.router.html#triggervalidationerror" class="tsd-kind-icon">trigger<wbr>Validation<wbr>Error</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-static">
-								<a href="_lib_src_router_router_.router.html#validatewithmodel" class="tsd-kind-icon">validate<wbr>With<wbr>Model</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-static">
-								<a href="_lib_src_router_router_.router.html#validatewithrules" class="tsd-kind-icon">validate<wbr>With<wbr>Rules</a>
+								<a href="_lib_src_router_router_.router.html#registerroutes" class="tsd-kind-icon">register<wbr>Routes</a>
 							</li>
 						</ul>
 					</li>

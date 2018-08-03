@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>AbstractContainer | srocket</title>
+	<title>InternalRoute | srocket</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,24 +56,46 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_lib_src_di_abstractcontainer_.html">&quot;lib/src/di/AbstractContainer&quot;</a>
+					<a href="../modules/_lib_src_router_internalroute_.html">&quot;lib/src/router/InternalRoute&quot;</a>
 				</li>
 				<li>
-					<a href="_lib_src_di_abstractcontainer_.abstractcontainer.html">AbstractContainer</a>
+					<a href="_lib_src_router_internalroute_.internalroute.html">InternalRoute</a>
 				</li>
 			</ul>
-			<h1>Class AbstractContainer</h1>
+			<h1>Class InternalRoute&lt;T&gt;</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-type-parameters">
+				<h3>Type parameters</h3>
+				<ul class="tsd-type-parameters">
+					<li>
+						<h4>T<span class="tsd-signature-symbol">: </span><a href="../modules/_lib_src_router_route_.html#route" class="tsd-signature-type">Route</a></h4>
+					</li>
+				</ul>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">AbstractContainer</span>
+						<span class="target">InternalRoute</span>
+						<ul class="tsd-hierarchy">
+							<li>
+								<a href="_lib_src_router_internalroute_.objectinternalroute.html" class="tsd-signature-type">ObjectInternalRoute</a>
+							</li>
+							<li>
+								<a href="_lib_src_router_internalroute_.classinternalroute.html" class="tsd-signature-type">ClassInternalRoute</a>
+							</li>
+							<li>
+								<a href="_lib_src_router_internalroute_.functionalinternalroute.html" class="tsd-signature-type">FunctionalInternalRoute</a>
+							</li>
+							<li>
+								<a href="_lib_src_router_internalroute_.controllermetainternalroute.html" class="tsd-signature-type">ControllerMetaInternalRoute</a>
+							</li>
+						</ul>
 					</li>
 				</ul>
 			</section>
@@ -84,19 +106,21 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_lib_src_di_abstractcontainer_.abstractcontainer.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_lib_src_router_internalroute_.internalroute.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_lib_src_di_abstractcontainer_.abstractcontainer.html#instance" class="tsd-kind-icon">instance</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_lib_src_router_internalroute_.internalroute.html#config" class="tsd-kind-icon">config</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="_lib_src_router_internalroute_.internalroute.html#handler" class="tsd-kind-icon">handler</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_lib_src_di_abstractcontainer_.abstractcontainer.html#makedecorator" class="tsd-kind-icon">make<wbr>Decorator</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_lib_src_router_internalroute_.internalroute.html#callerror" class="tsd-kind-icon">call<wbr>Error</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_lib_src_router_internalroute_.internalroute.html#callon" class="tsd-kind-icon">call<wbr>On</a></li>
 							</ul>
 						</section>
 					</div>
@@ -108,16 +132,25 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Abstract<wbr>Container<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_lib_src_di_abstractcontainer_.abstractcontainer.html" class="tsd-signature-type">AbstractContainer</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Internal<wbr>Route<span class="tsd-signature-symbol">(</span>handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, config<span class="tsd-signature-symbol">: </span><a href="../interfaces/_lib_src_router_types_routeconfig_.routeconfig.html" class="tsd-signature-type">RouteConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_lib_src_router_internalroute_.internalroute.html" class="tsd-signature-type">InternalRoute</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FetzenRndy/SRocket/blob/b06eafb/lib/src/di/AbstractContainer.ts#L8">lib/src/di/AbstractContainer.ts:8</a></li>
+									<li>Defined in <a href="https://github.com/FetzenRndy/SRocket/blob/b06eafb/lib/src/router/InternalRoute.ts#L9">lib/src/router/InternalRoute.ts:9</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <a href="_lib_src_di_abstractcontainer_.abstractcontainer.html" class="tsd-signature-type">AbstractContainer</a></h4>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>handler: <span class="tsd-signature-type">T</span></h5>
+								</li>
+								<li>
+									<h5>config: <a href="../interfaces/_lib_src_router_types_routeconfig_.routeconfig.html" class="tsd-signature-type">RouteConfig</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="_lib_src_router_internalroute_.internalroute.html" class="tsd-signature-type">InternalRoute</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -125,12 +158,22 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="instance" class="tsd-anchor"></a>
-					<h3>instance</h3>
-					<div class="tsd-signature tsd-kind-icon">instance<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">InversifyContainer</span></div>
+					<a name="config" class="tsd-anchor"></a>
+					<h3>config</h3>
+					<div class="tsd-signature tsd-kind-icon">config<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_lib_src_router_types_routeconfig_.routeconfig.html" class="tsd-signature-type">RouteConfig</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/FetzenRndy/SRocket/blob/b06eafb/lib/src/di/AbstractContainer.ts#L8">lib/src/di/AbstractContainer.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/FetzenRndy/SRocket/blob/b06eafb/lib/src/router/InternalRoute.ts#L8">lib/src/router/InternalRoute.ts:8</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+					<a name="handler" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> handler</h3>
+					<div class="tsd-signature tsd-kind-icon">handler<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">T</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/FetzenRndy/SRocket/blob/b06eafb/lib/src/router/InternalRoute.ts#L9">lib/src/router/InternalRoute.ts:9</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -138,58 +181,57 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="makedecorator" class="tsd-anchor"></a>
-					<h3>make<wbr>Decorator</h3>
+					<a name="callerror" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagAbstract">Abstract</span> call<wbr>Error</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">make<wbr>Decorator<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span></li>
+						<li class="tsd-signature tsd-kind-icon">call<wbr>Error<span class="tsd-signature-symbol">(</span>e<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span>, req<span class="tsd-signature-symbol">: </span><a href="_lib_src_io_srequest_.srequest.html" class="tsd-signature-type">SRequest</a>, res<span class="tsd-signature-symbol">: </span><a href="_lib_src_io_sresponse_.sresponse.html" class="tsd-signature-type">SResponse</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../modules/_lib_src_router_route_.html#routereturn" class="tsd-signature-type">RouteReturn</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FetzenRndy/SRocket/blob/b06eafb/lib/src/di/AbstractContainer.ts#L14">lib/src/di/AbstractContainer.ts:14</a></li>
+									<li>Defined in <a href="https://github.com/FetzenRndy/SRocket/blob/b06eafb/lib/src/router/InternalRoute.ts#L17">lib/src/router/InternalRoute.ts:17</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">function</span></h4>
+							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
-								<li class="tsd-parameter-siganture">
-									<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-										<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>serviceIdentifier<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">symbol</span><span class="tsd-signature-symbol"> | </span><a href="../modules/_lib_src_structures_newable_.html#newable" class="tsd-signature-type">Newable</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Abstract</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span></li>
-									</ul>
-									<ul class="tsd-descriptions">
-										<li class="tsd-description">
-											<h4 class="tsd-parameters-title">Parameters</h4>
-											<ul class="tsd-parameters">
-												<li>
-													<h5>serviceIdentifier: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">symbol</span><span class="tsd-signature-symbol"> | </span><a href="../modules/_lib_src_structures_newable_.html#newable" class="tsd-signature-type">Newable</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Abstract</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
-												</li>
-											</ul>
-											<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">function</span></h4>
-											<ul class="tsd-parameters">
-												<li class="tsd-parameter-siganture">
-													<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-														<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>proto<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-													</ul>
-													<ul class="tsd-descriptions">
-														<li class="tsd-description">
-															<h4 class="tsd-parameters-title">Parameters</h4>
-															<ul class="tsd-parameters">
-																<li>
-																	<h5>proto: <span class="tsd-signature-type">any</span></h5>
-																</li>
-																<li>
-																	<h5>key: <span class="tsd-signature-type">string</span></h5>
-																</li>
-															</ul>
-															<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-														</li>
-													</ul>
-												</li>
-											</ul>
-										</li>
-									</ul>
+								<li>
+									<h5>e: <span class="tsd-signature-type">Error</span></h5>
+								</li>
+								<li>
+									<h5>req: <a href="_lib_src_io_srequest_.srequest.html" class="tsd-signature-type">SRequest</a></h5>
+								</li>
+								<li>
+									<h5>res: <a href="_lib_src_io_sresponse_.sresponse.html" class="tsd-signature-type">SResponse</a></h5>
 								</li>
 							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../modules/_lib_src_router_route_.html#routereturn" class="tsd-signature-type">RouteReturn</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="callon" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagAbstract">Abstract</span> call<wbr>On</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">call<wbr>On<span class="tsd-signature-symbol">(</span>req<span class="tsd-signature-symbol">: </span><a href="_lib_src_io_srequest_.srequest.html" class="tsd-signature-type">SRequest</a>, res<span class="tsd-signature-symbol">: </span><a href="_lib_src_io_sresponse_.sresponse.html" class="tsd-signature-type">SResponse</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../modules/_lib_src_router_route_.html#routereturn" class="tsd-signature-type">RouteReturn</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/FetzenRndy/SRocket/blob/b06eafb/lib/src/router/InternalRoute.ts#L16">lib/src/router/InternalRoute.ts:16</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>req: <a href="_lib_src_io_srequest_.srequest.html" class="tsd-signature-type">SRequest</a></h5>
+								</li>
+								<li>
+									<h5>res: <a href="_lib_src_io_sresponse_.sresponse.html" class="tsd-signature-type">SResponse</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../modules/_lib_src_router_route_.html#routereturn" class="tsd-signature-type">RouteReturn</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -202,30 +244,48 @@
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 					<li class="current tsd-kind-external-module">
-						<a href="../modules/_lib_src_di_abstractcontainer_.html">"lib/src/di/<wbr>Abstract<wbr>Container"</a>
+						<a href="../modules/_lib_src_router_internalroute_.html">"lib/src/router/<wbr>Internal<wbr>Route"</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="_lib_src_router_internalroute_.classinternalroute.html" class="tsd-kind-icon">Class<wbr>Internal<wbr>Route</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="_lib_src_router_internalroute_.controllermetainternalroute.html" class="tsd-kind-icon">Controller<wbr>Meta<wbr>Internal<wbr>Route</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="_lib_src_router_internalroute_.functionalinternalroute.html" class="tsd-kind-icon">Functional<wbr>Internal<wbr>Route</a>
+					</li>
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-class tsd-parent-kind-external-module">
-						<a href="_lib_src_di_abstractcontainer_.abstractcontainer.html" class="tsd-kind-icon">Abstract<wbr>Container</a>
+					<li class="current tsd-kind-class tsd-parent-kind-external-module tsd-has-type-parameter">
+						<a href="_lib_src_router_internalroute_.internalroute.html" class="tsd-kind-icon">Internal<wbr>Route</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
-								<a href="_lib_src_di_abstractcontainer_.abstractcontainer.html#constructor" class="tsd-kind-icon">constructor</a>
+								<a href="_lib_src_router_internalroute_.internalroute.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_lib_src_di_abstractcontainer_.abstractcontainer.html#instance" class="tsd-kind-icon">instance</a>
+								<a href="_lib_src_router_internalroute_.internalroute.html#config" class="tsd-kind-icon">config</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+								<a href="_lib_src_router_internalroute_.internalroute.html#handler" class="tsd-kind-icon">handler</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_lib_src_di_abstractcontainer_.abstractcontainer.html#makedecorator" class="tsd-kind-icon">make<wbr>Decorator</a>
+								<a href="_lib_src_router_internalroute_.internalroute.html#callerror" class="tsd-kind-icon">call<wbr>Error</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_lib_src_router_internalroute_.internalroute.html#callon" class="tsd-kind-icon">call<wbr>On</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="_lib_src_router_internalroute_.objectinternalroute.html" class="tsd-kind-icon">Object<wbr>Internal<wbr>Route</a>
+					</li>
 				</ul>
 			</nav>
 		</div>

@@ -9,14 +9,14 @@ import { SRequest, SResponse } from "../../../lib/src";
 import { Controller, RouteMetadata } from "../../../lib/src/router/metadata/RouteMetadataStore";
 
 class LoggingMiddleware extends Middleware {
-	invoke(request: SRequest, response: SResponse, route: RouteMetadata, next: Function) {
+	invoke(request: SRequest, response: SResponse, route: RouteMetadata, next: VoidFunction) {
 		console.log(`LOGGER: Request to : ${route.config.path} -> ${JSON.stringify(request.data)}`);
 		next();
 	}
 }
 
 class AuthMiddleware extends Middleware {
-	invoke(request: SRequest, response: SResponse, route: RouteMetadata, next: Function) {
+	invoke(request: SRequest, response: SResponse, route: RouteMetadata, next: VoidFunction) {
 		console.log("AUTH on: ", request.socket.id);
 		next();
 	}

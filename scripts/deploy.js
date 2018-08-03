@@ -7,6 +7,15 @@ const fs = require("fs");
 const pkgJsonPath = "../package";
 const pkgJson = require(pkgJsonPath);
 
+const {
+	logError,
+	logFinish,
+	logMessage,
+	logSubTask,
+	subTask,
+	task
+} = require("./deploy-util");
+
 // IDEA: Maybe use https://github.com/nuxt/consola || https://github.com/SBoudrias/Inquirer.js
 
 console.log(chalk.bgYellowBright.black.bold("Welcome to the SRocket deploy script! \n"));
@@ -84,33 +93,3 @@ task("Releasing", () => {
 		process.exit(0);
 	}
 });
-
-function task(taskName, fn) {
-	console.log(chalk.bgBlueBright.black("\nSTARTING TASK -", taskName, "\n"));
-	fn();
-}
-
-function subTask(taskName, finishMessage, fn) {
-	logSubTask(taskName);
-	fn();
-
-	if (finishMessage !== null && finishMessage !== "") {
-		logFinish(finishMessage);
-	}
-}
-
-function logMessage(message) {
-	console.log(chalk.yellowBright(message));
-}
-
-function logSubTask(message) {
-	console.log(chalk.cyanBright(message));
-}
-
-function logFinish(taskName) {
-	console.log(chalk.cyanBright("\tDONE - " + taskName));
-}
-
-function logError(message) {
-	console.log(chalk.bgRedBright.black(message))
-}

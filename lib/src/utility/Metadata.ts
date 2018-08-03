@@ -1,4 +1,4 @@
-import "../../../addons/middleware-validation-joi/node_modules/reflect-metadata";
+import "reflect-metadata";
 
 export class Metadata {
 	public static getPropertyDecorator(decoratorKey: symbol, target: any, property: string) {

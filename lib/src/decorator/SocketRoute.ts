@@ -1,4 +1,5 @@
-import "../../../addons/middleware-validation-joi/node_modules/reflect-metadata";
+import "reflect-metadata";
+
 import { UserRouteConfig } from "../router/types/RouteConfig";
 
 export const SOCKET_ROUTE_METADATA_KEY = Symbol("SocketRouteMetadataKey");

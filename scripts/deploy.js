@@ -48,7 +48,7 @@ task("Patching files", () => {
 	});
 
 	subTask("Writing a readme to dist files", "Wrote new readme", () => {
-		fs.writeFileSync("./dist/lib/src/README.md", "# SRocket\n-For more informations check: https://github.com/FetzenRndy/SRocket");
+		fs.copyFileSync("./README.md", "./dist/lib/src/README.md");
 	});
 });
 

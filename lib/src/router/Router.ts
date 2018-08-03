@@ -5,11 +5,9 @@ import { container } from "..";
 import { SRequest } from "../io/SRequest";
 import { Newable } from "../structures/Newable";
 
-import {
-	RouteMetadataStore,
-	ControllerMetadata,
-	RouteMetadata
-} from "./metadata/RouteMetadataStore";
+import { RouteMetadataStore } from "./metadata/RouteMetadataStore";
+import { ControllerMetadata } from "./metadata/ControllerMetadata";
+import { RouteMetadata } from "./metadata/RouteMetadata";
 
 export class Router {
 	protected readonly ioServer: SocketIO.Server;

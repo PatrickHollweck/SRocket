@@ -1,14 +1,18 @@
-import { ControllerConfig, UserControllerConfig } from "../types/ControllerConfig";
 import { SOCKET_CONTROLLER_METADATA_KEY } from "../../decorator/SocketController";
 import { RouteConfig, UserRouteConfig } from "../types/RouteConfig";
 import { SOCKET_ROUTE_METADATA_KEY } from "../../decorator/SocketRoute";
-import { Route, RouteReturn } from "../Route";
+import { UserControllerConfig } from "../types/ControllerConfig";
+import { ControllerMetadata } from "./ControllerMetadata";
 import { ExecutionContext } from "../../config/ExecutionContext";
+import { RouteDefinition } from "./RouteDefinition";
+import { RouteMetadata } from "./RouteMetadata";
 import { ConsoleLogger } from "../..";
+import { Controller } from "../Controller";
 import { container } from "../../di/SRocketContainer";
 import { rightPad } from "../../utility/pads";
 import { Metadata } from "../../utility/Metadata";
 import { Newable } from "../../structures/Newable";
+import { Route } from "../Route";
 
 import {
 	InternalRoute,
@@ -22,55 +26,6 @@ export enum RouteType {
 	ClassBased = "class",
 	ObjectBased = "object",
 	FunctionBased = "functional"
-}
-
-export class ControllerMetadata {
-	public messageRoutes: RouteMetadata[];
-	public connectHandlers: ControllerMetaInternalRoute[];
-	public disconnectHandlers: ControllerMetaInternalRoute[];
-
-	public config: ControllerConfig;
-
-	constructor() {
-		this.messageRoutes = [];
-		this.connectHandlers = [];
-		this.disconnectHandlers = [];
-	}
-
-	public addConnectHandler(handler: ControllerMetaInternalRoute) {
-		this.connectHandlers.push(handler);
-	}
-
-	public addDisconnectHandler(handler: ControllerMetaInternalRoute) {
-		this.disconnectHandlers.push(handler);
-	}
-
-	public addMessageRoute(route: RouteMetadata) {
-		this.messageRoutes.push(route);
-	}
-}
-
-export interface RouteDefinition {
-	controller: Controller;
-	route: Route;
-	property: string;
-}
-
-export class RouteMetadata {
-	public handler: InternalRoute<Route>;
-	public config: RouteConfig;
-	public definition: RouteDefinition;
-
-	constructor(handler: InternalRoute<Route>, definition: RouteDefinition, config: RouteConfig) {
-		this.definition = definition;
-		this.handler = handler;
-		this.config = config;
-	}
-}
-
-export abstract class Controller {
-	$onConnect?(socket: SocketIO.Socket): RouteReturn;
-	$onDisconnect?(socket: SocketIO.Socket): RouteReturn;
 }
 
 export class RouteMetadataStore {
@@ -100,12 +55,12 @@ export class RouteMetadataStore {
 		for (const property of properties) {
 			if (RouteMetadataStore.hasValidRouteMetadata(instance, property)) {
 				const indexableInstance = instance as typeof instance & { [index: string]: any };
+				const route = indexableInstance[property];
 				this.buildRoute(
 					controllerMetadata,
-					indexableInstance[property],
+					route,
 					RouteMetadataStore.buildRouteConfigFromDecorator(instance, property),
-					instance,
-					property
+					{ controller: instance, property, route }
 				);
 			}
 		}
@@ -117,8 +72,7 @@ export class RouteMetadataStore {
 		controllerMetadata: ControllerMetadata,
 		route: Route,
 		config: RouteConfig,
-		controller: Controller,
-		property: string
+		definition: RouteDefinition
 	) {
 		const routeType = RouteMetadataStore.findRouteType(route);
 
@@ -144,12 +98,7 @@ export class RouteMetadataStore {
 			config.path
 		);
 
-		const routeMetadata = new RouteMetadata(
-			internalRoute,
-			{ route, property, controller },
-			config
-		);
-
+		const routeMetadata = new RouteMetadata(internalRoute, definition, config);
 		controllerMetadata.addMessageRoute(routeMetadata);
 	}
 
@@ -182,7 +131,9 @@ export class RouteMetadataStore {
 		if (!userControllerConfig) return;
 
 		metadata.config = {
+			// "" is the default prefix
 			prefix: userControllerConfig.prefix || "",
+			// "/" is the default namespace
 			namespace: userControllerConfig.namespace || "/",
 			beforeMiddleware: userControllerConfig.beforeMiddleware || [],
 			afterMiddleware: userControllerConfig.afterMiddleware || [],

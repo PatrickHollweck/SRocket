@@ -7,12 +7,12 @@ process.env["DEBUG"] = "srocket:*";
  * Make sure you know the basics of: Typescript, Node and Socket.io
  */
 
-import { SRocket } from "../../lib/src/start/SRocket";
-import { Controller } from "../../lib/src/router/metadata/RouteMetadataStore";
-import { SocketRoute } from "../../lib/src/decorator/SocketRoute";
 import { SRequest, SResponse } from "../../lib/src";
 import { SocketController } from "../../lib/src/decorator/SocketController";
+import { SocketRoute } from "../../lib/src/decorator/SocketRoute";
 import { ObjectRoute } from "../../lib/src/router/Route";
+import { Controller } from "../../lib/src/router/Controller";
+import { SRocket } from "../../lib/src/start/SRocket";
 
 /*
  * In SRocket most things are designed to work with Controllers,

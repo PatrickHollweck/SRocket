@@ -21,6 +21,10 @@ Features:
 
 	Middleware:
 		☐ Stick with curren approach ? Or let middleware set "before", or "after" property and priority?
+		☐ What should the behaviour be when errors occour ?
+	
+	Routes:
+		☐ What should the behaviour be on errors ? @OnError decorator ? Middleware ?
 
 	Routes:
 		Validation:

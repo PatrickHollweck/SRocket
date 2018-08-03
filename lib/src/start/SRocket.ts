@@ -1,11 +1,12 @@
-import { Router } from "../router/Router";
-import { Newable } from "../structures/Newable";
-import { Container } from "inversify";
-import { container } from "../di/SRocketContainer";
-import { Middleware } from "../middleware/Middleware";
+import { Autoloader, IAutoloader } from "autoloader-ts";
+import { RouteMetadataStore } from "../router/metadata/RouteMetadataStore";
 import { ExecutionContext } from "../config/ExecutionContext";
-import { RouteMetadataStore, Controller } from "../router/metadata/RouteMetadataStore";
-import { Autoloader, AutoloadResult, IAutoloader } from "autoloader-ts";
+import { Middleware } from "../middleware/Middleware";
+import { Controller } from "../router/Controller";
+import { container } from "../di/SRocketContainer";
+import { Container } from "inversify";
+import { Newable } from "../structures/Newable";
+import { Router } from "../router/Router";
 
 import * as socketIO from "socket.io";
 

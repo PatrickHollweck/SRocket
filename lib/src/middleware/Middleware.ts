@@ -1,6 +1,6 @@
 import { SRequest } from "../io/SRequest";
 import { SResponse } from "../io/SResponse";
-import { RouteMetadata } from "../router/metadata/RouteMetadataStore";
+import { RouteMetadata } from "../router/metadata/RouteMetadata";
 import { Newable } from "../structures/Newable";
 
 export type MiddlewareList = (Newable<Middleware> | Middleware)[];
@@ -10,6 +10,6 @@ export abstract class Middleware {
 		request: SRequest,
 		response: SResponse,
 		route: RouteMetadata,
-		next: () => void
+		next: VoidFunction
 	): void;
 }

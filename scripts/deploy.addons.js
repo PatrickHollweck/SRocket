@@ -35,6 +35,13 @@ task("Compilation", () => {
 });
 
 task("Patching files", () => {
+
+	logMessage("--- DO NOT FORGET TO UPDATE VERSION!");
+	logMessage("--- DO NOT FORGET TO UPDATE VERSION!");
+	logMessage("--- DO NOT FORGET TO UPDATE VERSION!");
+	logMessage("--- DO NOT FORGET TO UPDATE VERSION!");
+	logMessage("--- DO NOT FORGET TO UPDATE VERSION!");
+
 	for (const addon of fs.readdirSync("./dist/addons/")) {
 		fs.copyFileSync("./addons/" + addon + "/package.json", "./dist/addons/" + addon + "/package.json");
 		fs.copyFileSync("./addons/" + addon + "/README.md", "./dist/addons/" + addon + "/README.md");

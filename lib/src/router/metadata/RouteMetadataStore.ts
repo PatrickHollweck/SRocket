@@ -138,12 +138,12 @@ export class RouteMetadataStore {
 
 	protected getControllerMetaRoutes(controller: Controller, metadata: ControllerMetadata) {
 		if (controller.$onConnect) {
-			this.logger.info("\tA Connect Handler!");
+			this.logger.info("\t$connect Handler!");
 			metadata.addConnectHandler(new ControllerMetaInternalRoute(controller.$onConnect));
 		}
 
 		if (controller.$onDisconnect) {
-			this.logger.info("\tA Disconnect Handler!");
+			this.logger.info("\t$disconnect Handler!");
 			metadata.addDisconnectHandler(
 				new ControllerMetaInternalRoute(controller.$onDisconnect)
 			);

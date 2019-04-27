@@ -12,23 +12,23 @@
 </div>
 
 <div align="center" style="margin-top: 15px">
-	<a href="https://travis-ci.org/FetzenRndy/SRocket">
-		<img src="https://travis-ci.org/FetzenRndy/SRocket.svg?branch=master">
+	<a href="https://travis-ci.org/PatrickHollweck/SRocket">
+		<img src="https://travis-ci.org/PatrickHollweck/SRocket.svg?branch=master">
 	</a>
 </div>
 
 <div align="center">
   <h3>
-    <a href="https://fetzenrndy.github.io/SRocket/#/">
+    <a href="https://patrickhollweck.github.io/SRocket/#/">
       Official Docs
     </a>
     <span> | </span>
-    <a href="https://github.com/FetzenRndy/srocket">
+    <a href="https://github.com/PatrickHollweck/srocket">
       Source
     </a>
   </h3>
 </div>
 
 <div align="center">
-  <sub>Built with ❤︎ by <a href="https://github.com/FetzenRndy">Patrick Hollweck</a>
+  <sub>Built with ❤︎ by <a href="https://github.com/PatrickHollweck">Patrick Hollweck</a>
 </div>

@@ -50,15 +50,15 @@
 	},
 	"description": "A opinionated typesafe socket.io framework",
 	"author": "Patrick Hollweck <patrick-hollweck@gmx.de>",
-	"homepage": "https://fetzenrndy.github.io/SRocket/#/",
+	"homepage": "https://patrickhollweck.github.io/SRocket/#/",
 	"license": "MIT",
 	"bugs": {
-		"url": "https://github.com/FetzenRndy/SRocket/issues",
+		"url": "https://github.com/PatrickHollweck/SRocket/issues",
 		"email": "patrick-hollweck@gmx.de"
 	},
 	"repository": {
 		"type": "GitHub",
-		"url": "https://github.com/FetzenRndy/SRocket"
+		"url": "https://github.com/PatrickHollweck/SRocket"
 	},
 	"keywords": [
 		"socket.io",

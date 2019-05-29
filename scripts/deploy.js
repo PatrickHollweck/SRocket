@@ -53,11 +53,11 @@ task("Patching files", () => {
 	});
 
 	subTask(`Coping new package.json with version ${pkgJson.version} to build files`, "Copied new package.json to build files", () => {
-		fs.copyFileSync("package.json", "./dist/lib/src/package.json");
+		fs.copyFileSync("package.json", "./dist/package.json");
 	});
 
-	subTask("Writing a readme to dist files", "Wrote new readme", () => {
-		fs.copyFileSync("./README.md", "./dist/lib/src/README.md");
+	subTask("Copying meta files to dist", "Copied meta files!", () => {
+		fs.copyFileSync("./README.md", "./dist/README.md");
 	});
 });
 
@@ -84,7 +84,7 @@ task("Version Control", () => {
 task("Releasing", () => {
 	if (reader.keyInYN("Did everything work until now ? - Last change to check everything!")) {
 		subTask("Publishing to NPM!", "NPM PUBLISH DONE!", () => {
-			shell.cd("./dist/lib/src/");
+			shell.cd("./dist/");
 			shell.exec("npm publish");
 			shell.cd("../../");
 		});

@@ -14,6 +14,7 @@ import {
 	Validate,
 	JoiValidationMiddleware
 } from "../../../addons/middleware-validation-joi/JoiValidationMiddleware";
+import { SEvent } from "../../src/io/SEvent";
 
 class LoggingMiddleware extends Middleware {
 	async invoke(request: SRequest, response: SResponse, route: RouteMetadata, next: VoidFunction) {
@@ -57,8 +58,9 @@ export class UserController extends Controller {
 			joi.func().required()
 		)
 	)
-	functional(request: SRequest, response: SResponse) {
-		console.log("functional Handler!", request.data[0].name);
+	functional(event: SEvent) {
+		console.log("functional Handler!", event.request.data[0].name);
+		event.response.withData(event.request.data).invokeAck();
 	}
 }
 

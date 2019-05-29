@@ -1,3 +1,4 @@
+import { SEvent } from "../io/SEvent";
 import { Newable } from "../structures/Newable";
 import { SRequest } from "../io/SRequest";
 import { SResponse } from "../io/SResponse";
@@ -15,6 +16,19 @@ export abstract class InternalRoute<T extends Route> {
 
 	public abstract callOn(req: SRequest, res: SResponse): RouteReturn;
 	public abstract callError(e: Error, req: SRequest, res: SResponse): RouteReturn;
+
+	public static convertToEvent(request: SRequest, response: SResponse) {
+		return new SEvent(request, response);
+	}
+
+	// tslint:disable-next-line:ban-types
+	public static async invokeEventOrArgs(handler: Function, req: SRequest, res: SResponse) {
+		if (handler.length === 2) {
+			await handler(req, res);
+		} else {
+			await handler(InternalRoute.convertToEvent(req, res));
+		}
+	}
 }
 
 export class ObjectInternalRoute extends InternalRoute<ObjectRoute> {
@@ -24,28 +38,30 @@ export class ObjectInternalRoute extends InternalRoute<ObjectRoute> {
 
 	async callError(e: Error, req: SRequest, res: SResponse) {
 		if (this.handler.onError) {
-			this.handler.onError(e, req, res);
+			InternalRoute.invokeEventOrArgs(this.handler.onError, req, res);
 		}
 	}
 
 	async callOn(req: SRequest, res: SResponse) {
-		await this.handler.on(req, res);
+		InternalRoute.invokeEventOrArgs(this.handler.on, req, res);
 	}
 }
 
 export class ClassInternalRoute extends InternalRoute<ObjectRoute> {
+	protected masked: ObjectInternalRoute;
+
 	constructor(handler: Newable<ObjectRoute>, config: RouteConfig) {
-		super(new handler(), config);
+		const instance = new handler();
+		super(instance, config);
+		this.masked = new ObjectInternalRoute(instance, config);
 	}
 
 	async callError(e: Error, req: SRequest, res: SResponse) {
-		if (this.handler.onError) {
-			this.handler.onError(e, req, res);
-		}
+		await this.masked.callError(e, req, res);
 	}
 
 	async callOn(req: SRequest, res: SResponse) {
-		await this.handler.on(req, res);
+		await this.masked.callOn(req, res);
 	}
 }
 
@@ -59,7 +75,7 @@ export class FunctionalInternalRoute extends InternalRoute<FunctionalRoute> {
 	}
 
 	async callOn(req: SRequest, res: SResponse) {
-		await this.handler(req, res);
+		await InternalRoute.invokeEventOrArgs(this.handler, req, res);
 	}
 }
 

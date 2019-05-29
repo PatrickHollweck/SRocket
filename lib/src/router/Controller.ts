@@ -1,4 +1,4 @@
-import { RouteReturn } from "./Route";
+import { RouteReturn, Route } from "./Route";
 
 export abstract class Controller {
 	$onConnect?(socket: SocketIO.Socket): RouteReturn;

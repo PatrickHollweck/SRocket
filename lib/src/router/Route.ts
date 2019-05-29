@@ -1,13 +1,12 @@
-import { SRequest } from "../io/SRequest";
-import { SResponse } from "../io/SResponse";
+import { SEvent } from "../io/SEvent";
 
 export type RouteReturn = Promise<void> | void;
 export type Route = ObjectRoute | FunctionalRoute | ControllerMetaRoute;
 
 export interface ObjectRoute {
-	on(req: SRequest, res: SResponse): RouteReturn;
-	onError?(e: Error, req: SRequest, res: SResponse): RouteReturn;
+	on(event: SEvent): RouteReturn;
+	onError?(e: Error, event: SEvent): RouteReturn;
 }
 
-export type FunctionalRoute = (req: SRequest, res: SResponse) => RouteReturn;
+export type FunctionalRoute = (event: SEvent) => RouteReturn;
 export type ControllerMetaRoute = (socket: SocketIO.Socket) => RouteReturn;

@@ -4,12 +4,13 @@ export { container, inject } from "./di/SRocketContainer";
 
 // Validation Exports
 
+export { Validator } from "./validation/Validator";
 export { ValidationResult } from "./validation/ValidationResult";
 export { ValidationStatus } from "./validation/ValidationStatus";
-export { Validator } from "./validation/Validator";
 
 // IO Exports
 
+export { SEvent } from "./io/SEvent";
 export { SRequest } from "./io/SRequest";
 export { SResponse } from "./io/SResponse";
 export { StatusCodes } from "./io/StatusCode";

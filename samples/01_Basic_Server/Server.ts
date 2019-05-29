@@ -13,6 +13,7 @@ import { SocketRoute } from "../../lib/src/decorator/SocketRoute";
 import { ObjectRoute } from "../../lib/src/router/Route";
 import { Controller } from "../../lib/src/router/Controller";
 import { SRocket } from "../../lib/src/start/SRocket";
+import { SEvent } from "../../lib/src/io/SEvent";
 
 /*
  * In SRocket most things are designed to work with Controllers,
@@ -93,14 +94,14 @@ export class UserController extends Controller {
 		path: "userRegister"
 	})
 	register: ObjectRoute = {
-		on(request, response) {
+		on(event: SEvent) {
 			console.log("Handling register...");
 
 			throw new Error(
 				"OPPSI WOOPSI, It semz lik thr was a errwa! Our codez monkeyz are working vewy hawd to fix dis!"
 			);
 		},
-		onError(error, request, response) {
+		onError(error, event) {
 			console.log("No problem I got you... :)");
 		}
 	};

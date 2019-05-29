@@ -1,9 +1,8 @@
 import { ExecutionContext } from "../config/ExecutionContext";
-import { Middleware } from "../middleware/Middleware";
+import { MiddlewareList } from "../middleware/Middleware";
 import { SResponse } from "../io/SResponse";
 import { container } from "..";
 import { SRequest } from "../io/SRequest";
-import { Newable } from "../structures/Newable";
 
 import { RouteMetadataStore } from "./metadata/RouteMetadataStore";
 import { ControllerMetadata } from "./metadata/ControllerMetadata";
@@ -92,7 +91,7 @@ export class Router {
 		request: SRequest,
 		response: SResponse,
 		route: RouteMetadata,
-		middlewares: (Newable<Middleware> | Middleware)[]
+		middlewares: MiddlewareList
 	) {
 		for (const middleware of middlewares) {
 			let called = false;
@@ -104,7 +103,7 @@ export class Router {
 			if (typeof middleware === "function") {
 				await new middleware().invoke(request, response, route, next);
 			} else {
-				middleware.invoke(request, response, route, next);
+				await middleware.invoke(request, response, route, next);
 			}
 
 			if (!called) {
@@ -115,7 +114,10 @@ export class Router {
 		return true;
 	}
 
-	protected getBeforeMiddleware(route: RouteMetadata, controller: ControllerMetadata) {
+	protected getBeforeMiddleware(
+		route: RouteMetadata,
+		controller: ControllerMetadata
+	): MiddlewareList {
 		return [
 			...this.context.beforeGlobalMiddleware,
 			...controller.config.beforeMiddleware,
@@ -123,7 +125,10 @@ export class Router {
 		];
 	}
 
-	protected getAfterMiddlewares(route: RouteMetadata, controller: ControllerMetadata) {
+	protected getAfterMiddlewares(
+		route: RouteMetadata,
+		controller: ControllerMetadata
+	): MiddlewareList {
 		return [
 			...this.context.afterGlobalMiddleware,
 			...controller.config.afterMiddleware,

@@ -7,7 +7,8 @@ import {
 	ValidationResult,
 	RouteMetadata,
 	Middleware
-} from "srocket";
+	// TODO: FIX THIS IMPORT BEFORE RELEASE
+} from "../../lib/src";
 
 import * as Joi from "joi";
 
@@ -39,7 +40,12 @@ export class JoiValidationMiddleware extends Middleware {
 
 		if (result.didSucceed()) {
 			next();
+		} else {
+			// tslint:disable-next-line:no-console
+			console.log("Request did not pass validation...");
 		}
+
+		// TODO: Probably do some error handling here.
 	}
 }
 

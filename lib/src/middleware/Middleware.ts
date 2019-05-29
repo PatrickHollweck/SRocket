@@ -11,5 +11,5 @@ export abstract class Middleware {
 		response: SResponse,
 		route: RouteMetadata,
 		next: VoidFunction
-	): void;
+	): Promise<void>;
 }

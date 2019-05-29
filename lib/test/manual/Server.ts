@@ -16,15 +16,13 @@ import {
 } from "../../../addons/middleware-validation-joi/JoiValidationMiddleware";
 
 class LoggingMiddleware extends Middleware {
-	invoke(request: SRequest, response: SResponse, route: RouteMetadata, next: VoidFunction) {
+	async invoke(request: SRequest, response: SResponse, route: RouteMetadata, next: VoidFunction) {
 		console.log(`LOGGER: Request to : ${route.config.path} -> ${JSON.stringify(request.data)}`);
 		next();
 	}
 }
 
-@SocketController({
-	beforeMiddleware: [JoiValidationMiddleware]
-})
+@SocketController()
 export class UserController extends Controller {
 	$onConnect(socket: SocketIO.Socket) {
 		console.log("A socket connected...", socket.id);
@@ -66,7 +64,7 @@ export class UserController extends Controller {
 
 SRocket.fromPort(5555)
 	.controllers(UserController)
-	.addGlobalMiddleware([LoggingMiddleware], [])
+	.addGlobalMiddleware([LoggingMiddleware], [JoiValidationMiddleware])
 	.listen(() => {
 		console.log("Server started!");
 	});

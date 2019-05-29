@@ -6,6 +6,9 @@
 
 ## Disclaimer
 
+!> The Docs for Version 2.1.1 are still work in progress, Some pages may not have been updated
+yet
+
 !> SRocket is still under construction!
 While reading the documentation keep in mind that the structure and the API may change
 This package follows the SEMVER convention, meaning breaking changed will only be released as

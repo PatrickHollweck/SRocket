@@ -6,11 +6,13 @@ import {
 	SResponse,
 	ValidationResult,
 	RouteMetadata,
-	Middleware
+	Middleware,
+	ConsoleLogger
 	// TODO: FIX THIS IMPORT BEFORE RELEASE
 } from "../../lib/src";
 
 import * as Joi from "joi";
+import { logger } from "handlebars";
 
 export const joi = Joi;
 
@@ -29,6 +31,8 @@ export class SchemaValidator implements Validator {
 }
 
 export class JoiValidationMiddleware extends Middleware {
+	private static logger: ConsoleLogger = new ConsoleLogger("JoiValidationMiddleware");
+
 	async invoke(request: SRequest, response: SResponse, route: RouteMetadata, next: VoidFunction) {
 		const metadata = Reflect.getMetadata(
 			VALIDATION_METADATA_KEY,
@@ -41,8 +45,11 @@ export class JoiValidationMiddleware extends Middleware {
 		if (result.didSucceed()) {
 			next();
 		} else {
-			// tslint:disable-next-line:no-console
-			console.log("Request did not pass validation...");
+			JoiValidationMiddleware.logger.debug(
+				`Request to "${request.path}" with data - ${JSON.stringify(
+					request.data
+				)} - did not pass validation!`
+			);
 		}
 
 		// TODO: Probably do some error handling here.

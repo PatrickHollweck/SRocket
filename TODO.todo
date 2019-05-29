@@ -31,7 +31,7 @@ Features:
 		☐ Route result: IActionResult -> Asp.net like
 		☐ Request and Response objects ? Or one context like object.
 		☐ Parameter like injections ?
-	
+
 	Proposals:
 		☐ Modules
 		☐ Models.
@@ -40,7 +40,7 @@ Features:
 		☐ Room managment ?
 
 Docs:
-	☐ REWRITE FOR 2.0! @high 
+	☐ REWRITE FOR 2.0! @critical 
 	☐ Acks
 	☐ Write a section for recomended configs -> tsconfig - tslint...
 

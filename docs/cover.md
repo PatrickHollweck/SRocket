@@ -1,4 +1,4 @@
-# SRocket <small>1.0-Beta</small>
+# SRocket <small>2.1.1</small>
 
 > A typescript based socket.io framework.
 

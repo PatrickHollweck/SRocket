@@ -1,8 +1,10 @@
 export class SRequest<T = any> {
-	public socket: SocketIO.Socket;
-	public data: T;
+	public readonly socket: SocketIO.Socket;
+	public readonly path: string;
+	public readonly data: T;
 
-	constructor(data: T, socket: SocketIO.Socket) {
+	constructor(data: T, path: string, socket: SocketIO.Socket) {
+		this.path = path;
 		this.data = data;
 		this.socket = socket;
 	}

@@ -30,12 +30,12 @@ export class Router {
 	protected handleConnection(namespace: SocketIO.Namespace, controller: ControllerMetadata) {
 		namespace.on("connect", socket => {
 			controller.connectHandlers.forEach(handler => {
-				handler.callOn(new SRequest({}, socket));
+				handler.callOn(new SRequest({}, "connect", socket));
 			});
 
 			socket.on("disconnect", () => {
 				controller.disconnectHandlers.forEach(handler => {
-					handler.callOn(new SRequest({}, socket));
+					handler.callOn(new SRequest({}, "disconnect", socket));
 				});
 			});
 
@@ -58,7 +58,7 @@ export class Router {
 		const lastRequestArg = requestData[requestData.length - 1];
 		const ack = typeof lastRequestArg === "function" ? lastRequestArg : null;
 
-		const request = new SRequest(requestData, socket);
+		const request = new SRequest(requestData, route.config.path, socket);
 		const response = new SResponse(socket, route.handler, this.ioServer, ack);
 
 		const shouldInvokeRoute = await this.invokeMiddleware(

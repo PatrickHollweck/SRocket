@@ -1,0 +1,1 @@
+require("./deploy.base")("./", "./package.json");

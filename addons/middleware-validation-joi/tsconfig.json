@@ -1,0 +1,29 @@
+{
+	"compilerOptions": {
+		"target": "es2015",
+		"outDir": "./dist",
+		"module": "commonjs",
+		"declaration": true,
+		"sourceMap": true,
+		"strict": true,
+		"strictPropertyInitialization": false,
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true,
+		"pretty": true,
+		"diagnostics": true
+	},
+	"exclude": [
+		"node_modules",
+		"samples",
+		"scripts",
+		"docs",
+		"dist",
+		"addons",
+		"vendor",
+		"public",
+		"lib/test",
+		"build",
+		"config",
+		"test"
+	]
+}

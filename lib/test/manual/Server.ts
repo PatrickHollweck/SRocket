@@ -1,6 +1,6 @@
 process.env["DEBUG"] = "srocket:*";
 
-import { SRequest, SResponse } from "../../src";
+import { SRequest, SResponse, SEvent } from "../../src";
 import { SocketController } from "../../src/decorator/SocketController";
 import { RouteMetadata } from "../../src/router/metadata/RouteMetadata";
 import { SocketRoute } from "../../src/decorator/SocketRoute";
@@ -14,7 +14,6 @@ import {
 	Validate,
 	JoiValidationMiddleware
 } from "../../../addons/middleware-validation-joi/JoiValidationMiddleware";
-import { SEvent } from "../../src/io/SEvent";
 
 class LoggingMiddleware extends Middleware {
 	async invoke(request: SRequest, response: SResponse, route: RouteMetadata, next: VoidFunction) {

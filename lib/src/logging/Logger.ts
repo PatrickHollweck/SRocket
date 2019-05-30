@@ -1,6 +1,6 @@
 export interface Logger {
-	name: string;
-	isEnabled: boolean;
+	readonly name: string;
+	readonly isEnabled: boolean;
 
 	enable(): void;
 	disable(): void;

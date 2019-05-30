@@ -1,6 +1,6 @@
 import { Autoloader, IAutoloader } from "autoloader-ts";
 import { RouteMetadataStore } from "../router/metadata/RouteMetadataStore";
-import { ExecutionContext } from "../config/ExecutionContext";
+import { RuntimeConfiguration } from "../config/ExecutionContext";
 import { Middleware } from "../middleware/Middleware";
 import { Controller } from "../router/Controller";
 import { container } from "../di/SRocketContainer";
@@ -20,7 +20,7 @@ export class SRocket {
 		this.container = container;
 
 		container.bind("ioServer").toConstantValue(ioServer);
-		container.bind(ExecutionContext).toConstantValue(new ExecutionContext());
+		container.bind(RuntimeConfiguration).toConstantValue(new RuntimeConfiguration());
 		container.bind(RouteMetadataStore).toConstantValue(new RouteMetadataStore());
 		container.bind(Router).toConstantValue(new Router());
 	}
@@ -34,13 +34,13 @@ export class SRocket {
 	}
 
 	public setSeparationConvention(separator: string) {
-		container.get(ExecutionContext).separationConvention = separator;
+		container.get(RuntimeConfiguration).separationConvention = separator;
 		return this;
 	}
 
 	public addGlobalMiddleware(before: Newable<Middleware>[], after: Newable<Middleware>[]) {
 		this.startupChain.push(() => {
-			const context = container.get(ExecutionContext);
+			const context = container.get(RuntimeConfiguration);
 			context.beforeGlobalMiddleware.push(...before);
 			context.afterGlobalMiddleware.push(...after);
 		});
@@ -91,7 +91,7 @@ export class SRocket {
 
 	public close() {
 		container.get<SocketIO.Server>("ioServer").close();
-		// TODO: The container really needs to be instance based...
+		// TODO: The container should to be instance based...
 		container.unbindAll();
 	}
 }

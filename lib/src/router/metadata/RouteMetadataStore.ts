@@ -3,13 +3,13 @@ import { RouteConfig, UserRouteConfig } from "../types/RouteConfig";
 import { SOCKET_ROUTE_METADATA_KEY } from "../../decorator/SocketRoute";
 import { UserControllerConfig } from "../types/ControllerConfig";
 import { ControllerMetadata } from "./ControllerMetadata";
-import { ExecutionContext } from "../../config/ExecutionContext";
+import { RuntimeConfiguration } from "../../config/ExecutionContext";
 import { RouteDefinition } from "./RouteDefinition";
 import { RouteMetadata } from "./RouteMetadata";
 import { ConsoleLogger } from "../..";
 import { Controller } from "../Controller";
 import { container } from "../../di/SRocketContainer";
-import { rightPad } from "../../utility/pads";
+import { rightPad } from "../../utility/StringPad";
 import { Metadata } from "../../utility/Metadata";
 import { Newable } from "../../structures/Newable";
 import { Route } from "../Route";
@@ -180,7 +180,7 @@ export class RouteMetadataStore {
 			return routeName;
 		}
 
-		const separator = container.get(ExecutionContext).separationConvention;
+		const separator = container.get(RuntimeConfiguration).separationConvention;
 		let result = "";
 
 		for (const prefix of notEmptyPrefixes) {

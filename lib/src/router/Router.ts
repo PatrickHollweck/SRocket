@@ -1,4 +1,4 @@
-import { ExecutionContext } from "../config/ExecutionContext";
+import { RuntimeConfiguration } from "../config/ExecutionContext";
 import { MiddlewareList } from "../middleware/Middleware";
 import { SResponse } from "../io/SResponse";
 import { container } from "..";
@@ -10,11 +10,11 @@ import { RouteMetadata } from "./metadata/RouteMetadata";
 
 export class Router {
 	protected readonly ioServer: SocketIO.Server;
-	protected readonly context: ExecutionContext;
+	protected readonly context: RuntimeConfiguration;
 
 	constructor() {
 		this.ioServer = container.get("ioServer");
-		this.context = container.get(ExecutionContext);
+		this.context = container.get(RuntimeConfiguration);
 	}
 
 	public registerRoutes() {

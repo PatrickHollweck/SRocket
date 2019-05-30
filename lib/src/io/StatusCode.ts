@@ -1,9 +1,15 @@
 export enum StatusCodes {
+	/**
+	 * 100
+	 */
 	Continue = 100,
 	SwitchProtocols = 101,
 	Processing = 102,
 	EarlyHints = 103,
 
+	/**
+	 * 200
+	 */
 	Ok = 200,
 	Created = 201,
 	Accepted = 202,
@@ -14,6 +20,9 @@ export enum StatusCodes {
 	AlreadyReported = 208,
 	ImUsed = 226,
 
+	/**
+	 * 300
+	 */
 	MultipleChoices = 300,
 	MovedPermanently = 301,
 	Found = 302,
@@ -23,6 +32,9 @@ export enum StatusCodes {
 	TempRedirect = 307,
 	PermRedirect = 308,
 
+	/**
+	 * 400
+	 */
 	BadRequest = 400,
 	Unauthorized = 401,
 	PaymentRequired = 402,
@@ -39,16 +51,18 @@ export enum StatusCodes {
 	UriTooLong = 414,
 	UnsupportedMediaTyppe = 415,
 	ExpectationFailed = 417,
-	ImATroll = 418,
 	MisdirectedRequest = 421,
 	UnprocessableEntity = 422,
-	LockD = 423,
+	Locked = 423,
 	FailedDependency = 424,
 	UpgradeRequired = 426,
 	TooManyRequests = 429,
 	RequestHeaderTooLarge = 431,
 	UnavailableForLeagalReasons = 451,
 
+	/**
+	 * 500
+	 */
 	InternalServerError = 500,
 	NotImplemented = 501,
 	BadGateway = 502,

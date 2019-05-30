@@ -8,11 +8,9 @@ import {
 	RouteMetadata,
 	Middleware,
 	ConsoleLogger
-	// TODO: FIX THIS IMPORT BEFORE RELEASE
-} from "../../lib/src";
+} from "srocket";
 
 import * as Joi from "joi";
-import { logger } from "handlebars";
 
 export const joi = Joi;
 
@@ -50,9 +48,9 @@ export class JoiValidationMiddleware extends Middleware {
 					request.data
 				)} - did not pass validation!`
 			);
-		}
 
-		// TODO: Probably do some error handling here.
+			// TODO: Send some error event?
+		}
 	}
 }
 

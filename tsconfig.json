@@ -16,7 +16,6 @@
 		"node_modules",
 		"samples",
 		"scripts",
-		"addons",
 		"docs",
 		"dist",
 		"vendor",

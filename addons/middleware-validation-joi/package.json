@@ -3,15 +3,15 @@
 	"version": "2.0.1",
 	"types": "./JoiValidationMiddleware.d.ts",
 	"dependencies": {
-		"@types/joi": "^13.4.0",
-		"@types/socket.io": "1.4.36",
-		"joi": "13.5.2",
-		"reflect-metadata": "0.1.12",
-		"typescript": "3.0.1",
-		"srocket": "2.0.4"
+		"@types/joi": "^14.3.3",
+		"@types/socket.io": "2.1.2",
+		"joi": "14.3.1",
+		"reflect-metadata": "0.1.13",
+		"typescript": "3.5.1",
+		"srocket": "2.1.1"
 	},
 	"peerDependencies": {
-		"srocket": "*"
+		"srocket": "2.1.1"
 	},
 	"engines": {
 		"node": ">=6.0.0"

@@ -1,11 +1,11 @@
 import { SRequest } from "./SRequest";
 import { SResponse } from "..";
 
-export class SEvent<T = any> {
-	public readonly request: SRequest<T>;
-	public readonly response: SResponse<T>;
+export class SEvent<TRequest = any, TResponse = any> {
+	public readonly request: SRequest<TRequest>;
+	public readonly response: SResponse<TResponse>;
 
-	constructor(request: SRequest<T>, response: SResponse<T>) {
+	constructor(request: SRequest<TRequest>, response: SResponse<TResponse>) {
 		this.request = request;
 		this.response = response;
 	}

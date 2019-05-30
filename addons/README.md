@@ -1,1 +1,4 @@
-This folder contains all the srocket addons. Like validation middleware.
+# SRocket Addons
+
+This folder contains the official SRocket extensions.
+These extension are authored by the SRocket team.

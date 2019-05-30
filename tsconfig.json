@@ -18,6 +18,7 @@
 		"scripts",
 		"docs",
 		"dist",
+		"addons",
 		"vendor",
 		"public",
 		"lib/test",

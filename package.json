@@ -6,9 +6,9 @@
 		"test:watch": "jest --config=jest.json --watch",
 		"docs:build": "typedoc --out ./docs/apidoc",
 		"docs:serve": "docsify serve ./docs",
-		"format": "prettier --write ./**/*.ts",
+		"format": "prettier --write ./lib/**/*.ts",
 		"lint": "tslint --project .",
-		"review": "npm run format && npm run lint && tsc && npm audit",
+		"review": "npm run format && npm run lint && tsc && npm run test",
 		"start": "ts-node-dev --inspect -- ./lib/test/manual/Server.ts",
 		"release:srocket": "node ./scripts/deploy.srocket.js",
 		"release:addons": "node ./scripts/deploy.addons.js"
@@ -17,6 +17,7 @@
 		"@types/socket.io": "2.1.2",
 		"inversify": "5.0.1",
 		"inversify-inject-decorators": "^3.1.0",
+		"io-ts": "^1.8.6",
 		"reflect-metadata": "0.1.13",
 		"socket.io": "2.2.0",
 		"typescript": "3.4.5"

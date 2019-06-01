@@ -9,15 +9,11 @@ import { Middleware } from "../../src/middleware/Middleware";
 import { Controller } from "../../src/router/Controller";
 import { SRocket } from "../../src/start/SRocket";
 
-import {
-	joi,
-	Validate,
-	JoiValidationMiddleware
-} from "../../../addons/middleware-validation-joi/JoiValidationMiddleware";
-
 class LoggingMiddleware extends Middleware {
 	async invoke(request: SRequest, response: SResponse, route: RouteMetadata, next: VoidFunction) {
-		console.log(`LOGGER: Request to : ${route.config.path} -> ${JSON.stringify(request.data)}`);
+		console.log(
+			`LOGGER: Request to : ${route.config.path} -> ${JSON.stringify(request.rawData)}`
+		);
 		next();
 	}
 }
@@ -49,17 +45,9 @@ export class UserController extends Controller {
 	};
 
 	@SocketRoute()
-	@Validate(
-		joi.array().items(
-			joi.object().keys({
-				name: joi.string()
-			}),
-			joi.func().required()
-		)
-	)
 	functional(event: SEvent) {
-		console.log("functional Handler!", event.request.data[0].name);
-		event.response.withData(event.request.data).invokeAck();
+		console.log("functional Handler!", event.request.rawData[0].name);
+		event.response.withData(event.request.rawData).invokeAck();
 	}
 }
 

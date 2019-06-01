@@ -7,6 +7,7 @@ import { SRequest } from "../io/SRequest";
 import { RouteMetadataStore } from "./metadata/RouteMetadataStore";
 import { ControllerMetadata } from "./metadata/ControllerMetadata";
 import { RouteMetadata } from "./metadata/RouteMetadata";
+import { extractAck } from "../utility/Types";
 
 export class Router {
 	protected readonly ioServer: SocketIO.Server;
@@ -55,8 +56,7 @@ export class Router {
 		controller: ControllerMetadata,
 		requestData: any[]
 	) {
-		const lastRequestArg = requestData[requestData.length - 1];
-		const ack = typeof lastRequestArg === "function" ? lastRequestArg : null;
+		const { ack } = extractAck(requestData);
 
 		const request = new SRequest(requestData, route.config.path, socket);
 		const response = new SResponse(socket, route.handler, this.ioServer, ack);

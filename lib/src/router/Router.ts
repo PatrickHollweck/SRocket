@@ -1,4 +1,4 @@
-import { RuntimeConfiguration } from "../config/ExecutionContext";
+import { RuntimeConfiguration } from "../config/RuntimeConfiguration";
 import { MiddlewareList } from "../middleware/Middleware";
 import { SResponse } from "../io/SResponse";
 import { container } from "..";

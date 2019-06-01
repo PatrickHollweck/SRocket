@@ -11,6 +11,29 @@ export class SRequest<T = any> {
 
 	public readonly path: string;
 
+	/**
+	 * The IO-TS validation library
+	 * Use this member as a shorthand to access it,
+	 * Used to define the schema for the `SRequest.validation` functions
+	 *
+	 * docs: https://github.com/gcanti/io-ts
+	 *
+	 * @memberof SRequest
+	 */
+	public readonly v = t;
+
+	/**
+	 * The IO-TS validation library
+	 * Use this member as a shorthand to access it,
+	 * Used to define the schema for the `SRequest.validation` functions
+	 *
+	 * docs: https://github.com/gcanti/io-ts
+	 *
+	 * @static
+	 * @memberof SRequest
+	 */
+	public static readonly V = t;
+
 	constructor(data: T, path: string, socket: SocketIO.Socket) {
 		this.path = path;
 		this.rawData = data;

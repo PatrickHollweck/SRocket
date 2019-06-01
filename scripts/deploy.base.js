@@ -122,4 +122,6 @@ module.exports = (basePath, packagePath) => {
 			});
 		}
 	});
+
+	task("Remember to update docs and RELEASE_NOTES!!!", () => {});
 }

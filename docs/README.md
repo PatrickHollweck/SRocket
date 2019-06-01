@@ -1,4 +1,4 @@
-# SRocket
+# SRocket@2.2.1
 
 > SRocket ( short for: SocketRocket ) is a batteries-included, opinionated socket.io framework written in typescript.
 
@@ -6,7 +6,7 @@
 
 ## Disclaimer
 
-!> The Docs for Version 2.1.1 are still work in progress, Some pages may not have been updated
+!> The Docs for Version 2.2.1 are still work in progress, Some pages may not have been updated
 yet
 
 !> SRocket is still under construction!

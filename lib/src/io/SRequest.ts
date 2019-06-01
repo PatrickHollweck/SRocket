@@ -87,6 +87,40 @@ export class SRequest<T = any> {
 	}
 
 	/**
+	 * Validates the request data when you only expect a single input, and maybe an ack.
+	 *
+	 * If you emit like this:
+	 * `socket.emit(<eventName>, { name: "John", age: 74 }, () => {})`
+	 *
+	 * The data will look like this:
+	 * Acks get removed before validation.
+	 * `[{name:"John", age: 74}]`
+	 *
+	 * Typical validator usage would be:
+	 * ```
+	 * const data = request.validate(t.type({
+	 * 	name: t.string,
+	 *  age: t.number
+	 * }));
+	 * ```
+	 *
+	 * Which would leave the data of type:
+	 * `{ name: string, age: number}`
+	 *
+	 * --------------------------------
+	 *
+	 * This function uses `io-ts` as its validation / schema library.
+	 * You read the docs here: https://github.com/gcanti/io-ts
+	 *
+	 * This function throw if validation fails.
+	 * Validation Errors can be caught by the global error handler
+	 */
+	validateObject<K extends t.Props, I extends t.Type<K>>(schema: K): t.TypeOf<I> {
+		const data = this.getDataWithoutAck();
+		return this.validate(t.type(schema));
+	}
+
+	/**
 	 * Validates the request data when you expect more than one input.
 	 *
 	 * For example you may emit like this:

@@ -1,6 +1,5 @@
-import { Autoloader, IAutoloader } from "autoloader-ts";
+import { RuntimeConfiguration } from "../config/RuntimeConfiguration";
 import { RouteMetadataStore } from "../router/metadata/RouteMetadataStore";
-import { RuntimeConfiguration } from "../config/ExecutionContext";
 import { Middleware } from "../middleware/Middleware";
 import { Controller } from "../router/Controller";
 import { container } from "../di/SRocketContainer";
@@ -54,16 +53,17 @@ export class SRocket {
 		});
 	}
 
-	public autoloadControllers(fn: (autoloader: IAutoloader) => Promise<void>) {
-		this.startupChain.push(async () => {
-			const autoloader = await Autoloader.dynamicImport();
-			await fn(autoloader);
+	// TODO: This should be an addon.
+	// public autoloadControllers(fn: (autoloader: IAutoloader) => Promise<void>) {
+	// 	this.startupChain.push(async () => {
+	// 		const autoloader = await Autoloader.dynamicImport();
+	// 		await fn(autoloader);
 
-			this.controllers(...autoloader.getResult().exports);
-		});
+	// 		this.controllers(...autoloader.getResult().exports);
+	// 	});
 
-		return this;
-	}
+	// 	return this;
+	// }
 
 	public controllers(...controllers: Newable<Controller>[]) {
 		this.startupChain.push(() => {

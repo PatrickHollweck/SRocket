@@ -21,7 +21,6 @@
 		"addons",
 		"vendor",
 		"public",
-		"lib/test",
 		"build",
 		"config",
 		"test"

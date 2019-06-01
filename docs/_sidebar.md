@@ -1,4 +1,9 @@
--   Getting started
+-   **Getting started**
     -   [Introduction](/)
     -   <a href="https://patrickhollweck.github.io/SRocket/apidoc/index.html">API Docs</a>
     -   [Quick start](quickstart.md)
+-   **Guide**
+    -   [Routing](/router.md)
+    -   [Validation](/validation.md)
+    -   [Error-Handling](/error_handling.md)
+    -   [Usefull Tricks / Tipps](/tricks.md)

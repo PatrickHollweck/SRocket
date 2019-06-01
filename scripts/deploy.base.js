@@ -27,6 +27,7 @@ module.exports = (basePath, packagePath) => {
 
 	shell.cd(basePath);
 	const pkgJson = require(relativePath(packagePath));
+	const originalPkgJson = JSON.parse(JSON.stringify(pkgJson));
 
 	console.log(chalk.bgYellowBright.black.bold("Welcome to the SRocket deploy script! \n"));
 
@@ -46,7 +47,7 @@ module.exports = (basePath, packagePath) => {
 
 		if (reader.keyInYN("\nDid the typescript compiler output from above show any errors?")) {
 			logError("Please fix the errors and then run the script again... EXITING!");
-			process.exit(0);
+			process.exit(1);
 		}
 	});
 
@@ -54,6 +55,12 @@ module.exports = (basePath, packagePath) => {
 		subTask("Choosing new Version", "", () => {
 			const releaseTypes = ["patch", "minor", "major", "prepatch", "preminor", "premajor", "prerelease"];
 			const versionChoice = reader.keyInSelect(releaseTypes, "Enter the release type of the version");
+
+			if (versionChoice === -1) {
+				logError("Cancelling...");
+				process.exit(1);
+			}
+
 			pkgJson.version = semver.inc(pkgJson.version, releaseTypes[versionChoice]);
 			logMessage(`New version is: ${pkgJson.version}!`);
 		});
@@ -91,7 +98,7 @@ module.exports = (basePath, packagePath) => {
 	});
 
 	task("Releasing", () => {
-		if (reader.keyInYN("Did everything work until now ? - Last change to check everything!")) {
+		if (reader.keyInYN("Did everything work until now ? - Last change to check everything ('n' to ext) !")) {
 			subTask("Publishing to NPM!", "NPM PUBLISH DONE!", () => {
 				shell.cd("./dist/");
 				shell.exec("npm publish");
@@ -99,7 +106,20 @@ module.exports = (basePath, packagePath) => {
 			});
 		} else {
 			logError("Exiting because user choose to...");
+
+			subTask("Restoring previous package.json", "Restored!", () => {
+				fs.writeFileSync("package.json", JSON.stringify(originalPkgJson, null, 4));
+			});
+
 			process.exit(0);
+		}
+	});
+
+	task("Removing build artifacts", () => {
+		if (reader.keyInYN("Should the /dist folder be removed again? : ")) {
+			subTask("Removing build artifacts", "Removed build artifacts", () => {
+				shell.rm("-r", "/dist");
+			});
 		}
 	});
 }

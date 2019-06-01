@@ -32,6 +32,7 @@ Features:
 		☐ Route result: IActionResult -> Asp.net like
 		☐ Request and Response objects ? Or one context like object.
 		☐ Parameter like injections ?
+		☐ ACK VALIDATION @critical 
 
 	Proposals:
 		☐ Modules

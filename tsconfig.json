@@ -12,6 +12,7 @@
 		"pretty": true,
 		"diagnostics": true
 	},
+	"include": ["lib/src"],
 	"exclude": [
 		"node_modules",
 		"samples",

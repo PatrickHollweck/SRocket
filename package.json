@@ -1,6 +1,6 @@
 {
     "name": "srocket",
-    "version": "2.2.0",
+    "version": "2.2.1",
     "scripts": {
         "test": "jest --config=jest.json",
         "test:watch": "jest --config=jest.json --watch",

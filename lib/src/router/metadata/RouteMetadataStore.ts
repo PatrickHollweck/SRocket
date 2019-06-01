@@ -1,9 +1,9 @@
 import { SOCKET_CONTROLLER_METADATA_KEY } from "../../decorator/SocketController";
 import { RouteConfig, UserRouteConfig } from "../types/RouteConfig";
 import { SOCKET_ROUTE_METADATA_KEY } from "../../decorator/SocketRoute";
+import { RuntimeConfiguration } from "../../config/RuntimeConfiguration";
 import { UserControllerConfig } from "../types/ControllerConfig";
 import { ControllerMetadata } from "./ControllerMetadata";
-import { RuntimeConfiguration } from "../../config/ExecutionContext";
 import { RouteDefinition } from "./RouteDefinition";
 import { RouteMetadata } from "./RouteMetadata";
 import { ConsoleLogger } from "../..";

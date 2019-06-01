@@ -65,7 +65,7 @@ export class UserController extends Controller {
 
 SRocket.fromPort(5555)
 	.controllers(UserController)
-	.addGlobalMiddleware([LoggingMiddleware, JoiValidationMiddleware], [])
+	.addGlobalMiddleware([LoggingMiddleware], [])
 	.listen(() => {
 		console.log("Server started!");
 	});

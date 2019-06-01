@@ -2,6 +2,7 @@ Features:
 	ErrorHandling:
 		☐ Let user choose if they want error handling -> Set default in ExecContext and conditional toogle in decorator
 		☐ What should the behaviour be on errors ? @OnError decorator ? Middleware ?
+		☐ Laravel like error handlers
 
 	Client-Server Interfaces:
 		☐ Implement
@@ -40,6 +41,7 @@ Features:
 		☐ Room managment ?
 
 Docs:
+	☐ More API docs
 	☐ REWRITE FOR 2.0! @critical 
 	☐ Acks
 	☐ Write a section for recomended configs -> tsconfig - tslint...

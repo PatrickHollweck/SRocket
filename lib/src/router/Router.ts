@@ -1,5 +1,6 @@
 import { RuntimeConfiguration } from "../config/RuntimeConfiguration";
 import { MiddlewareList } from "../middleware/Middleware";
+import { ConsoleLogger } from "../logging/ConsoleLogger";
 import { SResponse } from "../io/SResponse";
 import { container } from "..";
 import { SRequest } from "../io/SRequest";
@@ -12,10 +13,13 @@ import { extractAck } from "../utility/Types";
 export class Router {
 	protected readonly ioServer: SocketIO.Server;
 	protected readonly context: RuntimeConfiguration;
+	protected readonly logger: ConsoleLogger;
 
 	constructor() {
 		this.ioServer = container.get("ioServer");
 		this.context = container.get(RuntimeConfiguration);
+
+		this.logger = new ConsoleLogger("Router");
 	}
 
 	public registerRoutes() {
@@ -41,6 +45,7 @@ export class Router {
 			});
 
 			controller.messageRoutes.forEach(route => {
+				this.logger.debug(JSON.stringify(route.config, null, 4));
 				socket.on(
 					route.config.path,
 					async (...requestData: any[]) =>

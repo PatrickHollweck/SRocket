@@ -1,12 +1,32 @@
-export interface Logger {
-	readonly name: string;
-	readonly isEnabled: boolean;
+import { RuntimeConfiguration } from "../config/RuntimeConfiguration";
+import { container } from "../di/SRocketContainer";
 
-	enable(): void;
-	disable(): void;
+export enum LogLevel {
+	Debug,
+	Info,
+	Warning,
+	Error
+}
 
-	debug(message: string, e?: Error): void;
-	info(message: string, e?: Error): void;
-	warning(message: string, e?: Error): void;
-	error(message: string, e?: Error): void;
+export abstract class Logger {
+	public readonly name: string;
+	public readonly isEnabled: boolean;
+
+	protected runtimeConfig: RuntimeConfiguration;
+
+	constructor() {
+		this.runtimeConfig = container.get(RuntimeConfiguration);
+	}
+
+	protected shouldLog(level: LogLevel) {
+		return level >= this.runtimeConfig.logLevel;
+	}
+
+	abstract enable(): void;
+	abstract disable(): void;
+
+	abstract debug(message: string, e?: Error): void;
+	abstract info(message: string, e?: Error): void;
+	abstract warning(message: string, e?: Error): void;
+	abstract error(message: string, e?: Error): void;
 }

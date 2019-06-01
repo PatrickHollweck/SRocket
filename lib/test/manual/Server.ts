@@ -8,6 +8,7 @@ import { ObjectRoute } from "../../src/router/Route";
 import { Middleware } from "../../src/middleware/Middleware";
 import { Controller } from "../../src/router/Controller";
 import { SRocket } from "../../src/start/SRocket";
+import { LogLevel } from "../../src/logging/Logger";
 
 class LoggingMiddleware extends Middleware {
 	async invoke(request: SRequest, response: SResponse, route: RouteMetadata, next: VoidFunction) {
@@ -18,7 +19,10 @@ class LoggingMiddleware extends Middleware {
 	}
 }
 
-@SocketController()
+@SocketController({
+	prefix: "u",
+	namespace: "users"
+})
 export class UserController extends Controller {
 	$onConnect(socket: SocketIO.Socket) {
 		console.log("A socket connected...", socket.id);
@@ -53,6 +57,7 @@ export class UserController extends Controller {
 
 SRocket.fromPort(5555)
 	.controllers(UserController)
+	.setLogLevel(LogLevel.Debug)
 	.addGlobalMiddleware([LoggingMiddleware], [])
 	.listen(() => {
 		console.log("Server started!");

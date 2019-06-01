@@ -8,6 +8,7 @@ import { Newable } from "../structures/Newable";
 import { Router } from "../router/Router";
 
 import * as socketIO from "socket.io";
+import { LogLevel } from "../logging/Logger";
 
 export class SRocket {
 	public readonly container: Container;
@@ -37,6 +38,14 @@ export class SRocket {
 		return this;
 	}
 
+	public setLogLevel(level: LogLevel) {
+		this.startupChain.push(() => {
+			container.get(RuntimeConfiguration).logLevel = level;
+		});
+
+		return this;
+	}
+
 	public addGlobalMiddleware(before: Newable<Middleware>[], after: Newable<Middleware>[]) {
 		this.startupChain.push(() => {
 			const context = container.get(RuntimeConfiguration);
@@ -52,18 +61,6 @@ export class SRocket {
 			fn(container);
 		});
 	}
-
-	// TODO: This should be an addon.
-	// public autoloadControllers(fn: (autoloader: IAutoloader) => Promise<void>) {
-	// 	this.startupChain.push(async () => {
-	// 		const autoloader = await Autoloader.dynamicImport();
-	// 		await fn(autoloader);
-
-	// 		this.controllers(...autoloader.getResult().exports);
-	// 	});
-
-	// 	return this;
-	// }
 
 	public controllers(...controllers: Newable<Controller>[]) {
 		this.startupChain.push(() => {

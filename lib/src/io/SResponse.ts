@@ -6,8 +6,6 @@ import { ConsoleLogger } from "../logging/ConsoleLogger";
 export type SocketIOAck = (...args: any[]) => void;
 
 export class SResponse<T = any> {
-	protected static logger = new ConsoleLogger("SResponse");
-
 	protected ack?: SocketIOAck;
 	protected data?: T;
 	protected route: InternalRoute<Route>;
@@ -86,7 +84,7 @@ export class SResponse<T = any> {
 		if (this.ack) {
 			this.ack(this.getData());
 		} else {
-			SResponse.logger.info("Tried to invoke a ack, even thought none was sent!");
+			// TODO: Add some handling here
 		}
 	}
 

@@ -2,6 +2,7 @@
 	"defaultSeverity": "error",
 	"extends": ["tslint:all"],
 	"rules": {
+		"only-arrow-functions": false,
 		"typedef": [true, "parameter", "call-signature"],
 		"file-name-casing": [true, "pascal-case"],
 		"linebreak-style": [true, "CRLF"],

@@ -1,7 +1,7 @@
 import { SRequest, SEvent } from "../../src";
 import { ValidationError } from "../../src/validation/ValidationError";
 
-function setup(data: any) {
+function setup<T>(data: T): { request: SRequest; data: T } {
 	return {
 		request: new SRequest(data, "/", null!),
 		data

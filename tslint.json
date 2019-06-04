@@ -11,6 +11,7 @@
 		"interface-name": [true, "never-prefix"],
 		"arrow-parens": [true, "ban-single-arg-parens"],
 		"variable-name": [true, "allow-pascal-case", "allow-leading-underscore"],
+		"no-import-side-effect": false,
 		"linebreak-style": false,
 		"ban-types": false,
 		"no-non-null-assertion": false,
@@ -27,5 +28,8 @@
 		"indent": {
 			"options": "tabs"
 		}
+	},
+	"linterOptions": {
+		"exclude": ["lib/src/index.ts"]
 	}
 }

@@ -1,37 +1,65 @@
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FPatrickHollweck%2FSRocket.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FPatrickHollweck%2FSRocket?ref=badge_shield)
+# SRocket
+
+A [Socket.IO](https://socket.io/docs) Framework focusing on being **type-safe**.
+
 [![TRAVISCI Status](https://travis-ci.org/PatrickHollweck/SRocket.svg?branch=master)](https://travis-ci.org/PatrickHollweck/Socket)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FPatrickHollweck%2FSRocket.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FPatrickHollweck%2FSRocket?ref=badge_shield)
 [![Known Vulnerabilities](https://snyk.io/test/github/PatrickHollweck/SRocket/badge.svg)](https://snyk.io/test/github/PatrickHollweck/SRocket)
 [![CodeFactor](https://www.codefactor.io/repository/github/patrickhollweck/srocket/badge)](https://www.codefactor.io/repository/github/patrickhollweck/srocket)
 
-<h1 align="center">SRocket Framework</h1>
+<br />
 
-<div align="center">Socket + 🚀</div>
-<div align="center">
-	<strong>SRocket is a Socket.IO Framework for Typescript</strong>
-</div>
+<strong>
+
+[📚 Docs](https://patrickhollweck.github.io/SRocket/#/)
+
+[💨 Quickstart](https://patrickhollweck.github.io/SRocket/#/quickstart)
+
+[📝 Source Code](https://github.com/PatrickHollweck/srocket)
+
+</strong>
 
 <br />
 
-<div align="center">
-	<a href="https://nodei.co/npm/srocket/"><img src="https://nodei.co/npm/srocket.png"></a>
-</div>
+<sub>Built with ❤︎ by <a href="https://github.com/PatrickHollweck">Patrick Hollweck</a></sub>
 
-<div align="center">
-  <h3>
-    <a href="https://patrickhollweck.github.io/SRocket/#/">
-      Official Docs
-    </a>
-    <span> | </span>
-    <a href="https://github.com/PatrickHollweck/srocket">
-      Source
-    </a>
-  </h3>
-</div>
+## Sneak Peak
 
-<div align="center">
-  <sub>Built with ❤︎ by <a href="https://github.com/PatrickHollweck">Patrick Hollweck</a>
-</div>
+### Server
 
+```ts
+import { SRocket, SocketController, Controller, SocketRoute SEvent, V } from "srocket";
 
-## License
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FPatrickHollweck%2FSRocket.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FPatrickHollweck%2FSRocket?ref=badge_large)
+@SocketController()
+class UserController extends Controller
+{
+  greet(event: SEvent) {
+    const data = event.request.validate(
+      V.type({
+        name: V.string,
+      }
+    );
+    
+    event.response
+      .withData({
+        greeting: `Hey, ${data.name}`,
+      })
+      .invokeAck();
+  }
+}
+
+SRocket.fromPort(5555)
+  .controllers(UserController)
+  .listen(() => console.log("SRocket listening at http://localhost:5555"));
+```
+
+### Client
+
+```ts
+const socket = io.connect("http://localhost:5555");
+
+socket.emit("greet", { name: "Patrick" }, console.log);
+>> "Hello, Patrick"
+```
+
+Interested? Visit the [docs](https://patrickhollweck.github.io/SRocket/#/)

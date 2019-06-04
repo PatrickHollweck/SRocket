@@ -1,4 +1,5 @@
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FPatrickHollweck%2FSRocket.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FPatrickHollweck%2FSRocket?ref=badge_shield)
+[![TRAVISCI Status](https://travis-ci.org/PatrickHollweck/SRocket.svg?branch=master)](https://travis-ci.org/PatrickHollweck/Socket)
 
 <h1 align="center">SRocket Framework</h1>
 
@@ -11,12 +12,6 @@
 
 <div align="center">
 	<a href="https://nodei.co/npm/srocket/"><img src="https://nodei.co/npm/srocket.png"></a>
-</div>
-
-<div align="center" style="margin-top: 15px">
-	<a href="https://travis-ci.org/PatrickHollweck/SRocket">
-		<img src="https://travis-ci.org/PatrickHollweck/SRocket.svg?branch=master">
-	</a>
 </div>
 
 <div align="center">

@@ -1,10 +1,16 @@
 import { Route } from "../router/Route";
 import { StatusCodes } from "./StatusCode";
 import { InternalRoute } from "../router/InternalRoute";
-import { ConsoleLogger } from "../logging/ConsoleLogger";
 
 export type SocketIOAck = (...args: any[]) => void;
 
+/**
+ * The Response type for SRocketA
+ *
+ * @export
+ * @class SResponse
+ * @template T
+ */
 export class SResponse<T = any> {
 	protected ack?: SocketIOAck;
 	protected data?: T;
@@ -15,6 +21,15 @@ export class SResponse<T = any> {
 	protected emitEventName: string;
 	protected payloadMessage: string;
 
+	/**
+	 * Creates an instance of SResponse.
+	 *
+	 * @param {SocketIO.Socket} socket The underlying socket
+	 * @param {InternalRoute<Route>} route The event-name
+	 * @param {SocketIO.Server} server The underlying server
+	 * @param {SocketIOAck} [ack] The ack that was sent with the request, may be null
+	 * @memberof SResponse
+	 */
 	constructor(
 		socket: SocketIO.Socket,
 		route: InternalRoute<Route>,
@@ -32,6 +47,22 @@ export class SResponse<T = any> {
 
 	// -- Fluent properties.
 
+	/**
+	 * Sets the event-name that the response should respond with
+	 *
+	 * If you use any of the toXXX functions like `toAllInNamespace`
+	 * this will control the name of the event that will be emitted.
+	 *
+	 *
+	 * @param {string} eventName
+	 * @returns {SResponse}
+	 * @memberof SResponse
+	 *
+	 * @example
+	 * response.eventName("user-joined").toAllInRoom()
+	 *
+	 * This will emit to all in the same room a event with the name "user-joined"
+	 */
 	public eventName(eventName: string) {
 		this.emitEventName = eventName;
 		return this;
@@ -80,40 +111,149 @@ export class SResponse<T = any> {
 
 	// -- Sender functions
 
-	public invokeAck() {
+	/**
+	 * Invokes the ack of the request.
+	 *
+	 * If there is no ack - no action will be performed.
+	 *
+	 * @memberof SResponse
+	 */
+	public acknowledge() {
 		if (this.ack) {
 			this.ack(this.getData());
 		} else {
-			// TODO: Add some handling here
+			// TODO: Probably add some handling here
 		}
 	}
 
+	/**
+	 * Emits a event with the path of the request to only the sender of the request.
+	 *
+	 * @example
+	 * // CLient
+	 * socket.emit("greet", { ... });
+	 * // Server
+	 * event.response.toSender();
+	 * // Client
+	 * socket.on("greet", () => console.log("Fired!"));
+	 * >> Fired!
+	 *
+	 * @memberof SResponse
+	 */
 	public toSender() {
 		this.socket.emit(this.getEventRoute(), this.formatPayload());
 	}
 
+	/**
+	 * Emits a event with the path of the request to all but the sender of the request.
+	 *
+	 * @example
+	 * // CLient
+	 * socket.emit("greet", { ... });
+	 * // Server
+	 * event.response.toAllExceptSender();
+	 * // Client
+	 * otherSocket.on("greet", () => console.log("Fired!"));
+	 * >> Fired!
+	 *
+	 * @memberof SResponse
+	 */
 	public toAllExceptSender() {
 		this.socket.broadcast.emit(this.getEventRoute(), this.formatPayload());
 	}
 
+	/**
+	 * Emits a event with the path of the request to all in a room but the sender.
+	 *
+	 * @example
+	 * // CLient
+	 * socket.emit("greet", { ... });
+	 * // Server
+	 * event.response.toAllInRoomExceptSender();
+	 * // Client
+	 * otherSocket.on("greet", () => console.log("Fired!"));
+	 * >> Fired!
+	 *
+	 * @memberof SResponse
+	 *
+	 * @param {string} roomName
+	 * @memberof SResponse
+	 */
 	public toAllInRoomExceptSender(roomName: string) {
 		this.socket.to(roomName).emit(this.getEventRoute(), this.formatPayload());
 	}
 
+	/**
+	 * Emits a event with the path of the request to all in the room.
+	 *
+	 * @example
+	 * // CLient
+	 * socket.emit("greet", { ... });
+	 * // Server
+	 * event.response.toAllInRoom();
+	 * // Client
+	 * socket.on("greet", () => console.log("Fired!"));
+	 * >> Fired!
+	 *
+	 * @memberof SResponse
+	 *
+	 * @param {string} roomName
+	 * @memberof SResponse
+	 */
 	public toAllInRoom(roomName: string) {
 		this.server.in(roomName).emit(this.getEventRoute(), this.formatPayload());
 	}
 
+	/**
+	 * Emits a event with the path of the request to all in a namespace.
+	 *
+	 * @example
+	 * // CLient
+	 * socket.emit("greet", { ... });
+	 * // Server
+	 * event.response.toAllInNamespace();
+	 * // Client
+	 * socket.on("greet", () => console.log("Fired!"));
+	 * >> Fired!
+	 *
+	 * @memberof SResponse
+	 *
+	 * @param {string} roomName
+	 * @memberof SResponse
+	 */
 	public toAllInNamespace(namespaceName: string = "/") {
 		this.server.of(namespaceName).emit(this.getEventRoute(), this.formatPayload());
 	}
 
+	/**
+	 * Emits a event with the path of the request to a individual socket
+	 *
+	 * @example
+	 * // CLient
+	 * socket.emit("greet", { ... });
+	 * // Server
+	 * event.response.toIndividualSocket();
+	 * // Client
+	 * otherSocket.on("greet", () => console.log("Fired!"));
+	 * >> Fired!
+	 *
+	 * @memberof SResponse
+	 *
+	 * @param {string} roomName
+	 * @memberof SResponse
+	 */
 	public toIndividualSocket(socketID: string) {
 		this.socket.to(socketID).emit(this.getEventRoute(), this.formatPayload());
 	}
 
 	// -- Misc Getters.
 
+	/**
+	 * Gets the underlying socket.io socket instance
+	 *
+	 * @returns {SocketIO.Socket}
+	 * @memberof SResponse
+	 */
 	public getSocket(): SocketIO.Socket {
 		return this.socket;
 	}

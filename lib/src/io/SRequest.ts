@@ -3,11 +3,43 @@ import { ValidationError } from "../validation/ValidationError";
 import { extractAck } from "../utility/Types";
 
 export class SRequest<T = any> {
+	/**
+	 * The actual underlying socket.io socket instance.
+	 *
+	 * @type {SocketIO.Socket}
+	 * @memberof SRequest
+	 */
 	public readonly socket: SocketIO.Socket;
+
+	/**
+	 * The raw-data received from the socket for this event.
+	 *
+	 * @type {T}
+	 * @memberof SRequest
+	 */
 	public readonly rawData: T;
 
+	/**
+	 * Indicates if this request has an ack assotiated with it.
+	 * True if there is an ack, false if not.
+	 *
+	 * [docs](https://socket.io/docs/#Sending-and-getting-data-acknowledgements)
+	 *
+	 * @type {boolean}
+	 * @memberof SRequest
+	 */
 	public readonly hasAck: boolean;
-	public readonly ack: VoidFunction;
+
+	/**
+	 * The ack received with the request.
+	 *
+	 * May be null if there was no ack sent.
+	 * Check `SRequest.hasAck` to see if an ack was sent.
+	 *
+	 * @type {VoidFunction}
+	 * @memberof SRequest
+	 */
+	public readonly ack?: VoidFunction;
 
 	public readonly path: string;
 
@@ -34,6 +66,13 @@ export class SRequest<T = any> {
 	 */
 	public static readonly V = t;
 
+	/**
+	 * Constructs a new SRocket Request.
+	 *
+	 * @param {T} data The data that was received with the request
+	 * @param {string} path The path to the event - The event name
+	 * @param {SocketIO.Socket} socket The underlying socket that received the event
+	 */
 	constructor(data: T, path: string, socket: SocketIO.Socket) {
 		this.path = path;
 		this.rawData = data;
@@ -74,6 +113,11 @@ export class SRequest<T = any> {
 	 *
 	 * This function throw if validation fails.
 	 * Validation Errors can be caught by the global error handler
+	 *
+	 * @template I
+	 * @param {I} schema
+	 * @returns {t.TypeOf<I>}
+	 * @memberof SRequest
 	 */
 	validate<I extends t.Decoder<any, any> & t.Any>(schema: I): t.TypeOf<I> {
 		const data = this.getDataWithoutAck();
@@ -87,7 +131,9 @@ export class SRequest<T = any> {
 	}
 
 	/**
-	 * Validates the request data when you only expect a single input, and maybe an ack.
+	 * Validates the request data when you only expect a single object as input, and maybe an ack.
+	 *
+	 * >> This is a short-hand for `SRocket.validate(t.type(<schema>))`
 	 *
 	 * If you emit like this:
 	 * `socket.emit(<eventName>, { name: "John", age: 74 }, () => {})`
@@ -98,10 +144,10 @@ export class SRequest<T = any> {
 	 *
 	 * Typical validator usage would be:
 	 * ```
-	 * const data = request.validate(t.type({
+	 * const data = request.validateObject({
 	 * 	name: t.string,
 	 *  age: t.number
-	 * }));
+	 * });
 	 * ```
 	 *
 	 * Which would leave the data of type:
@@ -114,6 +160,12 @@ export class SRequest<T = any> {
 	 *
 	 * This function throw if validation fails.
 	 * Validation Errors can be caught by the global error handler
+	 *
+	 * @template K
+	 * @template I
+	 * @param {K} schema
+	 * @returns {t.TypeOf<I>}
+	 * @memberof SRequest
 	 */
 	validateObject<K extends t.Props, I extends t.Type<K>>(schema: K): t.TypeOf<I> {
 		const data = this.getDataWithoutAck();
@@ -156,6 +208,11 @@ export class SRequest<T = any> {
 	 *
 	 * This function throws when validation fails!
 	 * Validation Errors can be caught by the global error handler
+	 *
+	 * @template I
+	 * @param {I} objectSchema
+	 * @returns {{ [K in keyof I]: t.TypeOf<I[K]> }}
+	 * @memberof SRequest
 	 */
 	validateMany<I extends { [key: string]: t.Decoder<any, any> & t.Any }>(
 		objectSchema: I
@@ -186,6 +243,14 @@ export class SRequest<T = any> {
 
 	// tslint:enable:jsdoc-format
 
+	/**
+	 * Returns the `rawData` without the the ack.
+	 * Only removes ack if there is one
+	 *
+	 * @private
+	 * @returns {any[]}
+	 * @memberof SRequest
+	 */
 	private getDataWithoutAck() {
 		if (Array.isArray(this.rawData)) {
 			if (this.hasAck) {

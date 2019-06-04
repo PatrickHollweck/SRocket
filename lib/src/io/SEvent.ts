@@ -30,7 +30,7 @@ export class SEvent<TRequest = any, TResponse = any> {
 	 */
 	public static readonly V = t;
 
-	constructor(request: SRequest<TRequest>, response: SResponse<TResponse>) {
+	public constructor(request: SRequest<TRequest>, response: SResponse<TResponse>) {
 		this.request = request;
 		this.response = response;
 	}

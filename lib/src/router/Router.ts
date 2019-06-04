@@ -15,24 +15,27 @@ export class Router {
 	protected readonly context: RuntimeConfiguration;
 	protected readonly logger: ConsoleLogger;
 
-	constructor() {
+	public constructor() {
 		this.ioServer = container.get("ioServer");
 		this.context = container.get(RuntimeConfiguration);
 
 		this.logger = new ConsoleLogger("Router");
 	}
 
-	public registerRoutes() {
+	public registerRoutes(): void {
 		const store = container.get(RouteMetadataStore);
 		store.getControllers().forEach(controller => this.registerController(controller));
 	}
 
-	protected registerController(controller: ControllerMetadata) {
+	protected registerController(controller: ControllerMetadata): void {
 		const namespace = this.ioServer.of(controller.config.namespace);
 		this.handleConnection(namespace, controller);
 	}
 
-	protected handleConnection(namespace: SocketIO.Namespace, controller: ControllerMetadata) {
+	protected handleConnection(
+		namespace: SocketIO.Namespace,
+		controller: ControllerMetadata
+	): void {
 		namespace.on("connect", socket => {
 			controller.connectHandlers.forEach(handler => {
 				handler.callOn(new SRequest({}, "connect", socket));
@@ -46,10 +49,8 @@ export class Router {
 
 			controller.messageRoutes.forEach(route => {
 				this.logger.debug(JSON.stringify(route.config, null, 4));
-				socket.on(
-					route.config.path,
-					async (...requestData: any[]) =>
-						await this.invokeRoute(socket, route, controller, requestData)
+				socket.on(route.config.path, async (...requestData: any[]) =>
+					this.invokeRoute(socket, route, controller, requestData)
 				);
 			});
 		});
@@ -60,7 +61,7 @@ export class Router {
 		route: RouteMetadata,
 		controller: ControllerMetadata,
 		requestData: any[]
-	) {
+	): Promise<void> {
 		const { ack } = extractAck(requestData);
 
 		const request = new SRequest(requestData, route.config.path, socket);
@@ -97,7 +98,7 @@ export class Router {
 		response: SResponse,
 		route: RouteMetadata,
 		middlewares: MiddlewareList
-	) {
+	): Promise<boolean> {
 		for (const middleware of middlewares) {
 			let called = false;
 

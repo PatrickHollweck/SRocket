@@ -1,16 +1,34 @@
 {
 	"compilerOptions": {
+		// Build
 		"target": "es2015",
 		"outDir": "./dist",
 		"module": "commonjs",
+		// Declarations
 		"declaration": true,
 		"sourceMap": true,
-		"strict": true,
-		"strictPropertyInitialization": false,
-		"experimentalDecorators": true,
-		"emitDecoratorMetadata": true,
 		"pretty": true,
-		"diagnostics": true
+		"diagnostics": true,
+		// Strict-ness
+		"strict": true,
+		"strictNullChecks": true,
+		"strictFunctionTypes": true,
+		"strictBindCallApply": true,
+		"strictPropertyInitialization": true,
+		"noUnusedParameters": true,
+		"noUnusedLocals": true,
+		"noImplicitAny": true,
+		"noImplicitReturns": true,
+		"noImplicitThis": true,
+		"noErrorTruncation": true,
+		"noStrictGenericChecks": false,
+		"forceConsistentCasingInFileNames": true,
+		"noEmitOnError": true,
+		// Output
+		"removeComments": false,
+		// Decorators
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true
 	},
 	"include": ["lib/src"],
 	"exclude": [

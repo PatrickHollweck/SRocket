@@ -9,7 +9,7 @@ export abstract class InternalRoute<T extends Route> {
 	public config: RouteConfig;
 	protected handler: T;
 
-	constructor(handler: T, config: RouteConfig) {
+	public constructor(handler: T, config: RouteConfig) {
 		this.handler = handler;
 		this.config = config;
 	}
@@ -32,17 +32,17 @@ export abstract class InternalRoute<T extends Route> {
 }
 
 export class ObjectInternalRoute extends InternalRoute<ObjectRoute> {
-	constructor(handler: ObjectRoute, config: RouteConfig) {
+	public constructor(handler: ObjectRoute, config: RouteConfig) {
 		super(handler, config);
 	}
 
-	async callError(e: Error, req: SRequest, res: SResponse) {
+	public async callError(e: Error, req: SRequest, res: SResponse) {
 		if (this.handler.onError) {
 			InternalRoute.invokeEventOrArgs(this.handler.onError, req, res);
 		}
 	}
 
-	async callOn(req: SRequest, res: SResponse) {
+	public async callOn(req: SRequest, res: SResponse) {
 		InternalRoute.invokeEventOrArgs(this.handler.on, req, res);
 	}
 }
@@ -50,37 +50,37 @@ export class ObjectInternalRoute extends InternalRoute<ObjectRoute> {
 export class ClassInternalRoute extends InternalRoute<ObjectRoute> {
 	protected masked: ObjectInternalRoute;
 
-	constructor(handler: Newable<ObjectRoute>, config: RouteConfig) {
+	public constructor(handler: Newable<ObjectRoute>, config: RouteConfig) {
 		const instance = new handler();
 		super(instance, config);
 		this.masked = new ObjectInternalRoute(instance, config);
 	}
 
-	async callError(e: Error, req: SRequest, res: SResponse) {
+	public async callError(e: Error, req: SRequest, res: SResponse) {
 		await this.masked.callError(e, req, res);
 	}
 
-	async callOn(req: SRequest, res: SResponse) {
+	public async callOn(req: SRequest, res: SResponse) {
 		await this.masked.callOn(req, res);
 	}
 }
 
 export class FunctionalInternalRoute extends InternalRoute<FunctionalRoute> {
-	constructor(handler: FunctionalRoute, config: RouteConfig) {
+	public constructor(handler: FunctionalRoute, config: RouteConfig) {
 		super(handler, config);
 	}
 
-	async callError(e: Error, req: SRequest, res: SResponse) {
+	public async callError(e: Error, req: SRequest, res: SResponse) {
 		/* - */
 	}
 
-	async callOn(req: SRequest, res: SResponse) {
+	public async callOn(req: SRequest, res: SResponse) {
 		await InternalRoute.invokeEventOrArgs(this.handler, req, res);
 	}
 }
 
 export class ControllerMetaInternalRoute extends InternalRoute<ControllerMetaRoute> {
-	constructor(handler: ControllerMetaRoute) {
+	public constructor(handler: ControllerMetaRoute) {
 		super(handler, {
 			beforeMiddleware: [],
 			afterMiddleware: [],
@@ -88,11 +88,11 @@ export class ControllerMetaInternalRoute extends InternalRoute<ControllerMetaRou
 		});
 	}
 
-	async callError(e: Error, req: SRequest, res: SResponse) {
+	public async callError(e: Error, req: SRequest, res: SResponse) {
 		/* - */
 	}
 
-	async callOn(request: SRequest) {
+	public async callOn(request: SRequest) {
 		this.handler(request.socket);
 	}
 }

@@ -8,7 +8,11 @@ export class RouteMetadata {
 	public config: RouteConfig;
 	public definition: RouteDefinition;
 
-	constructor(handler: InternalRoute<Route>, definition: RouteDefinition, config: RouteConfig) {
+	public constructor(
+		handler: InternalRoute<Route>,
+		definition: RouteDefinition,
+		config: RouteConfig
+	) {
 		this.definition = definition;
 		this.handler = handler;
 		this.config = config;

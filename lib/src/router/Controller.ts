@@ -1,6 +1,6 @@
-import { RouteReturn, Route } from "./Route";
+import { RouteReturn } from "./Route";
 
 export abstract class Controller {
-	$onConnect?(socket: SocketIO.Socket): RouteReturn;
-	$onDisconnect?(socket: SocketIO.Socket): RouteReturn;
+	public $onConnect?(socket: SocketIO.Socket): RouteReturn;
+	public $onDisconnect?(socket: SocketIO.Socket): RouteReturn;
 }

@@ -8,7 +8,7 @@ export class ControllerMetadata {
 	public disconnectHandlers: ControllerMetaInternalRoute[];
 	public config: ControllerConfig;
 
-	constructor() {
+	public constructor() {
 		this.messageRoutes = [];
 		this.connectHandlers = [];
 		this.disconnectHandlers = [];

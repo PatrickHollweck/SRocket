@@ -1,23 +1,25 @@
 {
 	"defaultSeverity": "error",
-	"extends": ["tslint:recommended"],
+	"extends": ["tslint:all"],
 	"rules": {
-		// --- Disabled below = Does not work currently!
-		"class-name": false,
-		"interface-name": false,
-		// ---
-		"object-literal-sort-keys": false,
-		"jsdoc-format": false,
+		"typedef": [true, "parameter", "call-signature"],
+		"file-name-casing": [true, "pascal-case"],
+		"linebreak-style": [true, "CRLF"],
+		"array-type": [true, "array"],
+		"trailing-comma": [true, "never"],
+		"member-ordering": [true, "statics-first"],
+		"interface-name": [true, "never-prefix"],
+		"arrow-parens": [true, "ban-single-arg-parens"],
 		"interface-over-type-literal": false,
-		"curly": false,
-		"arrow-parens": false,
-		"member-access": false,
+		"prefer-function-over-method": false,
+		"newline-per-chained-call": false,
+		"no-parameter-reassignment": false,
+		"no-null-keyword": false,
+		"strict-boolean-expressions": false,
+		"no-any": false,
+		"object-literal-sort-keys": false,
 		"max-classes-per-file": false,
 		"ordered-imports": false,
-		"no-string-literal": false,
-		"array-type": false,
-		"member-ordering": false,
-		"trailing-comma": false,
 		"indent": {
 			"options": "tabs"
 		}

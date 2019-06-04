@@ -25,20 +25,21 @@ export class SRocket {
 		container.bind(Router).toConstantValue(new Router());
 	}
 
-	public static fromIO(server: SocketIO.Server) {
+	public static fromIO(server: SocketIO.Server): SRocket {
 		return new SRocket(server);
 	}
 
-	public static fromPort(port: number, config?: SocketIO.ServerOptions) {
+	public static fromPort(port: number, config?: SocketIO.ServerOptions): SRocket {
 		return new SRocket(socketIO.listen(port, config));
 	}
 
-	public setSeparationConvention(separator: string) {
+	public setSeparationConvention(separator: string): SRocket {
 		container.get(RuntimeConfiguration).separationConvention = separator;
+
 		return this;
 	}
 
-	public setLogLevel(level: LogLevel) {
+	public setLogLevel(level: LogLevel): SRocket {
 		this.startupChain.push(() => {
 			container.get(RuntimeConfiguration).logLevel = level;
 		});
@@ -46,7 +47,10 @@ export class SRocket {
 		return this;
 	}
 
-	public addGlobalMiddleware(before: Newable<Middleware>[], after: Newable<Middleware>[]) {
+	public addGlobalMiddleware(
+		before: Newable<Middleware>[],
+		after: Newable<Middleware>[]
+	): SRocket {
 		this.startupChain.push(() => {
 			const context = container.get(RuntimeConfiguration);
 			context.beforeGlobalMiddleware.push(...before);
@@ -56,13 +60,15 @@ export class SRocket {
 		return this;
 	}
 
-	public configureContainer(fn: (container: Container) => void) {
+	public configureContainer(fn: (container: Container) => void): SRocket {
 		this.startupChain.push(() => {
 			fn(container);
 		});
+
+		return this;
 	}
 
-	public controllers(...controllers: Newable<Controller>[]) {
+	public controllers(...controllers: Newable<Controller>[]): SRocket {
 		this.startupChain.push(() => {
 			for (const controller of controllers) {
 				container.get(RouteMetadataStore).buildController(controller);
@@ -72,7 +78,7 @@ export class SRocket {
 		return this;
 	}
 
-	public async listen(callback?: (app: SRocket) => void) {
+	public async listen(callback?: (app: SRocket) => void): Promise<SRocket> {
 		for (const fn of this.startupChain) {
 			await fn();
 		}
@@ -86,7 +92,7 @@ export class SRocket {
 		return this;
 	}
 
-	public close() {
+	public close(): void {
 		container.get<SocketIO.Server>("ioServer").close();
 		// TODO: The container should to be instance based...
 		container.unbindAll();

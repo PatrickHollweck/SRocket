@@ -8,7 +8,7 @@ import getDecorators from "inversify-inject-decorators";
 export class AbstractContainer {
 	public readonly instance: InversifyContainer;
 
-	constructor() {
+	public constructor() {
 		this.instance = new InversifyContainer();
 	}
 

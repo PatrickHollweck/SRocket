@@ -73,7 +73,7 @@ export class SRequest<T = any> {
 	 * @param {string} path The path to the event - The event name
 	 * @param {SocketIO.Socket} socket The underlying socket that received the event
 	 */
-	constructor(data: T, path: string, socket: SocketIO.Socket) {
+	public constructor(data: T, path: string, socket: SocketIO.Socket) {
 		this.path = path;
 		this.rawData = data;
 		this.socket = socket;
@@ -119,7 +119,7 @@ export class SRequest<T = any> {
 	 * @returns {t.TypeOf<I>}
 	 * @memberof SRequest
 	 */
-	validate<I extends t.Decoder<any, any> & t.Any>(schema: I): t.TypeOf<I> {
+	public validate<I extends t.Decoder<any, any> & t.Any>(schema: I): t.TypeOf<I> {
 		const data = this.getDataWithoutAck();
 		const result = schema.decode(data);
 
@@ -167,8 +167,7 @@ export class SRequest<T = any> {
 	 * @returns {t.TypeOf<I>}
 	 * @memberof SRequest
 	 */
-	validateObject<K extends t.Props, I extends t.Type<K>>(schema: K): t.TypeOf<I> {
-		const data = this.getDataWithoutAck();
+	public validateObject<K extends t.Props, I extends t.Type<K>>(schema: K): t.TypeOf<I> {
 		return this.validate(t.type(schema));
 	}
 
@@ -214,7 +213,7 @@ export class SRequest<T = any> {
 	 * @returns {{ [K in keyof I]: t.TypeOf<I[K]> }}
 	 * @memberof SRequest
 	 */
-	validateMany<I extends { [key: string]: t.Decoder<any, any> & t.Any }>(
+	public validateMany<I extends { [key: string]: t.Decoder<any, any> & t.Any }>(
 		objectSchema: I
 	): { [K in keyof I]: t.TypeOf<I[K]> } {
 		const converted = {} as I;

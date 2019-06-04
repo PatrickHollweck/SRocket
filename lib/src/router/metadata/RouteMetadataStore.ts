@@ -32,16 +32,16 @@ export class RouteMetadataStore {
 	protected controllers: ControllerMetadata[];
 	protected logger: ConsoleLogger;
 
-	constructor() {
+	public constructor() {
 		this.controllers = [];
 		this.logger = new ConsoleLogger("Route-Store");
 	}
 
-	public getControllers() {
+	public getControllers(): ControllerMetadata[] {
 		return this.controllers;
 	}
 
-	public buildController(controller: Newable<Controller>) {
+	public buildController(controller: Newable<Controller>): void {
 		this.logger.info(`Registering Controller: ${controller.name}`);
 
 		const controllerMetadata = new ControllerMetadata();
@@ -76,9 +76,10 @@ export class RouteMetadataStore {
 		route: Route,
 		config: RouteConfig,
 		definition: RouteDefinition
-	) {
+	): void {
 		const routeType = RouteMetadataStore.findRouteType(route);
 
+		// tslint:disable-next-line:no-magic-numbers
 		this.logger.info(`\t${rightPad(routeType, 10)} : ${config.path}`);
 
 		let internalRoute: InternalRoute<Route>;
@@ -105,11 +106,11 @@ export class RouteMetadataStore {
 		controllerMetadata.addMessageRoute(routeMetadata);
 	}
 
-	protected addController(metadata: ControllerMetadata) {
+	protected addController(metadata: ControllerMetadata): void {
 		this.controllers.push(metadata);
 	}
 
-	protected getControllerMetaRoutes(controller: Controller, metadata: ControllerMetadata) {
+	protected getControllerMetaRoutes(controller: Controller, metadata: ControllerMetadata): void {
 		if (controller.$onConnect) {
 			this.logger.info("\t$connect Handler!");
 			metadata.addConnectHandler(new ControllerMetaInternalRoute(controller.$onConnect));
@@ -126,7 +127,7 @@ export class RouteMetadataStore {
 	protected static buildControllerConfigFromDecorator(
 		controller: Newable<Controller>,
 		metadata: ControllerMetadata
-	) {
+	): void {
 		const userControllerConfig: UserControllerConfig = RouteMetadataStore.getControllerMetadata(
 			controller
 		);
@@ -173,7 +174,7 @@ export class RouteMetadataStore {
 		};
 	}
 
-	protected static getRouteName(prefixes: string[], routeName: string) {
+	protected static getRouteName(prefixes: string[], routeName: string): string {
 		const notEmptyPrefixes = prefixes.filter(prefix => prefix !== "");
 
 		if (notEmptyPrefixes.length === 0) {
@@ -190,23 +191,26 @@ export class RouteMetadataStore {
 		return (result += routeName);
 	}
 
-	protected static getControllerMetadata(target: Newable<Controller>) {
+	protected static getControllerMetadata(target: Newable<Controller>): any {
 		return Metadata.getClassDecorator(SOCKET_CONTROLLER_METADATA_KEY, target);
 	}
 
-	protected static getRouteMetadata(target: any, property?: string) {
+	protected static getRouteMetadata(target: any, property?: string): any {
 		return property
 			? Metadata.getPropertyDecorator(SOCKET_ROUTE_METADATA_KEY, target, property)
 			: Metadata.getClassDecorator(SOCKET_ROUTE_METADATA_KEY, target);
 	}
 
-	protected static hasValidRouteMetadata(target: any, property?: string) {
+	protected static hasValidRouteMetadata(target: any, property?: string): boolean {
 		const metadata = RouteMetadataStore.getRouteMetadata(target, property);
+
 		return metadata !== null && metadata !== undefined;
 	}
 
 	protected static findRouteType(target: any, property?: string): RouteType {
-		if (property) target = target[property];
+		if (property) {
+			target = target[property];
+		}
 
 		if (typeof target === "object") {
 			return RouteType.ObjectBased;

@@ -30,7 +30,7 @@ export class SResponse<T = any> {
 	 * @param {SocketIOAck} [ack] The ack that was sent with the request, may be null
 	 * @memberof SResponse
 	 */
-	constructor(
+	public constructor(
 		socket: SocketIO.Socket,
 		route: InternalRoute<Route>,
 		server: SocketIO.Server,

@@ -1,70 +1,70 @@
 {
-    "name": "srocket",
-    "version": "2.2.1",
-    "scripts": {
-        "test": "jest --config=jest.json",
-        "test:watch": "jest --config=jest.json --watch",
-        "docs:build": "typedoc --out ./docs/apidoc",
-        "docs:serve": "docsify serve ./docs",
-        "format": "prettier --write ./lib/**/*.ts",
-        "lint": "tslint --project .",
-        "review": "npm run format && npm run lint && tsc && npm run test",
-        "start": "ts-node-dev --inspect -- ./lib/test/manual/Server.ts",
-        "release:srocket": "node ./scripts/deploy.srocket.js",
-        "release:addons": "node ./scripts/deploy.addons.js"
-    },
-    "dependencies": {
-        "@types/socket.io": "2.1.2",
-        "inversify": "5.0.1",
-        "inversify-inject-decorators": "^3.1.0",
-        "io-ts": "^1.8.6",
-        "reflect-metadata": "0.1.13",
-        "socket.io": "2.2.0",
-        "typescript": "3.4.5"
-    },
-    "devDependencies": {
-        "@types/debug": "4.1.4",
-        "@types/jest": "24.0.13",
-        "@types/node": "12.0.4",
-        "@types/readline-sync": "1.4.3",
-        "@types/semver": "6.0.0",
-        "@types/socket.io-client": "1.4.32",
-        "socket.io-client": "2.2.0",
-        "chalk": "2.4.2",
-        "docsify": "4.9.4",
-        "docsify-cli": "4.3.0",
-        "jest": "24.8.0",
-        "prettier": "1.17.1",
-        "readline-sync": "1.4.9",
-        "semver": "6.1.1",
-        "shelljs": "0.8.3",
-        "ts-jest": "24.0.2",
-        "ts-node-dev": "1.0.0-pre.39",
-        "tsconfig-paths": "3.8.0",
-        "typedoc": "^0.14.2"
-    },
-    "engines": {
-        "node": ">=6.0.0"
-    },
-    "main": "./index.js",
-    "types": "./index.d.ts",
-    "description": "A opinionated typesafe socket.io framework",
-    "author": "Patrick Hollweck <patrick-hollweck@gmx.de>",
-    "homepage": "https://patrickhollweck.github.io/SRocket/#/",
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/PatrickHollweck/SRocket/issues",
-        "email": "patrick-hollweck@gmx.de"
-    },
-    "repository": {
-        "type": "GitHub",
-        "url": "https://github.com/PatrickHollweck/SRocket"
-    },
-    "keywords": [
-        "socket.io",
-        "srocket",
-        "realtime",
-        "typescript",
-        "framework"
-    ]
+	"name": "srocket",
+	"version": "2.2.1",
+	"scripts": {
+		"test": "jest --config=jest.json",
+		"test:watch": "jest --config=jest.json --watch",
+		"docs:build": "typedoc --out ./docs/apidoc",
+		"docs:serve": "docsify serve ./docs",
+		"format": "prettier --write ./lib/**/*.ts",
+		"lint": "tslint --fix --project .",
+		"review": "npm run format && npm run lint && tsc && npm run test",
+		"start": "ts-node-dev --inspect -- ./lib/test/manual/Server.ts",
+		"release:srocket": "node ./scripts/deploy.srocket.js",
+		"release:addons": "node ./scripts/deploy.addons.js"
+	},
+	"dependencies": {
+		"@types/socket.io": "2.1.2",
+		"inversify": "5.0.1",
+		"inversify-inject-decorators": "^3.1.0",
+		"io-ts": "^1.8.6",
+		"reflect-metadata": "0.1.13",
+		"socket.io": "2.2.0",
+		"typescript": "3.4.5"
+	},
+	"devDependencies": {
+		"@types/debug": "4.1.4",
+		"@types/jest": "24.0.13",
+		"@types/node": "12.0.4",
+		"@types/readline-sync": "1.4.3",
+		"@types/semver": "6.0.0",
+		"@types/socket.io-client": "1.4.32",
+		"socket.io-client": "2.2.0",
+		"chalk": "2.4.2",
+		"docsify": "4.9.4",
+		"docsify-cli": "4.3.0",
+		"jest": "24.8.0",
+		"prettier": "1.17.1",
+		"readline-sync": "1.4.9",
+		"semver": "6.1.1",
+		"shelljs": "0.8.3",
+		"ts-jest": "24.0.2",
+		"ts-node-dev": "1.0.0-pre.39",
+		"tsconfig-paths": "3.8.0",
+		"typedoc": "^0.14.2"
+	},
+	"engines": {
+		"node": ">=6.0.0"
+	},
+	"main": "./index.js",
+	"types": "./index.d.ts",
+	"description": "A opinionated typesafe socket.io framework",
+	"author": "Patrick Hollweck <patrick-hollweck@gmx.de>",
+	"homepage": "https://patrickhollweck.github.io/SRocket/#/",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/PatrickHollweck/SRocket/issues",
+		"email": "patrick-hollweck@gmx.de"
+	},
+	"repository": {
+		"type": "GitHub",
+		"url": "https://github.com/PatrickHollweck/SRocket"
+	},
+	"keywords": [
+		"socket.io",
+		"srocket",
+		"realtime",
+		"typescript",
+		"framework"
+	]
 }

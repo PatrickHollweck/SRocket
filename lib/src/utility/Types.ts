@@ -1,4 +1,4 @@
-export function extractAck(data: any) {
+export const extractAck = (data: any): { hasAck: boolean; ack: VoidFunction | null } => {
 	if (Array.isArray(data)) {
 		const lastArg = data[data.length - 1];
 		const hasAck = typeof lastArg === "function";
@@ -13,4 +13,4 @@ export function extractAck(data: any) {
 		hasAck: false,
 		ack: null
 	};
-}
+};

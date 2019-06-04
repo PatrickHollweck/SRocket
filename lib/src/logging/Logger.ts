@@ -14,7 +14,7 @@ export abstract class Logger {
 
 	protected runtimeConfig: RuntimeConfiguration;
 
-	constructor() {
+	public constructor() {
 		this.runtimeConfig = container.get(RuntimeConfiguration);
 	}
 
@@ -22,11 +22,11 @@ export abstract class Logger {
 		return level >= this.runtimeConfig.logLevel;
 	}
 
-	abstract enable(): void;
-	abstract disable(): void;
+	public abstract enable(): void;
+	public abstract disable(): void;
 
-	abstract debug(message: string, e?: Error): void;
-	abstract info(message: string, e?: Error): void;
-	abstract warning(message: string, e?: Error): void;
-	abstract error(message: string, e?: Error): void;
+	public abstract debug(message: string, e?: Error): void;
+	public abstract info(message: string, e?: Error): void;
+	public abstract warning(message: string, e?: Error): void;
+	public abstract error(message: string, e?: Error): void;
 }

@@ -9,17 +9,18 @@ export class ConsoleLogger extends Logger {
 	private readonly logger: any;
 
 	public constructor(name: string) {
-		super();
+		super(name);
 
 		this.name = name;
+		// tslint:disable-next-line:no-require-imports
 		this.logger = require("debug")(ConsoleLogger.baseName + name);
 	}
 
-	public enable() {
+	public enable(): void {
 		this.logger.enable();
 	}
 
-	public disable() {
+	public disable(): void {
 		this.logger.disable();
 	}
 

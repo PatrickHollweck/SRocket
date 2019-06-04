@@ -17,12 +17,17 @@ export abstract class InternalRoute<T extends Route> {
 	public abstract callOn(req: SRequest, res: SResponse): RouteReturn;
 	public abstract callError(e: Error, req: SRequest, res: SResponse): RouteReturn;
 
-	public static convertToEvent(request: SRequest, response: SResponse) {
+	public static convertToEvent(request: SRequest, response: SResponse): SEvent {
 		return new SEvent(request, response);
 	}
 
 	// tslint:disable-next-line:ban-types
-	public static async invokeEventOrArgs(handler: Function, req: SRequest, res: SResponse) {
+	public static async invokeEventOrArgs(
+		handler: Function,
+		req: SRequest,
+		res: SResponse
+	): Promise<void> {
+		// tslint:disable-next-line:no-magic-numbers
 		if (handler.length === 2) {
 			await handler(req, res);
 		} else {
@@ -36,13 +41,13 @@ export class ObjectInternalRoute extends InternalRoute<ObjectRoute> {
 		super(handler, config);
 	}
 
-	public async callError(e: Error, req: SRequest, res: SResponse) {
+	public async callError(_e: Error, req: SRequest, res: SResponse): Promise<void> {
 		if (this.handler.onError) {
 			InternalRoute.invokeEventOrArgs(this.handler.onError, req, res);
 		}
 	}
 
-	public async callOn(req: SRequest, res: SResponse) {
+	public async callOn(req: SRequest, res: SResponse): Promise<void> {
 		InternalRoute.invokeEventOrArgs(this.handler.on, req, res);
 	}
 }
@@ -56,11 +61,11 @@ export class ClassInternalRoute extends InternalRoute<ObjectRoute> {
 		this.masked = new ObjectInternalRoute(instance, config);
 	}
 
-	public async callError(e: Error, req: SRequest, res: SResponse) {
+	public async callError(e: Error, req: SRequest, res: SResponse): Promise<void> {
 		await this.masked.callError(e, req, res);
 	}
 
-	public async callOn(req: SRequest, res: SResponse) {
+	public async callOn(req: SRequest, res: SResponse): Promise<void> {
 		await this.masked.callOn(req, res);
 	}
 }
@@ -70,11 +75,11 @@ export class FunctionalInternalRoute extends InternalRoute<FunctionalRoute> {
 		super(handler, config);
 	}
 
-	public async callError(e: Error, req: SRequest, res: SResponse) {
+	public async callError(_e: Error, _req: SRequest, _res: SResponse): Promise<void> {
 		/* - */
 	}
 
-	public async callOn(req: SRequest, res: SResponse) {
+	public async callOn(req: SRequest, res: SResponse): Promise<void> {
 		await InternalRoute.invokeEventOrArgs(this.handler, req, res);
 	}
 }
@@ -88,11 +93,11 @@ export class ControllerMetaInternalRoute extends InternalRoute<ControllerMetaRou
 		});
 	}
 
-	public async callError(e: Error, req: SRequest, res: SResponse) {
+	public async callError(_e: Error, _req: SRequest, _res: SResponse): Promise<void> {
 		/* - */
 	}
 
-	public async callOn(request: SRequest) {
+	public async callOn(request: SRequest): Promise<void> {
 		this.handler(request.socket);
 	}
 }

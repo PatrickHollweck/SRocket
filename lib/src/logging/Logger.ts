@@ -14,11 +14,14 @@ export abstract class Logger {
 
 	protected runtimeConfig: RuntimeConfiguration;
 
-	public constructor() {
+	public constructor(name: string) {
+		this.name = name;
+		this.isEnabled = true;
+
 		this.runtimeConfig = container.get(RuntimeConfiguration);
 	}
 
-	protected shouldLog(level: LogLevel) {
+	protected shouldLog(level: LogLevel): boolean {
 		return level >= this.runtimeConfig.logLevel;
 	}
 

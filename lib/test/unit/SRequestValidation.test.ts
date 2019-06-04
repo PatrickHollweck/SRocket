@@ -35,7 +35,7 @@ describe("SRequest Validation", () => {
 
 	describe("validateMany()", () => {
 		it("should validate if the schema matches", () => {
-			const { request, data } = setup(["test", 1]);
+			const { request } = setup(["test", 1]);
 			const run = () =>
 				request.validateMany({
 					name: SEvent.V.string,

@@ -28,7 +28,7 @@ export class Router {
 	}
 
 	protected registerController(controller: ControllerMetadata): void {
-		const namespace = this.ioServer.of(controller.config.namespace);
+		const namespace = this.ioServer.of(controller.config!.namespace);
 		this.handleConnection(namespace, controller);
 	}
 
@@ -126,7 +126,7 @@ export class Router {
 	): MiddlewareList {
 		return [
 			...this.context.beforeGlobalMiddleware,
-			...controller.config.beforeMiddleware,
+			...controller.config!.beforeMiddleware,
 			...route.config.beforeMiddleware
 		];
 	}
@@ -137,7 +137,7 @@ export class Router {
 	): MiddlewareList {
 		return [
 			...this.context.afterGlobalMiddleware,
-			...controller.config.afterMiddleware,
+			...controller.config!.afterMiddleware,
 			...route.handler.config.afterMiddleware
 		];
 	}

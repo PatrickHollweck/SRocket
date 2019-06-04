@@ -5,17 +5,11 @@ import { extractAck } from "../utility/Types";
 export class SRequest<T = any> {
 	/**
 	 * The actual underlying socket.io socket instance.
-	 *
-	 * @type {SocketIO.Socket}
-	 * @memberof SRequest
 	 */
 	public readonly socket: SocketIO.Socket;
 
 	/**
 	 * The raw-data received from the socket for this event.
-	 *
-	 * @type {T}
-	 * @memberof SRequest
 	 */
 	public readonly rawData: T;
 
@@ -24,9 +18,6 @@ export class SRequest<T = any> {
 	 * True if there is an ack, false if not.
 	 *
 	 * [docs](https://socket.io/docs/#Sending-and-getting-data-acknowledgements)
-	 *
-	 * @type {boolean}
-	 * @memberof SRequest
 	 */
 	public readonly hasAck: boolean;
 
@@ -35,12 +26,12 @@ export class SRequest<T = any> {
 	 *
 	 * May be null if there was no ack sent.
 	 * Check `SRequest.hasAck` to see if an ack was sent.
-	 *
-	 * @type {VoidFunction}
-	 * @memberof SRequest
 	 */
-	public readonly ack?: VoidFunction;
+	public readonly ack: VoidFunction | null;
 
+	/**
+	 * The Path to the event - or the event-name
+	 */
 	public readonly path: string;
 
 	/**
@@ -49,8 +40,6 @@ export class SRequest<T = any> {
 	 * Used to define the schema for the `SRequest.validation` functions
 	 *
 	 * docs: https://github.com/gcanti/io-ts
-	 *
-	 * @memberof SRequest
 	 */
 	public readonly v = t;
 
@@ -60,18 +49,15 @@ export class SRequest<T = any> {
 	 * Used to define the schema for the `SRequest.validation` functions
 	 *
 	 * docs: https://github.com/gcanti/io-ts
-	 *
-	 * @static
-	 * @memberof SRequest
 	 */
 	public static readonly V = t;
 
 	/**
 	 * Constructs a new SRocket Request.
 	 *
-	 * @param {T} data The data that was received with the request
-	 * @param {string} path The path to the event - The event name
-	 * @param {SocketIO.Socket} socket The underlying socket that received the event
+	 * @param [data] data The data that was received with the request
+	 * @param [path] The path to the event - The event name
+	 * @param [socket] The underlying socket that received the event
 	 */
 	public constructor(data: T, path: string, socket: SocketIO.Socket) {
 		this.path = path;
@@ -113,18 +99,13 @@ export class SRequest<T = any> {
 	 *
 	 * This function throw if validation fails.
 	 * Validation Errors can be caught by the global error handler
-	 *
-	 * @template I
-	 * @param {I} schema
-	 * @returns {t.TypeOf<I>}
-	 * @memberof SRequest
 	 */
 	public validate<I extends t.Decoder<any, any> & t.Any>(schema: I): t.TypeOf<I> {
 		const data = this.getDataWithoutAck();
 		const result = schema.decode(data);
 
 		if (result.isLeft()) {
-			throw new ValidationError("Schema does not match: " + result.value, data);
+			throw new ValidationError(`Schema does not match: ${result.value}`, data);
 		} else {
 			return result.value;
 		}
@@ -160,12 +141,6 @@ export class SRequest<T = any> {
 	 *
 	 * This function throw if validation fails.
 	 * Validation Errors can be caught by the global error handler
-	 *
-	 * @template K
-	 * @template I
-	 * @param {K} schema
-	 * @returns {t.TypeOf<I>}
-	 * @memberof SRequest
 	 */
 	public validateObject<K extends t.Props, I extends t.Type<K>>(schema: K): t.TypeOf<I> {
 		return this.validate(t.type(schema));
@@ -207,15 +182,11 @@ export class SRequest<T = any> {
 	 *
 	 * This function throws when validation fails!
 	 * Validation Errors can be caught by the global error handler
-	 *
-	 * @template I
-	 * @param {I} objectSchema
-	 * @returns {{ [K in keyof I]: t.TypeOf<I[K]> }}
-	 * @memberof SRequest
 	 */
 	public validateMany<I extends { [key: string]: t.Decoder<any, any> & t.Any }>(
 		objectSchema: I
 	): { [K in keyof I]: t.TypeOf<I[K]> } {
+		// tslint:disable-next-line:no-object-literal-type-assertion
 		const converted = {} as I;
 		let index = 0;
 
@@ -223,7 +194,7 @@ export class SRequest<T = any> {
 			throw new ValidationError("Array extected as input!", this.rawData);
 		}
 
-		const data = this.getDataWithoutAck() as any;
+		const data = this.getDataWithoutAck();
 
 		// tslint:disable-next-line:forin
 		for (const key in objectSchema) {
@@ -245,15 +216,12 @@ export class SRequest<T = any> {
 	/**
 	 * Returns the `rawData` without the the ack.
 	 * Only removes ack if there is one
-	 *
-	 * @private
-	 * @returns {any[]}
-	 * @memberof SRequest
 	 */
-	private getDataWithoutAck() {
+	private getDataWithoutAck(): any {
 		if (Array.isArray(this.rawData)) {
 			if (this.hasAck) {
 				this.rawData.reverse().shift();
+
 				return this.rawData.reverse();
 			}
 		}

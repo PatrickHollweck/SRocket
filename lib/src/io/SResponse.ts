@@ -5,44 +5,43 @@ import { InternalRoute } from "../router/InternalRoute";
 export type SocketIOAck = (...args: any[]) => void;
 
 /**
- * The Response type for SRocketA
+ * The Response type for SRocket
  *
  * @export
- * @class SResponse
- * @template T
  */
 export class SResponse<T = any> {
-	protected ack?: SocketIOAck;
+	protected ack: SocketIOAck | null;
 	protected data?: T;
 	protected route: InternalRoute<Route>;
 	protected socket: SocketIO.Socket;
 	protected server: SocketIO.Server;
 	protected statusCode: number;
-	protected emitEventName: string;
+	protected emitEventName: string | null;
 	protected payloadMessage: string;
 
 	/**
 	 * Creates an instance of SResponse.
 	 *
-	 * @param {SocketIO.Socket} socket The underlying socket
-	 * @param {InternalRoute<Route>} route The event-name
-	 * @param {SocketIO.Server} server The underlying server
-	 * @param {SocketIOAck} [ack] The ack that was sent with the request, may be null
-	 * @memberof SResponse
+	 * @param [socket] The underlying socket
+	 * @param [route] The event-name
+	 * @param [server] The underlying server
+	 * @param [ack] The ack that was sent with the request, may be null
 	 */
 	public constructor(
 		socket: SocketIO.Socket,
 		route: InternalRoute<Route>,
 		server: SocketIO.Server,
-		ack?: SocketIOAck
+		ack: SocketIOAck | null
 	) {
 		this.socket = socket;
 		this.server = server;
 
 		this.ack = ack;
 		this.payloadMessage = "";
-		this.statusCode = 200;
+		this.statusCode = StatusCodes.Ok;
 		this.route = route;
+
+		this.emitEventName = null;
 	}
 
 	// -- Fluent properties.
@@ -54,49 +53,51 @@ export class SResponse<T = any> {
 	 * this will control the name of the event that will be emitted.
 	 *
 	 *
-	 * @param {string} eventName
-	 * @returns {SResponse}
-	 * @memberof SResponse
+	 * @param [eventName] The event-name to emit
 	 *
 	 * @example
 	 * response.eventName("user-joined").toAllInRoom()
 	 *
 	 * This will emit to all in the same room a event with the name "user-joined"
 	 */
-	public eventName(eventName: string) {
+	public eventName(eventName: string): SResponse {
 		this.emitEventName = eventName;
+
 		return this;
 	}
 
-	public status(code: number) {
+	public status(code: number): SResponse {
 		this.statusCode = code;
+
 		return this;
 	}
 
-	public getStatus() {
+	public getStatus(): number {
 		return this.statusCode;
 	}
 
-	public withData(data: T) {
+	public withData(data: T): SResponse {
 		this.data = data;
+
 		return this;
 	}
 
-	public getData() {
+	public getData(): any {
 		return this.data;
 	}
 
-	public message(comment: string) {
+	public message(comment: string): SResponse {
 		this.payloadMessage = comment;
+
 		return this;
 	}
 
-	public getMessage() {
+	public getMessage(): string {
 		return this.payloadMessage;
 	}
 
-	public error(error: Error) {
-		if (this.getStatus() < 499) {
+	public error(error: Error): void {
+		if (this.getStatus() < StatusCodes.InternalServerError) {
 			this.status(StatusCodes.InternalServerError);
 		}
 
@@ -105,7 +106,7 @@ export class SResponse<T = any> {
 
 	// -- Util
 
-	public hasAck() {
+	public hasAck(): boolean {
 		return !!this.ack;
 	}
 
@@ -115,10 +116,8 @@ export class SResponse<T = any> {
 	 * Invokes the ack of the request.
 	 *
 	 * If there is no ack - no action will be performed.
-	 *
-	 * @memberof SResponse
 	 */
-	public acknowledge() {
+	public acknowledge(): void {
 		if (this.ack) {
 			this.ack(this.getData());
 		} else {
@@ -137,10 +136,8 @@ export class SResponse<T = any> {
 	 * // Client
 	 * socket.on("greet", () => console.log("Fired!"));
 	 * >> Fired!
-	 *
-	 * @memberof SResponse
 	 */
-	public toSender() {
+	public toSender(): void {
 		this.socket.emit(this.getEventRoute(), this.formatPayload());
 	}
 
@@ -155,10 +152,8 @@ export class SResponse<T = any> {
 	 * // Client
 	 * otherSocket.on("greet", () => console.log("Fired!"));
 	 * >> Fired!
-	 *
-	 * @memberof SResponse
 	 */
-	public toAllExceptSender() {
+	public toAllExceptSender(): void {
 		this.socket.broadcast.emit(this.getEventRoute(), this.formatPayload());
 	}
 
@@ -174,12 +169,9 @@ export class SResponse<T = any> {
 	 * otherSocket.on("greet", () => console.log("Fired!"));
 	 * >> Fired!
 	 *
-	 * @memberof SResponse
-	 *
-	 * @param {string} roomName
-	 * @memberof SResponse
+	 * @param [roomName] The name of the room to emit to
 	 */
-	public toAllInRoomExceptSender(roomName: string) {
+	public toAllInRoomExceptSender(roomName: string): void {
 		this.socket.to(roomName).emit(this.getEventRoute(), this.formatPayload());
 	}
 
@@ -195,12 +187,9 @@ export class SResponse<T = any> {
 	 * socket.on("greet", () => console.log("Fired!"));
 	 * >> Fired!
 	 *
-	 * @memberof SResponse
-	 *
-	 * @param {string} roomName
-	 * @memberof SResponse
+	 * @param [roomName] The name of the room to emit to
 	 */
-	public toAllInRoom(roomName: string) {
+	public toAllInRoom(roomName: string): void {
 		this.server.in(roomName).emit(this.getEventRoute(), this.formatPayload());
 	}
 
@@ -216,12 +205,9 @@ export class SResponse<T = any> {
 	 * socket.on("greet", () => console.log("Fired!"));
 	 * >> Fired!
 	 *
-	 * @memberof SResponse
-	 *
-	 * @param {string} roomName
-	 * @memberof SResponse
+	 * @param [namespaceName] The name of the namespace to emit to
 	 */
-	public toAllInNamespace(namespaceName: string = "/") {
+	public toAllInNamespace(namespaceName: string = "/"): void {
 		this.server.of(namespaceName).emit(this.getEventRoute(), this.formatPayload());
 	}
 
@@ -237,12 +223,9 @@ export class SResponse<T = any> {
 	 * otherSocket.on("greet", () => console.log("Fired!"));
 	 * >> Fired!
 	 *
-	 * @memberof SResponse
-	 *
-	 * @param {string} roomName
-	 * @memberof SResponse
+	 * @param [socketID] The socket io to emit to
 	 */
-	public toIndividualSocket(socketID: string) {
+	public toIndividualSocket(socketID: string): void {
 		this.socket.to(socketID).emit(this.getEventRoute(), this.formatPayload());
 	}
 
@@ -250,9 +233,6 @@ export class SResponse<T = any> {
 
 	/**
 	 * Gets the underlying socket.io socket instance
-	 *
-	 * @returns {SocketIO.Socket}
-	 * @memberof SResponse
 	 */
 	public getSocket(): SocketIO.Socket {
 		return this.socket;
@@ -260,7 +240,7 @@ export class SResponse<T = any> {
 
 	// -- Helpers
 
-	protected getEventRoute() {
+	protected getEventRoute(): string {
 		if (!this.emitEventName) {
 			return this.route.config.path;
 		} else {
@@ -268,7 +248,7 @@ export class SResponse<T = any> {
 		}
 	}
 
-	protected formatPayload() {
+	protected formatPayload(): { message: string; status: number; payload: any } {
 		return {
 			message: this.getMessage(),
 			status: this.getStatus(),

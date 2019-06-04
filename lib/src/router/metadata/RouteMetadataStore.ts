@@ -37,7 +37,7 @@ export class RouteMetadataStore {
 		this.logger = new ConsoleLogger("Route-Store");
 	}
 
-	public getControllers(): ControllerMetadata[] {
+	public getControllers(): NonNullable<ControllerMetadata[]> {
 		return this.controllers;
 	}
 
@@ -98,7 +98,7 @@ export class RouteMetadataStore {
 		}
 
 		config.path = RouteMetadataStore.getRouteName(
-			[controllerMetadata.config.prefix],
+			[controllerMetadata.config!.prefix],
 			config.path
 		);
 

@@ -2,7 +2,7 @@
 
 A [Socket.IO](https://socket.io/docs) Framework focusing on being **type-safe**.
 
-[![TRAVISCI Status](https://travis-ci.org/PatrickHollweck/SRocket.svg?branch=master)](https://travis-ci.org/PatrickHollweck/Socket)
+[![TRAVISCI Status](https://travis-ci.org/PatrickHollweck/SRocket.svg?branch=master)](https://travis-ci.org/PatrickHollweck/SRocket)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FPatrickHollweck%2FSRocket.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FPatrickHollweck%2FSRocket?ref=badge_shield)
 [![Known Vulnerabilities](https://snyk.io/test/github/PatrickHollweck/SRocket/badge.svg)](https://snyk.io/test/github/PatrickHollweck/SRocket)
 [![CodeFactor](https://www.codefactor.io/repository/github/patrickhollweck/srocket/badge)](https://www.codefactor.io/repository/github/patrickhollweck/srocket)

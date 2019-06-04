@@ -1,3 +1,5 @@
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FPatrickHollweck%2FSRocket.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FPatrickHollweck%2FSRocket?ref=badge_shield)
+
 <h1 align="center">SRocket Framework</h1>
 
 <div align="center">Socket + 🚀</div>
@@ -32,3 +34,7 @@
 <div align="center">
   <sub>Built with ❤︎ by <a href="https://github.com/PatrickHollweck">Patrick Hollweck</a>
 </div>
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FPatrickHollweck%2FSRocket.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FPatrickHollweck%2FSRocket?ref=badge_large)

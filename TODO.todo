@@ -49,3 +49,11 @@ Docs:
 
 Implementation Details:
 	☐ Integrate socket.io middlewares ?
+
+----------------------
+
+☐ Strict validation
+☐ Ack Validation
+☐ Validation error handling
+☐ Ack - Action when there is no ack.
+☐ In Router when invoking route do not catch all errors - Some ErrorHandler / ExceptionFilter concept.

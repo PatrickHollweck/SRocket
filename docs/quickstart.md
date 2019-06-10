@@ -131,7 +131,7 @@ class ActionController extends Controller {
 			.withData({
 				message: "Hello, " + data.name
 			})
-			.invokeAck();
+			.acknowledge();
 	}
 }
 

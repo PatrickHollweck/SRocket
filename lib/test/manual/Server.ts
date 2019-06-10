@@ -1,4 +1,4 @@
-process.env["DEBUG"] = "srocket:*";
+process.env.DEBUG = "srocket:*";
 
 import { SRequest, SResponse, SEvent } from "../../src";
 import { SocketController } from "../../src/decorator/SocketController";
@@ -11,50 +11,55 @@ import { SRocket } from "../../src/start/SRocket";
 import { LogLevel } from "../../src/logging/Logger";
 
 class LoggingMiddleware extends Middleware {
-	async invoke(request: SRequest, response: SResponse, route: RouteMetadata, next: VoidFunction) {
+	public async invoke(
+		request: SRequest,
+		_response: SResponse,
+		route: RouteMetadata,
+		next: VoidFunction
+	): Promise<void> {
 		console.log(
 			`LOGGER: Request to : ${route.config.path} -> ${JSON.stringify(request.rawData)}`
 		);
+
 		next();
 	}
 }
 
-@SocketController({
-	prefix: "u",
-	namespace: "users"
-})
+@SocketController()
 export class UserController extends Controller {
-	$onConnect(socket: SocketIO.Socket) {
+	public $onConnect(socket: SocketIO.Socket): void {
 		console.log("A socket connected...", socket.id);
 	}
 
-	$onDisconnect(socket: SocketIO.Socket) {
+	public $onDisconnect(socket: SocketIO.Socket): void {
 		console.log("A socket disconnected...", socket.id);
 	}
 
 	@SocketRoute({
 		path: "userRegister"
 	})
-	objectR: ObjectRoute = {
-		on() {
+	public objectR: ObjectRoute = {
+		// tslint:disable-next-line:typedef
+		on(_event: SEvent) {
 			console.log("Handling register...");
 
 			throw new Error(
 				"OPPSI WOOPSI, It semz lik thr was a errwa! Our codez monkeyz are working vewy hawd to fix dis!"
 			);
 		},
+		// tslint:disable-next-line:typedef
 		onError() {
 			console.log("No problem I got you... :)");
 		}
 	};
 
 	@SocketRoute()
-	functional(event: SEvent) {
-		console.log("functional Handler!", event.request.rawData[0].name);
-		event.response.withData(event.request.rawData).invokeAck();
+	public functional(event: SEvent): void {
+		event.response.data(`Hello, ${event.request.rawData[0].name}`).to.sender.emit("test");
 	}
 }
 
+// tslint:disable-next-line:no-magic-numbers
 SRocket.fromPort(5555)
 	.controllers(UserController)
 	.setLogLevel(LogLevel.Debug)

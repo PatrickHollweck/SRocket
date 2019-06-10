@@ -39,12 +39,12 @@ class UserController extends Controller
         name: V.string,
       }
     );
-    
+
     event.response
       .withData({
         greeting: `Hey, ${data.name}`,
       })
-      .invokeAck();
+      .acknowledge();
   }
 }
 

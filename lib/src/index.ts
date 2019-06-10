@@ -14,6 +14,13 @@ export { SResponse } from "./io/SResponse";
 export { StatusCodes } from "./io/StatusCode";
 
 /*
+ * Validator Exports
+ */
+
+import * as V from "io-ts";
+export { V };
+
+/*
  * Logging Exports
  */
 

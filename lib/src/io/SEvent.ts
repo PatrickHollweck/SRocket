@@ -13,8 +13,6 @@ export class SEvent<TRequest = any, TResponse = any> {
 	 * Used to define the schema for the `SRequest.validation` functions
 	 *
 	 * docs: https://github.com/gcanti/io-ts
-	 *
-	 * @memberof SEvent
 	 */
 	public readonly v = t;
 
@@ -24,9 +22,6 @@ export class SEvent<TRequest = any, TResponse = any> {
 	 * Used to define the schema for the `SRequest.validation` functions
 	 *
 	 * docs: https://github.com/gcanti/io-ts
-	 *
-	 * @static
-	 * @memberof SEvent
 	 */
 	public static readonly V = t;
 

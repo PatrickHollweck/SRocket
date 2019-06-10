@@ -11,6 +11,7 @@
 		"interface-name": [true, "never-prefix"],
 		"arrow-parens": [true, "ban-single-arg-parens"],
 		"variable-name": [true, "allow-pascal-case", "allow-leading-underscore"],
+		"unnecessary-else": [true, { "allow-else-if": true }],
 		"no-import-side-effect": false,
 		"linebreak-style": false,
 		"ban-types": false,

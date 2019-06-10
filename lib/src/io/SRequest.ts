@@ -27,7 +27,7 @@ export class SRequest<T = any> {
 	 * May be null if there was no ack sent.
 	 * Check `SRequest.hasAck` to see if an ack was sent.
 	 */
-	public readonly ack: VoidFunction | null;
+	public readonly ack: Function | null;
 
 	/**
 	 * The Path to the event - or the event-name

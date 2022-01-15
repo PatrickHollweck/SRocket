@@ -38,7 +38,7 @@
 		"prettier": "1.17.1",
 		"readline-sync": "1.4.9",
 		"semver": "6.1.1",
-		"shelljs": "0.8.3",
+		"shelljs": "0.8.5",
 		"ts-jest": "24.0.2",
 		"ts-node-dev": "1.0.0-pre.39",
 		"tsconfig-paths": "3.8.0",

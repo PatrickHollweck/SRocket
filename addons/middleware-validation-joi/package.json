@@ -8,10 +8,10 @@
         "joi": "14.3.1",
         "reflect-metadata": "0.1.13",
         "typescript": "3.5.1",
-        "srocket": "2.1.1"
+        "srocket": "2.2.1"
     },
     "peerDependencies": {
-        "srocket": "2.1.1"
+        "srocket": "2.2.1"
     },
     "engines": {
         "node": ">=6.0.0"
